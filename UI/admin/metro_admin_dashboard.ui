@@ -1,0 +1,535 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>450</width>
+    <height>703</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Metro Ticket Admin Dashboard</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">
+    QMainWindow {
+        background-color: #EBF1F5;
+    }
+    #central_panel {
+        background-color: #FFFFFF;
+        border-radius: 16px;
+    }
+    QFrame#card_1, QFrame#card_2, QFrame#card_3, QFrame#card_4 {
+        background-color: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #2A5C91, stop:1 #1E436D);
+        border-radius: 12px;
+    }
+    QFrame#card_1 QLabel, QFrame#card_2 QLabel, QFrame#card_3 QLabel, QFrame#card_4 QLabel {
+        color: #FFFFFF;
+    }
+    QFrame#card_1 QPushButton, QFrame#card_2 QPushButton, QFrame#card_3 QPushButton, QFrame#card_4 QPushButton {
+        background-color: rgba(255, 255, 255, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        color: #FFFFFF;
+        border-radius: 6px;
+        padding: 6px;
+        font-weight: bold;
+    }
+    QFrame#card_1 QPushButton:hover, QFrame#card_2 QPushButton:hover, QFrame#card_3 QPushButton:hover, QFrame#card_4 QPushButton:hover {
+        background-color: rgba(255, 255, 255, 0.25);
+    }
+    QLabel#lbl_quick_mgmt {
+        color: #0A2540;
+        font-weight: bold;
+        font-size: 14px;
+    }
+    QPushButton.quick_btn {
+        background-color: #F8FAFC;
+        border: 1px solid #E2E8F0;
+        border-radius: 10px;
+        color: #0A2540;
+        font-weight: bold;
+        text-align: left;
+        padding-left: 15px;
+    }
+    QPushButton.quick_btn:hover {
+        background-color: #EDF2F7;
+        border-color: #CBD5E0;
+    }
+    QFrame#footer_bar {
+        background-color: #DCEEFB;
+        border-radius: 8px;
+    }
+    QLabel#lbl_footer {
+        color: #1A5276;
+        font-size: 11px;
+    }
+   </string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="main_layout">
+    <property name="spacing">
+     <number>12</number>
+    </property>
+    <property name="leftMargin">
+     <number>15</number>
+    </property>
+    <property name="topMargin">
+     <number>15</number>
+    </property>
+    <property name="rightMargin">
+     <number>15</number>
+    </property>
+    <property name="bottomMargin">
+     <number>15</number>
+    </property>
+    <item>
+     <widget class="QFrame" name="central_panel">
+      <property name="styleSheet">
+       <string notr="true">background-color: #F0FAFF ;</string>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <layout class="QVBoxLayout" name="panel_layout">
+       <property name="spacing">
+        <number>15</number>
+       </property>
+       <property name="leftMargin">
+        <number>15</number>
+       </property>
+       <property name="topMargin">
+        <number>15</number>
+       </property>
+       <property name="rightMargin">
+        <number>15</number>
+       </property>
+       <property name="bottomMargin">
+        <number>15</number>
+       </property>
+       <item>
+        <layout class="QHBoxLayout" name="header_top_layout">
+         <item>
+          <spacer name="horizontalSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>0</width>
+             <height>0</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btn_logout">
+           <property name="styleSheet">
+            <string notr="true">color: #0A4D7A;
+padding: 4px 10px; border: 1px solid #CBD5E0; border-radius: 6px; color: #4A5568;
+font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
+           </property>
+           <property name="text">
+            <string>  Đăng xuất</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="profile_layout">
+         <property name="spacing">
+          <number>6</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="lbl_admin_title">
+           <property name="font">
+            <font>
+             <pointsize>14</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">color: #0A2540;
+background-color: #E1F5FE;</string>
+           </property>
+           <property name="text">
+            <string>Quản trị viên</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="lbl_admin_email">
+           <property name="styleSheet">
+            <string notr="true">color: #627D98;
+background-color: #E1F5FE;</string>
+           </property>
+           <property name="text">
+            <string>admin.aradhm@metro.vn</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QGridLayout" name="cards_grid">
+         <property name="spacing">
+          <number>10</number>
+         </property>
+         <item row="0" column="0">
+          <widget class="QFrame" name="card_1">
+           <property name="styleSheet">
+            <string notr="true">background-color: #29B6F6;</string>
+           </property>
+           <layout class="QVBoxLayout" name="card_1_lay">
+            <item>
+             <widget class="QLabel" name="c1_ico">
+              <property name="text">
+               <string>🤝 Yêu cầu nạp tiền</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="c1_num">
+              <property name="font">
+               <font>
+                <pointsize>18</pointsize>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="text">
+               <string>12</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="c1_sub">
+              <property name="text">
+               <string>Chờ xử lý</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="c1_btn">
+              <property name="styleSheet">
+               <string notr="true">color: #0A4D7A;
+background-color: rgb(255, 255, 255);</string>
+              </property>
+              <property name="text">
+               <string>Xem danh sách</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QFrame" name="card_2">
+           <property name="styleSheet">
+            <string notr="true">background-color: #29B6F6;</string>
+           </property>
+           <layout class="QVBoxLayout" name="card_2_lay">
+            <item>
+             <widget class="QLabel" name="c2_ico">
+              <property name="text">
+               <string>🚇 Chuyến tàu đang chạy</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="c2_num">
+              <property name="font">
+               <font>
+                <pointsize>18</pointsize>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="text">
+               <string>8</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="c2_sub">
+              <property name="text">
+               <string>Active / 2 Maintenance</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="c2_btn">
+              <property name="styleSheet">
+               <string notr="true">color: #0A4D7A;
+background-color: rgb(255, 255, 255);</string>
+              </property>
+              <property name="text">
+               <string>Quản lý chuyến</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QFrame" name="card_3">
+           <property name="styleSheet">
+            <string notr="true">background-color: #29B6F6;</string>
+           </property>
+           <layout class="QVBoxLayout" name="card_3_lay">
+            <item>
+             <widget class="QLabel" name="c3_ico">
+              <property name="text">
+               <string>🎫 Vé lượt bán hôm nay</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="c3_num">
+              <property name="font">
+               <font>
+                <pointsize>18</pointsize>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="text">
+               <string>4,567</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="c3_sub">
+              <property name="text">
+               <string>Vé</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="c3_btn">
+              <property name="styleSheet">
+               <string notr="true">color: #0A4D7A;
+background-color: rgb(255, 255, 255);</string>
+              </property>
+              <property name="text">
+               <string>Xem báo cáo</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QFrame" name="card_4">
+           <property name="styleSheet">
+            <string notr="true">background-color: #29B6F6;</string>
+           </property>
+           <layout class="QVBoxLayout" name="card_4_lay">
+            <item>
+             <widget class="QLabel" name="c4_ico">
+              <property name="text">
+               <string>⭕ Yêu cầu hoàn tiền</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="c4_num">
+              <property name="font">
+               <font>
+                <pointsize>18</pointsize>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="text">
+               <string>3</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="c4_sub">
+              <property name="text">
+               <string>Chờ xử lý</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="c4_btn">
+              <property name="styleSheet">
+               <string notr="true">color: #0A4D7A;
+background-color: rgb(255, 255, 255);</string>
+              </property>
+              <property name="text">
+               <string>Xử lý ngay</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QLabel" name="lbl_quick_mgmt">
+         <property name="font">
+          <font>
+           <family>MS Shell Dlg 2</family>
+           <pointsize>12</pointsize>
+           <weight>9</weight>
+           <italic>false</italic>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">font: 75 12pt &quot;MS Shell Dlg 2&quot;;</string>
+         </property>
+         <property name="text">
+          <string>Quản lý nhanh</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QGridLayout" name="quick_grid">
+         <property name="spacing">
+          <number>8</number>
+         </property>
+         <item row="0" column="0">
+          <widget class="QPushButton" name="btn_tuyen_ga">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>50</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">font: 10pt &quot;MS Shell Dlg 2&quot;;
+color: #0A4D7A;
+background-color: rgb(255, 255, 255);</string>
+           </property>
+           <property name="text">
+            <string>🌿  Tuyến &amp; Ga</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QPushButton" name="btn_bao_cao">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>50</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">color: #0A4D7A;
+background-color: rgb(255, 255, 255);font: 10pt &quot;MS Shell Dlg 2&quot;;</string>
+           </property>
+           <property name="text">
+            <string>📊  Báo cáo</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QPushButton" name="btn_tai_khoan">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>50</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">color: #0A4D7A;
+font: 10pt &quot;MS Shell Dlg 2&quot;;
+background-color: rgb(255, 255, 255);</string>
+           </property>
+           <property name="text">
+            <string>👤  Tài khoản (Users)</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QPushButton" name="btn_bang_gia">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>50</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">color: #0A4D7A;
+background-color: rgb(255, 255, 255);font: 10pt &quot;MS Shell Dlg 2&quot;;</string>
+           </property>
+           <property name="text">
+            <string>💰  Bảng giá</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QFrame" name="footer_bar">
+         <property name="styleSheet">
+          <string notr="true">background-color: #E1F5FE;</string>
+         </property>
+         <layout class="QHBoxLayout" name="footer_lay">
+          <property name="topMargin">
+           <number>8</number>
+          </property>
+          <property name="bottomMargin">
+           <number>8</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="lbl_footer">
+            <property name="styleSheet">
+             <string notr="true">font: 10pt &quot;MS Shell Dlg 2&quot;;</string>
+            </property>
+            <property name="text">
+             <string>ℹ️ Hệ thống tự động ghi nhật ký admin.</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
