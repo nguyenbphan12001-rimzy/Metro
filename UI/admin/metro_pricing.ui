@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>PricingWindow</class>
+ <widget class="QMainWindow" name="PricingWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>450</width>
+    <height>703</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Cấu hình Giá vé &amp; Loại vé</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">
+    QMainWindow { background-color: #EBF1F5; }
+    #central_panel { background-color: #FFFFFF; border-radius: 16px; }
+    QLabel#lbl_title { color: #0A2540; font-weight: bold; font-size: 16px; }
+    QLabel.lbl_sec_title { color: #2D3748; font-weight: bold; font-size: 13px; }
+    QFrame.ticket_card { background-color: #F7FAFC; border: 1px solid #E2E8F0; border-radius: 8px; }
+    QFrame.ticket_card_active { background-color: #EBF8FF; border: 1px solid #63B3ED; border-radius: 8px; }
+    QLabel.ticket_name { color: #2B6CB0; font-weight: bold; font-size: 12px; }
+    QLabel.ticket_price { color: #2D3748; font-weight: bold; font-size: 14px; }
+    QPushButton#btn_edit_type { background-color: #3182CE; color: #FFFFFF; border-radius: 6px; font-weight: bold; padding: 8px; }
+    QComboBox { border: 1px solid #CBD5E0; border-radius: 6px; padding: 5px 10px; background-color: #FFFFFF; }
+    QTableWidget { border: 1px solid #E2E8F0; gridline-color: #EDF2F7; }
+    QHeaderView::section { background-color: #F7FAFC; color: #4A5568; font-weight: bold; border: 1px solid #E2E8F0; }
+    QPushButton#btn_update_table { background-color: #3182CE; color: #FFFFFF; border-radius: 6px; font-weight: bold; padding: 10px; }
+    QPushButton#btn_view_history { background-color: #F8FAFC; border: 1px solid #CBD5E0; color: #4A5568; border-radius: 6px; padding: 8px; }
+   </string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="main_layout">
+    <property name="spacing">
+     <number>12</number>
+    </property>
+    <property name="leftMargin">
+     <number>15</number>
+    </property>
+    <property name="topMargin">
+     <number>15</number>
+    </property>
+    <property name="rightMargin">
+     <number>15</number>
+    </property>
+    <property name="bottomMargin">
+     <number>15</number>
+    </property>
+    <item>
+     <widget class="QFrame" name="central_panel">
+      <property name="styleSheet">
+       <string notr="true">background-color: #F0FAFF ;</string>
+      </property>
+      <layout class="QVBoxLayout" name="panel_layout">
+       <property name="spacing">
+        <number>10</number>
+       </property>
+       <property name="leftMargin">
+        <number>15</number>
+       </property>
+       <property name="topMargin">
+        <number>15</number>
+       </property>
+       <property name="rightMargin">
+        <number>15</number>
+       </property>
+       <property name="bottomMargin">
+        <number>15</number>
+       </property>
+       <item>
+        <layout class="QHBoxLayout" name="header_layout">
+         <item>
+          <widget class="QLabel" name="lbl_title">
+           <property name="text">
+            <string>Cấu hình Giá vé &amp; Loại vé</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="header_space">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>0</width>
+             <height>0</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btn_back">
+           <property name="styleSheet">
+            <string notr="true">padding: 4px 10px; border: 1px solid #CBD5E0; border-radius: 6px; color: #4A5568;</string>
+           </property>
+           <property name="text">
+            <string> Đóng</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QLabel" name="lbl_sec1">
+         <property name="text">
+          <string>Thẻ cho TICKET_TYPES</string>
+         </property>
+         <property name="class" stdset="0">
+          <string>lbl_sec_title</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="cards_layout">
+         <property name="spacing">
+          <number>6</number>
+         </property>
+         <item>
+          <widget class="QFrame" name="card_t1">
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(255, 255, 255);</string>
+           </property>
+           <property name="class" stdset="0">
+            <string>ticket_card_active</string>
+           </property>
+           <layout class="QVBoxLayout" name="t1_lay">
+            <item>
+             <widget class="QLabel" name="t1_n">
+              <property name="text">
+               <string>Vé lượt</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+              <property name="class" stdset="0">
+               <string>ticket_name</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="t1_p">
+              <property name="text">
+               <string>12,000</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+              <property name="class" stdset="0">
+               <string>ticket_price</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QFrame" name="card_t2">
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(255, 255, 255);</string>
+           </property>
+           <property name="class" stdset="0">
+            <string>ticket_card</string>
+           </property>
+           <layout class="QVBoxLayout" name="t2_lay">
+            <item>
+             <widget class="QLabel" name="t2_n">
+              <property name="text">
+               <string>Vé ngày</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+              <property name="class" stdset="0">
+               <string>ticket_name</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="t2_p">
+              <property name="text">
+               <string>40,000</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+              <property name="class" stdset="0">
+               <string>ticket_price</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QFrame" name="card_t3">
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(255, 255, 255);</string>
+           </property>
+           <property name="class" stdset="0">
+            <string>ticket_card</string>
+           </property>
+           <layout class="QVBoxLayout" name="t3_lay">
+            <item>
+             <widget class="QLabel" name="t3_n">
+              <property name="text">
+               <string>Vé tháng</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+              <property name="class" stdset="0">
+               <string>ticket_name</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="t3_p">
+              <property name="text">
+               <string>VND</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+              <property name="class" stdset="0">
+               <string>ticket_price</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btn_edit_type">
+         <property name="styleSheet">
+          <string notr="true">background-color: #29B6F6;</string>
+         </property>
+         <property name="text">
+          <string>Sửa loại vé</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="lbl_sec2">
+         <property name="text">
+          <string>Thẻ ma trận giá (PRICE_TABLE)</string>
+         </property>
+         <property name="class" stdset="0">
+          <string>lbl_sec_title</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="combo_price_type">
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(255, 255, 255);</string>
+         </property>
+         <item>
+          <property name="text">
+           <string>Vé lượt</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
+        <widget class="QTableWidget" name="table_matrix">
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(255, 255, 255);</string>
+         </property>
+         <row>
+          <property name="text">
+           <string>Bến Thành</string>
+          </property>
+         </row>
+         <row>
+          <property name="text">
+           <string>Văn Thánh</string>
+          </property>
+         </row>
+         <row>
+          <property name="text">
+           <string>Suối Tiên</string>
+          </property>
+         </row>
+         <column>
+          <property name="text">
+           <string>Bến Thành</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Văn Thánh</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Suối Tiên</string>
+          </property>
+         </column>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btn_update_table">
+         <property name="styleSheet">
+          <string notr="true">background-color: #29B6F6;</string>
+         </property>
+         <property name="text">
+          <string>Cập nhật bảng giá</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btn_view_history">
+         <property name="text">
+          <string>Xem lịch sử giá</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

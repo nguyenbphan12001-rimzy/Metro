@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ScheduleWindow</class>
+ <widget class="QMainWindow" name="ScheduleWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>450</width>
+    <height>703</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Quản lý Chuyến tàu &amp; Lịch trình</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">
+    QMainWindow { background-color: #EBF1F5; }
+    #central_panel { background-color: #FFFFFF; border-radius: 16px; }
+    QLabel#lbl_title { color: #0A2540; font-weight: bold; font-size: 16px; }
+    QLabel.lbl_field_title { color: #4A5568; font-weight: bold; font-size: 11px; }
+    QComboBox { border: 1px solid #CBD5E0; border-radius: 6px; padding: 5px 10px; background-color: #FFFFFF; }
+    QPushButton#btn_add_trip { background-color: #3182CE; color: #FFFFFF; border-radius: 6px; font-weight: bold; padding: 8px; }
+    QPushButton.sub_action_btn { background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 6px; color: #4A5568; font-weight: bold; padding: 6px; }
+    QPushButton.sub_action_btn:hover { background-color: #EDF2F7; }
+    QTableWidget { border: 1px solid #E2E8F0; gridline-color: #EDF2F7; background-color: #FFFFFF; }
+    QHeaderView::section { background-color: #F7FAFC; color: #4A5568; font-weight: bold; border: 1px solid #E2E8F0; padding: 4px; }
+    QLabel#lbl_info_footer { color: #718096; font-size: 11px; }
+   </string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="main_layout">
+    <property name="spacing">
+     <number>12</number>
+    </property>
+    <property name="leftMargin">
+     <number>15</number>
+    </property>
+    <property name="topMargin">
+     <number>15</number>
+    </property>
+    <property name="rightMargin">
+     <number>15</number>
+    </property>
+    <property name="bottomMargin">
+     <number>15</number>
+    </property>
+    <item>
+     <widget class="QFrame" name="central_panel">
+      <property name="styleSheet">
+       <string notr="true">background-color: #F0FAFF ;</string>
+      </property>
+      <layout class="QVBoxLayout" name="panel_layout">
+       <property name="spacing">
+        <number>10</number>
+       </property>
+       <property name="leftMargin">
+        <number>15</number>
+       </property>
+       <property name="topMargin">
+        <number>15</number>
+       </property>
+       <property name="rightMargin">
+        <number>15</number>
+       </property>
+       <property name="bottomMargin">
+        <number>15</number>
+       </property>
+       <item>
+        <layout class="QHBoxLayout" name="header_layout">
+         <item>
+          <widget class="QLabel" name="lbl_title">
+           <property name="text">
+            <string>Quản lý Chuyến tàu &amp; Lịch trình</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="header_space">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>0</width>
+             <height>0</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btn_back">
+           <property name="styleSheet">
+            <string notr="true">padding: 4px 10px; border: 1px solid #CBD5E0; border-radius: 6px; color: #4A5568;</string>
+           </property>
+           <property name="text">
+            <string> Đóng</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QLabel" name="lbl_route_sel">
+         <property name="text">
+          <string>Tuyến</string>
+         </property>
+         <property name="class" stdset="0">
+          <string>lbl_field_title</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="combo_route">
+         <property name="font">
+          <font>
+           <pointsize>9</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(255, 255, 255);</string>
+         </property>
+         <item>
+          <property name="text">
+           <string>Tuyến 1: Bến Thành - Suối Tiên</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="filter_grid">
+         <property name="spacing">
+          <number>10</number>
+         </property>
+         <item>
+          <layout class="QVBoxLayout" name="col1">
+           <item>
+            <widget class="QLabel" name="lbl_start_ga">
+             <property name="text">
+              <string>Ga khởi hành</string>
+             </property>
+             <property name="class" stdset="0">
+              <string>lbl_field_title</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="combo_start_ga">
+             <property name="styleSheet">
+              <string notr="true">background-color: rgb(255, 255, 255);</string>
+             </property>
+             <item>
+              <property name="text">
+               <string>Bến Thành</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="col2">
+           <item>
+            <widget class="QLabel" name="lbl_end_ga">
+             <property name="text">
+              <string>Giờ chạy</string>
+             </property>
+             <property name="class" stdset="0">
+              <string>lbl_field_title</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="combo_sample_time">
+             <property name="styleSheet">
+              <string notr="true">background-color: rgb(255, 255, 255);</string>
+             </property>
+             <item>
+              <property name="text">
+               <string>06:30 Bến Thành</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btn_add_trip">
+         <property name="font">
+          <font>
+           <pointsize>9</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: #29B6F6;</string>
+         </property>
+         <property name="text">
+          <string>+ Thêm Chuyến mới</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="sub_actions">
+         <item>
+          <widget class="QPushButton" name="btn_config_timeline">
+           <property name="text">
+            <string>Cấu hình Lịch chạy</string>
+           </property>
+           <property name="class" stdset="0">
+            <string>sub_action_btn</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btn_manage_staffs">
+           <property name="text">
+            <string>Quản lý Staffs trên tàu</string>
+           </property>
+           <property name="class" stdset="0">
+            <string>sub_action_btn</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QTableWidget" name="table_trips">
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(255, 255, 255);</string>
+         </property>
+         <column>
+          <property name="text">
+           <string>Mã tàu</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Tuyến</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Giờ KH</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Giờ Đến</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Trạng thái</string>
+          </property>
+         </column>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="lbl_info_footer">
+         <property name="styleSheet">
+          <string notr="true">background-color: #E1F5FE;
+font: 10pt &quot;MS Shell Dlg 2&quot;;</string>
+         </property>
+         <property name="text">
+          <string>📄 Mọi thay đổi chuyến tàu đều được ghi lại.</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
