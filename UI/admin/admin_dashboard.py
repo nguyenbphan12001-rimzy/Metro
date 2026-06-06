@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'D:\TuduylaptrinhN1\Session3\metro_admin_dashboard.ui'
+# Form implementation generated from reading ui file 'D:\TuduylaptrinhN1\Session3\admin_dashboard.ui'
 #
 # Created by: PyQt6 UI code generator 6.10.1
 #

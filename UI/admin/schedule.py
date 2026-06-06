@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'D:\TuduylaptrinhN1\Session3\metro_schedule.ui'
+# Form implementation generated from reading ui file 'D:\TuduylaptrinhN1\Session3\schedule.ui'
 #
 # Created by: PyQt6 UI code generator 6.10.1
 #

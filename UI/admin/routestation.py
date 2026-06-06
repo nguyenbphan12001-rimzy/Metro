@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'D:\TuduylaptrinhN1\Session3\metro_route_station.ui'
+# Form implementation generated from reading ui file 'D:\TuduylaptrinhN1\Session3\routestation.ui'
 #
 # Created by: PyQt6 UI code generator 6.10.1
 #

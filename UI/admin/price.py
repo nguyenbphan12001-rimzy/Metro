@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'D:\TuduylaptrinhN1\Session3\metro_pricing.ui'
+# Form implementation generated from reading ui file 'D:\TuduylaptrinhN1\Session3\price.ui'
 #
 # Created by: PyQt6 UI code generator 6.10.1
 #
