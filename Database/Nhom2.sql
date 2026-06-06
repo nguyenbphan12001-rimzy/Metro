@@ -2,8 +2,13 @@
 -- FILE: nhom2.sql (CHẠY FILE NÀY SAU KHI CHẠY FILE NHOM1)
 -- Mô tả: Khởi tạo bảng chứa khóa ngoại và chèn dữ liệu giao dịch
 -- =========================================================
+USE MetroDB;
+GO
 
--- TẠO CẤU TRÚC BẢNG (NHÓM 2)
+-- =========================================================
+-- TẠO CẤU TRÚC BẢNG (NHÓM 2 - ĐÃ ĐỒNG BỘ KHÓA VÀ CHECK CONSTRAINT)
+-- =========================================================
+
 CREATE TABLE ROUTESTATIONS (
     route_station_id INT PRIMARY KEY,
     route_id INT,
@@ -15,17 +20,17 @@ CREATE TABLE ROUTESTATIONS (
 
 CREATE TABLE TRAINS (
     train_id INT PRIMARY KEY,
-    train_name VARCHAR(50) NOT NULL,
+    train_name VARCHAR(100) NOT NULL,
     route_id INT,
     capacity INT DEFAULT 300,
-    status VARCHAR(20) DEFAULT 'Operational',
+    status VARCHAR(50) DEFAULT 'operational' CHECK (status IN ('operational', 'maintenance', 'out of service')),
     FOREIGN KEY (route_id) REFERENCES ROUTES(route_id)
 );
 
 CREATE TABLE WALLETS (
     wallet_id INT PRIMARY KEY,
     user_id INT UNIQUE,
-    balance DECIMAL(10,2) DEFAULT 0.00,
+    balance DECIMAL(10,2) DEFAULT 0.00 CHECK (balance >= 0),
     currency VARCHAR(10) DEFAULT 'VND',
     FOREIGN KEY (user_id) REFERENCES USERS(user_id)
 );
@@ -34,7 +39,7 @@ CREATE TABLE STAFFS (
     staff_id INT PRIMARY KEY,
     staff_name VARCHAR(100) NOT NULL,
     station_id INT,
-    shift VARCHAR(20),
+    shift VARCHAR(50) CHECK (shift IN ('sáng', 'chiều', 'tối')),
     FOREIGN KEY (station_id) REFERENCES STATIONS(station_id)
 );
 
@@ -43,7 +48,7 @@ CREATE TABLE PRICE_TABLE (
     from_station_id INT,
     to_station_id INT,
     route_id INT,
-    base_price DECIMAL(10,2) NOT NULL,
+    base_price DECIMAL(10,2) NOT NULL CHECK (base_price >= 0),
     FOREIGN KEY (from_station_id) REFERENCES STATIONS(station_id),
     FOREIGN KEY (to_station_id) REFERENCES STATIONS(station_id),
     FOREIGN KEY (route_id) REFERENCES ROUTES(route_id)
@@ -72,7 +77,7 @@ CREATE TABLE DEPOSIT_HISTORY (
     wallet_id INT,
     user_id INT,
     method_id INT,
-    amount DECIMAL(10,2),
+    amount DECIMAL(10,2) CHECK (amount > 0),
     FOREIGN KEY (wallet_id) REFERENCES WALLETS(wallet_id),
     FOREIGN KEY (user_id) REFERENCES USERS(user_id),
     FOREIGN KEY (method_id) REFERENCES PAYMENT_METHODS(method_id)
@@ -85,17 +90,19 @@ CREATE TABLE TICKETS (
     type_id INT,
     from_station_id INT,
     to_station_id INT,
-    price DECIMAL(10,2),
+    price DECIMAL(10,2) CHECK (price >= 0),
     qr_code VARCHAR(50) UNIQUE,
-    status VARCHAR(20),
+    status VARCHAR(50) DEFAULT 'unused' CHECK (status IN ('used', 'unused', 'expired', 'cancelled')),
     FOREIGN KEY (user_id) REFERENCES USERS(user_id),
     FOREIGN KEY (train_id) REFERENCES TRAINS(train_id),
-    FOREIGN KEY (type_id) REFERENCES TICKET_TYPES(ticket_type_id),
+    FOREIGN KEY (type_id) REFERENCES TICKET_TYPES(type_id), -- ĐÃ SỬA THÀNH type_id CHUẨN NHÓM 1
     FOREIGN KEY (from_station_id) REFERENCES STATIONS(station_id),
     FOREIGN KEY (to_station_id) REFERENCES STATIONS(station_id)
 );
 
--- CHÈN DỮ LIỆU MẪU (NHÓM 2)
+-- =========================================================
+-- CHÈN DỮ LIỆU MẪU (NHÓM 2 - ĐÃ ĐỒNG BỘ DATA CHỮ THƯỜNG)
+-- =========================================================
 
 -- 6. ROUTESTATIONS (26 dòng)
 INSERT INTO ROUTESTATIONS (route_station_id, route_id, station_id, station_order) VALUES
@@ -106,18 +113,18 @@ INSERT INTO ROUTESTATIONS (route_station_id, route_id, station_id, station_order
 (20, 102, 19, 6),  (21, 102, 20, 7),  (22, 102, 21, 8),  (23, 102, 22, 9),  (24, 102, 23, 10),
 (25, 102, 24, 11), (26, 102, 25, 12);
 
--- 7. TRAINS (10 đoàn tàu)
+-- 7. TRAINS (10 đoàn tàu - Đổi status về chữ thường)
 INSERT INTO TRAINS (train_id, train_name, route_id, capacity, status) VALUES
-(1, 'Đoàn tàu SE-01', 101, 300, 'Operational'),
-(2, 'Đoàn tàu SE-02', 101, 300, 'Operational'),
-(3, 'Đoàn tàu SE-03', 101, 300, 'Operational'),
-(4, 'Đoàn tàu SE-04', 101, 300, 'Maintenance'),
-(5, 'Đoàn tàu SE-05', 101, 300, 'Operational'),
-(6, 'Đoàn tàu TL-01', 102, 300, 'Operational'),
-(7, 'Đoàn tàu TL-02', 102, 300, 'Operational'),
-(8, 'Đoàn tàu TL-03', 102, 300, 'Operational'),
-(9, 'Đoàn tàu TL-04', 102, 300, 'Operational'),
-(10, 'Đoàn tàu TL-05', 102, 300, 'Operational');
+(1, 'Đoàn tàu SE-01', 101, 300, 'operational'),
+(2, 'Đoàn tàu SE-02', 101, 300, 'operational'),
+(3, 'Đoàn tàu SE-03', 101, 300, 'operational'),
+(4, 'Đoàn tàu SE-04', 101, 300, 'maintenance'),
+(5, 'Đoàn tàu SE-05', 101, 300, 'operational'),
+(6, 'Đoàn tàu TL-01', 102, 300, 'operational'),
+(7, 'Đoàn tàu TL-02', 102, 300, 'operational'),
+(8, 'Đoàn tàu TL-03', 102, 300, 'operational'),
+(9, 'Đoàn tàu TL-04', 102, 300, 'operational'),
+(10, 'Đoàn tàu TL-05', 102, 300, 'operational');
 
 -- 8. WALLETS (50 ví)
 INSERT INTO WALLETS (wallet_id, user_id, balance, currency) VALUES
@@ -139,18 +146,18 @@ INSERT INTO WALLETS (wallet_id, user_id, balance, currency) VALUES
 (49, 49, 150000.00, 'VND'),(50, 50, 280000.00, 'VND'),
 (1001, 1, 450000.00, 'VND'), (1002, 2, 120000.00, 'VND'), (1003, 3, 350000.00, 'VND');
 
--- 9. STAFFS (20 nhân viên)
+-- 9. STAFFS (20 nhân viên - Đổi ca trực về chữ thường)
 INSERT INTO STAFFS (staff_id, staff_name, station_id, shift) VALUES
-(501, 'Nguyễn Văn Hùng', 1, 'Sáng'), (502, 'Trần Thị Mai', 2, 'Chiều'),
-(503, 'Lê Hoàng Long', 3, 'Sáng'),   (504, 'Phạm Thành Nam', 4, 'Chiều'),
-(505, 'Đỗ Mỹ Linh', 5, 'Sáng'),     (506, 'Nguyễn Tiến Dũng', 6, 'Chiều'),
-(507, 'Hoàng Hải Yến', 7, 'Sáng'),   (508, 'Bùi Minh Tuấn', 8, 'Chiều'),
-(509, 'Vũ Phan Anh', 9, 'Sáng'),     (510, 'Ngô Quốc Bảo', 10, 'Chiều'),
-(511, 'Đặng Thu Thảo', 15, 'Sáng'),  (512, 'Lý Gia Hân', 16, 'Chiều'),
-(513, 'Trịnh Đình Quang', 17, 'Sáng'),(514, 'Võ Minh Trung', 18, 'Chiều'),
-(515, 'Phan Văn Đức', 19, 'Sáng'),   (516, 'Lâm Thanh Hà', 20, 'Chiều'),
-(517, 'Mai Tiến Đạt', 21, 'Sáng'),   (518, 'Đoàn Ngọc Hải', 22, 'Chiều'),
-(519, 'Nguyễn Minh Triết', 23, 'Sáng'),(520, 'Hà Thị Ngọc', 25, 'Chiều');
+(501, 'Nguyễn Văn Hùng', 1, 'sáng'), (502, 'Trần Thị Mai', 2, 'chiều'),
+(503, 'Lê Hoàng Long', 3, 'sáng'),   (504, 'Phạm Thành Nam', 4, 'chiều'),
+(505, 'Đỗ Mỹ Linh', 5, 'sáng'),     (506, 'Nguyễn Tiến Dũng', 6, 'chiều'),
+(507, 'Hoàng Hải Yến', 7, 'sáng'),   (508, 'Bùi Minh Tuấn', 8, 'chiều'),
+(509, 'Vũ Phan Anh', 9, 'sáng'),     (510, 'Ngô Quốc Bảo', 10, 'chiều'),
+(511, 'Đặng Thu Thảo', 15, 'sáng'),  (512, 'Lý Gia Hân', 16, 'chiều'),
+(513, 'Trịnh Đình Quang', 17, 'sáng'),(514, 'Võ Minh Trung', 18, 'chiều'),
+(515, 'Phan Văn Đức', 19, 'sáng'),   (516, 'Lâm Thanh Hà', 20, 'chiều'),
+(517, 'Mai Tiến Đạt', 21, 'sáng'),   (518, 'Đoàn Ngọc Hải', 22, 'chiều'),
+(519, 'Nguyễn Minh Triết', 23, 'sáng'),(520, 'Hà Thị Ngọc', 25, 'chiều');
 
 -- 10. PRICE_TABLE (50 cặp ga)
 INSERT INTO PRICE_TABLE (price_id, from_station_id, to_station_id, route_id, base_price) VALUES
@@ -222,46 +229,46 @@ INSERT INTO DEPOSIT_HISTORY (deposit_id, wallet_id, user_id, method_id, amount) 
 (93, 50, 50, 2, 150000), (94, 50, 50, 4, 50000), (95, 4, 4, 3, 100000), (96, 5, 5, 2, 200000),
 (97, 6, 6, 3, 150000), (98, 7, 7, 4, 50000), (99, 8, 8, 3, 300000), (100, 9, 9, 2, 100000);
 
--- 14. TICKETS (Thông tin Vé tàu)
+-- 14. TICKETS (Thông tin Vé tàu - Đổi status về chữ thường)
 INSERT INTO TICKETS (ticket_id, user_id, train_id, type_id, from_station_id, to_station_id, price, qr_code, status) VALUES
-(1, 4, 1, 1, 1, 14, 19000, 'QR_001', 'USED'),
-(2, 5, 2, 1, 1, 8, 8000, 'QR_002', 'USED'),
-(3, 6, 3, 1, 2, 14, 20000, 'QR_003', 'USED'),
-(4, 7, 4, 1, 1, 4, 6000, 'QR_004', 'USED'),
-(5, 8, 5, 1, 3, 10, 9000, 'QR_005', 'USED'),
-(6, 9, 6, 2, 1, 14, 40000, 'QR_006', 'USED'),
-(7, 10, 7, 4, 1, 14, 300000, 'QR_007', 'USED'),
-(8, 11, 8, 3, 1, 14, 150000, 'QR_008', 'USED'),
-(9, 12, 9, 1, 1, 12, 15000, 'QR_009', 'USED'),
-(10, 13, 10, 1, 8, 12, 7000, 'QR_010', 'USED'),
-(11, 14, 1, 1, 1, 24, 11000, 'QR_011', 'USED'),
-(12, 15, 2, 1, 1, 20, 7000, 'QR_012', 'USED'),
-(13, 16, 3, 1, 15, 24, 10000, 'QR_013', 'USED'),
-(14, 17, 4, 1, 16, 21, 6000, 'QR_014', 'USED'),
-(15, 18, 5, 1, 17, 23, 7000, 'QR_015', 'USED'),
-(16, 19, 6, 1, 1, 24, 12000, 'QR_016', 'USED'),
-(17, 20, 7, 4, 1, 24, 300000, 'QR_017', 'USED'),
-(18, 21, 8, 3, 1, 24, 150000, 'QR_018', 'USED'),
-(19, 22, 9, 1, 1, 22, 9000, 'QR_019', 'USED'),
-(20, 23, 10, 1, 20, 24, 6000, 'QR_020', 'USED'),
-(21, 24, 1, 1, 1, 14, 19000, 'QR_021', 'USED'), (22, 25, 2, 1, 1, 24, 11000, 'QR_022', 'USED'),
-(23, 26, 3, 2, 1, 10, 40000, 'QR_023', 'USED'), (24, 27, 4, 1, 15, 22, 8000, 'QR_024', 'USED'),
-(25, 28, 5, 1, 2, 12, 15000, 'QR_025', 'USED'), (26, 29, 6, 1, 1, 9, 9000, 'QR_026', 'USED'),
-(27, 30, 7, 1, 17, 24, 8000, 'QR_027', 'USED'), (28, 31, 8, 4, 1, 14, 300000, 'QR_028', 'USED'),
-(29, 32, 9, 1, 8, 14, 10000, 'QR_029', 'USED'), (30, 33, 10, 1, 1, 11, 13000, 'QR_030', 'USED'),
-(31, 34, 1, 1, 1, 14, 19000, 'QR_031', 'USED'), (32, 35, 2, 1, 1, 24, 11000, 'QR_032', 'USED'),
-(33, 36, 3, 2, 1, 10, 40000, 'QR_033', 'USED'), (34, 37, 4, 1, 15, 22, 8000, 'QR_034', 'USED'),
-(35, 38, 5, 1, 2, 12, 15000, 'QR_035', 'USED'), (36, 39, 6, 1, 1, 9, 9000, 'QR_036', 'USED'),
-(37, 40, 7, 1, 17, 24, 8000, 'QR_037', 'USED'), (38, 41, 8, 1, 1, 7, 6000, 'QR_038', 'USED'),
-(39, 42, 9, 1, 8, 14, 10000, 'QR_039', 'USED'), (40, 43, 10, 1, 1, 11, 13000, 'QR_040', 'USED'),
-(41, 44, 1, 1, 1, 14, 19000, 'QR_041', 'USED'), (42, 45, 2, 1, 1, 24, 11000, 'QR_042', 'USED'),
-(43, 46, 3, 3, 1, 10, 150000, 'QR_043', 'USED'),(44, 47, 4, 1, 15, 22, 8000, 'QR_044', 'USED'),
-(45, 48, 5, 1, 2, 12, 15000, 'QR_045', 'USED'), (46, 49, 6, 1, 1, 9, 9000, 'QR_046', 'USED'),
-(47, 50, 7, 1, 17, 24, 8000, 'QR_047', 'USED'), (48, 4, 8, 1, 1, 13, 17000, 'QR_048', 'USED'),
-(49, 5, 9, 1, 8, 14, 10000, 'QR_049', 'USED'), (50, 6, 10, 1, 1, 11, 13000, 'QR_050', 'USED'),
-(51, 7, 1, 1, 1, 14, 19000, 'QR_051', 'UNUSED'), (52, 8, 2, 1, 1, 24, 11000, 'QR_052', 'UNUSED'),
-(53, 9, 3, 2, 1, 14, 40000, 'QR_053', 'UNUSED'),
-(54, 10, 4, 1, 1, 8, 8000, 'QR_054', 'EXPIRED'), (55, 11, 5, 1, 1, 22, 9000, 'QR_055', 'EXPIRED'),
-(56, 12, 6, 1, 1, 14, 19000, 'QR_056', 'CANCELLED'), (57, 13, 7, 1, 1, 24, 11000, 'QR_057', 'CANCELLED'),
-(58, 14, 8, 2, 1, 14, 40000, 'QR_058', 'CANCELLED'), (59, 15, 9, 1, 1, 8, 8000, 'QR_059', 'CANCELLED'),
-(60, 16, 10, 1, 1, 22, 9000, 'QR_060', 'CANCELLED');
+(1, 4, 1, 1, 1, 14, 19000, 'QR_001', 'used'),
+(2, 5, 2, 1, 1, 8, 8000, 'QR_002', 'used'),
+(3, 6, 3, 1, 2, 14, 20000, 'QR_003', 'used'),
+(4, 7, 4, 1, 1, 4, 6000, 'QR_004', 'used'),
+(5, 8, 5, 1, 3, 10, 9000, 'QR_005', 'used'),
+(6, 9, 6, 2, 1, 14, 40000, 'QR_006', 'used'),
+(7, 10, 7, 4, 1, 14, 300000, 'QR_007', 'used'),
+(8, 11, 8, 3, 1, 14, 150000, 'QR_008', 'used'),
+(9, 12, 9, 1, 1, 12, 15000, 'QR_009', 'used'),
+(10, 13, 10, 1, 8, 12, 7000, 'QR_010', 'used'),
+(11, 14, 1, 1, 1, 24, 11000, 'QR_011', 'used'),
+(12, 15, 2, 1, 1, 20, 7000, 'QR_012', 'used'),
+(13, 16, 3, 1, 15, 24, 10000, 'QR_013', 'used'),
+(14, 17, 4, 1, 16, 21, 6000, 'QR_014', 'used'),
+(15, 18, 5, 1, 17, 23, 7000, 'QR_015', 'used'),
+(16, 19, 6, 1, 1, 24, 12000, 'QR_016', 'used'),
+(17, 20, 7, 4, 1, 24, 300000, 'QR_017', 'used'),
+(18, 21, 8, 3, 1, 24, 150000, 'QR_018', 'used'),
+(19, 22, 9, 1, 1, 22, 9000, 'QR_019', 'used'),
+(20, 23, 10, 1, 20, 24, 6000, 'QR_020', 'used'),
+(21, 24, 1, 1, 1, 14, 19000, 'QR_021', 'used'), (22, 25, 2, 1, 1, 24, 11000, 'QR_022', 'used'),
+(23, 26, 3, 2, 1, 10, 40000, 'QR_023', 'used'), (24, 27, 4, 1, 15, 22, 8000, 'QR_024', 'used'),
+(25, 28, 5, 1, 2, 12, 15000, 'QR_025', 'used'), (26, 29, 6, 1, 1, 9, 9000, 'QR_026', 'used'),
+(27, 30, 7, 1, 17, 24, 8000, 'QR_027', 'used'), (28, 31, 8, 4, 1, 14, 300000, 'QR_028', 'used'),
+(29, 32, 9, 1, 8, 14, 10000, 'QR_029', 'used'), (30, 33, 10, 1, 1, 11, 13000, 'QR_030', 'used'),
+(31, 34, 1, 1, 1, 14, 19000, 'QR_031', 'used'), (32, 35, 2, 1, 1, 24, 11000, 'QR_032', 'used'),
+(33, 36, 3, 2, 1, 10, 40000, 'QR_033', 'used'), (34, 37, 4, 1, 15, 22, 8000, 'QR_034', 'used'),
+(35, 38, 5, 1, 2, 12, 15000, 'QR_035', 'used'), (36, 39, 6, 1, 1, 9, 9000, 'QR_036', 'used'),
+(37, 40, 7, 1, 17, 24, 8000, 'QR_037', 'used'), (38, 41, 8, 1, 1, 7, 6000, 'QR_038', 'used'),
+(39, 42, 9, 1, 8, 14, 10000, 'QR_039', 'used'), (40, 43, 10, 1, 1, 11, 13000, 'QR_040', 'used'),
+(41, 44, 1, 1, 1, 14, 19000, 'QR_041', 'used'), (42, 45, 2, 1, 1, 24, 11000, 'QR_042', 'used'),
+(43, 46, 3, 3, 1, 10, 150000, 'QR_043', 'used'),(44, 47, 4, 1, 15, 22, 8000, 'QR_044', 'used'),
+(45, 48, 5, 1, 2, 12, 15000, 'QR_045', 'used'), (46, 49, 6, 1, 1, 9, 9000, 'QR_046', 'used'),
+(47, 50, 7, 1, 17, 24, 8000, 'QR_047', 'used'), (48, 4, 8, 1, 1, 13, 17000, 'QR_048', 'used'),
+(49, 5, 9, 1, 8, 14, 10000, 'QR_049', 'used'), (50, 6, 10, 1, 1, 11, 13000, 'QR_050', 'used'),
+(51, 7, 1, 1, 1, 14, 19000, 'QR_051', 'unused'), (52, 8, 2, 1, 1, 24, 11000, 'QR_052', 'unused'),
+(53, 9, 3, 2, 1, 14, 40000, 'QR_053', 'unused'),
+(54, 10, 4, 1, 1, 8, 8000, 'QR_054', 'expired'), (55, 11, 5, 1, 1, 22, 9000, 'QR_055', 'expired'),
+(56, 12, 6, 1, 1, 14, 19000, 'QR_056', 'cancelled'), (57, 13, 7, 1, 1, 24, 11000, 'QR_057', 'cancelled'),
+(58, 14, 8, 2, 1, 14, 40000, 'QR_058', 'cancelled'), (59, 15, 9, 1, 1, 8, 8000, 'QR_059', 'cancelled'),
+(60, 16, 10, 1, 1, 22, 9000, 'QR_060', 'cancelled');

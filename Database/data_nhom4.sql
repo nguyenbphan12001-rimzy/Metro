@@ -1,9 +1,13 @@
 -- =========================================================================
--- DATA NHÓM 4 (Người thực hiện: K.Ngọc)
--- Bảng: TRANSACTIONS, SCANNING_HISTORY, REFUNDS
+-- FILE: nhom4.sql (CHẠY SAU KHI ĐÃ CÓ DATA NHÓM 3)
+-- Người thực hiện: K.Ngọc (Đã bổ sung lệnh mở khóa IDENTITY_INSERT)
 -- =========================================================================
+USE MetroDB;
+GO
 
--- 1. TRANSACTIONS (60 vé)
+-- 1. TRANSACTIONS (60 dòng giao dịch mua vé)
+SET IDENTITY_INSERT TRANSACTIONS ON;
+
 INSERT INTO TRANSACTIONS (transaction_id, user_id, wallet_id, ticket_id, amount) VALUES
 (1, 4, 4, 1, 19000), (2, 5, 5, 2, 8000), (3, 6, 6, 3, 20000), (4, 7, 7, 4, 6000),
 (5, 8, 8, 5, 9000), (6, 9, 9, 6, 40000), (7, 10, 10, 7, 300000), (8, 11, 11, 8, 150000),
@@ -21,7 +25,13 @@ INSERT INTO TRANSACTIONS (transaction_id, user_id, wallet_id, ticket_id, amount)
 (53, 9, 9, 53, 40000), (54, 10, 10, 54, 8000), (55, 11, 11, 55, 9000), (56, 12, 12, 56, 19000),
 (57, 13, 13, 57, 11000), (58, 14, 14, 58, 40000), (59, 15, 15, 59, 8000), (60, 16, 16, 60, 9000);
 
--- 2. SCANNING_HISTORY (50 vé USED x 2 lần quẹt vào/ra)
+SET IDENTITY_INSERT TRANSACTIONS OFF;
+GO
+
+
+-- 2. SCANNING_HISTORY (50 vé used x 2 lần quẹt vào/ra = 100 dòng)
+SET IDENTITY_INSERT SCANNING_HISTORY ON;
+
 INSERT INTO SCANNING_HISTORY (scan_id, ticket_id, staff_id, station_id) VALUES
 (1, 1, 1, 1), (2, 1, 5, 14), (3, 2, 2, 1), (4, 2, 6, 8),
 (5, 3, 3, 2), (6, 3, 15, 14), (7, 4, 4, 1), (8, 4, 8, 4),
@@ -49,10 +59,19 @@ INSERT INTO SCANNING_HISTORY (scan_id, ticket_id, staff_id, station_id) VALUES
 (93, 47, 7, 17), (94, 47, 10, 24), (95, 48, 8, 1), (96, 48, 7, 13),
 (97, 49, 9, 8), (98, 49, 18, 14), (99, 50, 10, 1), (100, 50, 14, 11);
 
--- 3. REFUNDS (5 dòng | Hoàn tiền chính xác cho 5 vé CANCELLED ID 56-60)
+SET IDENTITY_INSERT SCANNING_HISTORY OFF;
+GO
+
+
+-- 3. REFUNDS (5 dòng hoàn tiền chính xác cho các vé cancelled)
+SET IDENTITY_INSERT REFUNDS ON;
+
 INSERT INTO REFUNDS (refund_id, ticket_id, wallet_id, amount) VALUES
 (1, 56, 12, 19000),
 (2, 57, 13, 11000),
 (3, 58, 14, 40000),
 (4, 59, 15, 8000),
 (5, 60, 16, 9000);
+
+SET IDENTITY_INSERT REFUNDS OFF;
+GO
