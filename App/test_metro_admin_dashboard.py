@@ -1,9 +1,9 @@
 from PyQt6.QtWidgets import QApplication,QMainWindow
 
-from ui.login.loginEx import LoginEx
+from UI.admin.admin_dashboard_EX import admin_dashboard_EX
 
 app=QApplication([])
-gui=LoginEx()
+gui=admin_dashboard_EX()
 my_window = QMainWindow()
 gui.setupUi(my_window)
 my_window.show()
