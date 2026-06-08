@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>QRPaymentDialog</class>
- <widget class="QWidget" name="QRPaymentDialog">
+ <widget class="QMainWindow" name="QRPaymentDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -16,7 +16,7 @@
   <property name="styleSheet">
    <string notr="true">
 /* ===== GLOBAL ===== */
-QWidget#QRPaymentDialog {
+QWidget#centralwidget {
     background-color: #E8F6FD;
     font-family: &quot;Segoe UI&quot;, &quot;Arial&quot;, sans-serif;
 }
@@ -180,7 +180,16 @@ QPushButton#btnHome:pressed {
 }
    </string>
   </property>
-  <layout class="QVBoxLayout" name="outerLayout">
+  <widget class="QWidget" name="centralwidget">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>420</width>
+     <height>674</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="outerLayout">
    <property name="spacing">
     <number>0</number>
    </property>
@@ -801,6 +810,7 @@ QPushButton#btnHome:pressed {
     </widget>
    </item>
   </layout>
+  </widget>
  </widget>
  <resources/>
  <connections/>
