@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'QR.ui'
+# Form implementation generated from reading ui file 'D:\Nam1\KTLT\K25411_KTLT\UI_KhachHang\QR.ui'
 #
 # Created by: PyQt6 UI code generator 6.10.0
 #
@@ -15,7 +15,7 @@ class Ui_QRPaymentDialog(object):
         QRPaymentDialog.resize(420, 674)
         QRPaymentDialog.setStyleSheet("\n"
 "/* ===== GLOBAL ===== */\n"
-"QWidget#QRPaymentDialog {\n"
+"QWidget#centralwidget {\n"
 "    background-color: #E8F6FD;\n"
 "    font-family: \"Segoe UI\", \"Arial\", sans-serif;\n"
 "}\n"
@@ -178,7 +178,10 @@ class Ui_QRPaymentDialog(object):
 "    );\n"
 "}\n"
 "   ")
-        self.outerLayout = QtWidgets.QVBoxLayout(QRPaymentDialog)
+        self.centralwidget = QtWidgets.QWidget(parent=QRPaymentDialog)
+        self.centralwidget.setGeometry(QtCore.QRect(0, 0, 420, 674))
+        self.centralwidget.setObjectName("centralwidget")
+        self.outerLayout = QtWidgets.QVBoxLayout(self.centralwidget)
         self.outerLayout.setContentsMargins(20, 24, 20, 24)
         self.outerLayout.setSpacing(0)
         self.outerLayout.setObjectName("outerLayout")
@@ -186,7 +189,7 @@ class Ui_QRPaymentDialog(object):
         self.iconRowLayout.setObjectName("iconRowLayout")
         spacerItem = QtWidgets.QSpacerItem(40, 0, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
         self.iconRowLayout.addItem(spacerItem)
-        self.iconCircle = QtWidgets.QLabel(parent=QRPaymentDialog)
+        self.iconCircle = QtWidgets.QLabel(parent=self.centralwidget)
         self.iconCircle.setMinimumSize(QtCore.QSize(56, 56))
         self.iconCircle.setMaximumSize(QtCore.QSize(56, 56))
         self.iconCircle.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
@@ -197,19 +200,19 @@ class Ui_QRPaymentDialog(object):
         self.outerLayout.addLayout(self.iconRowLayout)
         spacerItem2 = QtWidgets.QSpacerItem(0, 10, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
         self.outerLayout.addItem(spacerItem2)
-        self.titleLabel = QtWidgets.QLabel(parent=QRPaymentDialog)
+        self.titleLabel = QtWidgets.QLabel(parent=self.centralwidget)
         self.titleLabel.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.titleLabel.setObjectName("titleLabel")
         self.outerLayout.addWidget(self.titleLabel)
         spacerItem3 = QtWidgets.QSpacerItem(0, 4, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
         self.outerLayout.addItem(spacerItem3)
-        self.ticketCodeLabel = QtWidgets.QLabel(parent=QRPaymentDialog)
+        self.ticketCodeLabel = QtWidgets.QLabel(parent=self.centralwidget)
         self.ticketCodeLabel.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.ticketCodeLabel.setObjectName("ticketCodeLabel")
         self.outerLayout.addWidget(self.ticketCodeLabel)
         spacerItem4 = QtWidgets.QSpacerItem(0, 16, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
         self.outerLayout.addItem(spacerItem4)
-        self.qrFrame = QtWidgets.QFrame(parent=QRPaymentDialog)
+        self.qrFrame = QtWidgets.QFrame(parent=self.centralwidget)
         self.qrFrame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.qrFrame.setObjectName("qrFrame")
         self.qrLayout = QtWidgets.QVBoxLayout(self.qrFrame)
@@ -237,7 +240,7 @@ class Ui_QRPaymentDialog(object):
         self.outerLayout.addWidget(self.qrFrame)
         spacerItem7 = QtWidgets.QSpacerItem(0, 14, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
         self.outerLayout.addItem(spacerItem7)
-        self.infoBanner = QtWidgets.QFrame(parent=QRPaymentDialog)
+        self.infoBanner = QtWidgets.QFrame(parent=self.centralwidget)
         self.infoBanner.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.infoBanner.setObjectName("infoBanner")
         self.infoLayout = QtWidgets.QVBoxLayout(self.infoBanner)
@@ -342,12 +345,12 @@ class Ui_QRPaymentDialog(object):
         self.btnSecondaryLayout = QtWidgets.QHBoxLayout()
         self.btnSecondaryLayout.setSpacing(12)
         self.btnSecondaryLayout.setObjectName("btnSecondaryLayout")
-        self.btnDownload = QtWidgets.QPushButton(parent=QRPaymentDialog)
+        self.btnDownload = QtWidgets.QPushButton(parent=self.centralwidget)
         self.btnDownload.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.btnDownload.setStyleSheet("color:#0284C7; font-size:12.5px; font-weight:500;")
         self.btnDownload.setObjectName("btnDownload")
         self.btnSecondaryLayout.addWidget(self.btnDownload)
-        self.btnShare = QtWidgets.QPushButton(parent=QRPaymentDialog)
+        self.btnShare = QtWidgets.QPushButton(parent=self.centralwidget)
         self.btnShare.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.btnShare.setStyleSheet("color:#0284C7; font-size:12.5px; font-weight:500;")
         self.btnShare.setObjectName("btnShare")
@@ -355,7 +358,7 @@ class Ui_QRPaymentDialog(object):
         self.outerLayout.addLayout(self.btnSecondaryLayout)
         spacerItem15 = QtWidgets.QSpacerItem(0, 10, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
         self.outerLayout.addItem(spacerItem15)
-        self.btnHome = QtWidgets.QPushButton(parent=QRPaymentDialog)
+        self.btnHome = QtWidgets.QPushButton(parent=self.centralwidget)
         self.btnHome.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.btnHome.setAutoFillBackground(False)
         self.btnHome.setStyleSheet("background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #0EA5E9, stop:1 #0284C7);\n"
@@ -366,6 +369,7 @@ class Ui_QRPaymentDialog(object):
 "        font-weight: bold;")
         self.btnHome.setObjectName("btnHome")
         self.outerLayout.addWidget(self.btnHome)
+        QRPaymentDialog.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(QRPaymentDialog)
         QtCore.QMetaObject.connectSlotsByName(QRPaymentDialog)
