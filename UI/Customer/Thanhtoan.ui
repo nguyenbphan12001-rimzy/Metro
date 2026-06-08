@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>MetroBookingForm</class>
- <widget class="QWidget" name="MetroBookingForm">
+ <widget class="QMainWindow" name="MetroBookingForm">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -16,7 +16,7 @@
   <property name="styleSheet">
    <string notr="true">
     /* Định hình giao diện tổng thể theo thiết kế Sky Blue */
-    QWidget#MetroBookingForm {
+    QWidget#centralwidget {
         background-color: #F0F9FF;
     }
 
@@ -113,7 +113,16 @@
     }
    </string>
   </property>
-  <layout class="QVBoxLayout" name="mainLayout">
+  <widget class="QWidget" name="centralwidget">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>436</width>
+     <height>851</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="mainLayout">
    <property name="spacing">
     <number>12</number>
    </property>
@@ -815,6 +824,7 @@
     </widget>
    </item>
   </layout>
+  </widget>
  </widget>
  <resources/>
  <connections/>
