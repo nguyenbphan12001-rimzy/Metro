@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'Thanhtoan.ui'
+# Form implementation generated from reading ui file 'D:\Nam1\KTLT\K25411_KTLT\UI_KhachHang\Thanhtoan.ui'
 #
 # Created by: PyQt6 UI code generator 6.10.0
 #
@@ -15,7 +15,7 @@ class Ui_MetroBookingForm(object):
         MetroBookingForm.resize(436, 851)
         MetroBookingForm.setStyleSheet("\n"
 "    /* Định hình giao diện tổng thể theo thiết kế Sky Blue */\n"
-"    QWidget#MetroBookingForm {\n"
+"    QWidget#centralwidget {\n"
 "        background-color: #F0F9FF;\n"
 "    }\n"
 "\n"
@@ -111,11 +111,14 @@ class Ui_MetroBookingForm(object):
 "        background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #38BDF8, stop:1 #0284C7);\n"
 "    }\n"
 "   ")
-        self.mainLayout = QtWidgets.QVBoxLayout(MetroBookingForm)
+        self.centralwidget = QtWidgets.QWidget(parent=MetroBookingForm)
+        self.centralwidget.setGeometry(QtCore.QRect(0, 0, 436, 851))
+        self.centralwidget.setObjectName("centralwidget")
+        self.mainLayout = QtWidgets.QVBoxLayout(self.centralwidget)
         self.mainLayout.setContentsMargins(14, 16, 14, 24)
         self.mainLayout.setSpacing(12)
         self.mainLayout.setObjectName("mainLayout")
-        self.cardJourney = QtWidgets.QFrame(parent=MetroBookingForm)
+        self.cardJourney = QtWidgets.QFrame(parent=self.centralwidget)
         self.cardJourney.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
         self.cardJourney.setObjectName("cardJourney")
         self.journeyLayout = QtWidgets.QVBoxLayout(self.cardJourney)
@@ -288,7 +291,7 @@ class Ui_MetroBookingForm(object):
         self.qtyLayout.addWidget(self.btnPlus)
         self.journeyLayout.addLayout(self.qtyLayout)
         self.mainLayout.addWidget(self.cardJourney)
-        self.cardSummary = QtWidgets.QFrame(parent=MetroBookingForm)
+        self.cardSummary = QtWidgets.QFrame(parent=self.centralwidget)
         self.cardSummary.setObjectName("cardSummary")
         self.summaryLayout = QtWidgets.QVBoxLayout(self.cardSummary)
         self.summaryLayout.setSpacing(8)
@@ -332,7 +335,7 @@ class Ui_MetroBookingForm(object):
         self.rowTotal.addWidget(self.sumTotal)
         self.summaryLayout.addLayout(self.rowTotal)
         self.mainLayout.addWidget(self.cardSummary)
-        self.balanceBox = QtWidgets.QFrame(parent=MetroBookingForm)
+        self.balanceBox = QtWidgets.QFrame(parent=self.centralwidget)
         self.balanceBox.setMinimumSize(QtCore.QSize(0, 38))
         self.balanceBox.setObjectName("balanceBox")
         self.balanceLayout = QtWidgets.QHBoxLayout(self.balanceBox)
@@ -342,10 +345,11 @@ class Ui_MetroBookingForm(object):
         self.lblBalance.setObjectName("lblBalance")
         self.balanceLayout.addWidget(self.lblBalance)
         self.mainLayout.addWidget(self.balanceBox)
-        self.btnPay = QtWidgets.QPushButton(parent=MetroBookingForm)
+        self.btnPay = QtWidgets.QPushButton(parent=self.centralwidget)
         self.btnPay.setMinimumSize(QtCore.QSize(0, 46))
         self.btnPay.setObjectName("btnPay")
         self.mainLayout.addWidget(self.btnPay)
+        MetroBookingForm.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MetroBookingForm)
         QtCore.QMetaObject.connectSlotsByName(MetroBookingForm)
