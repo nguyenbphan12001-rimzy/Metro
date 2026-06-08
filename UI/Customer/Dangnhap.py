@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'Dangnhap.ui'
+# Form implementation generated from reading ui file 'D:\Nam1\KTLT\K25411_KTLT\UI_KhachHang\Dangnhap.ui'
 #
 # Created by: PyQt6 UI code generator 6.10.0
 #
@@ -15,7 +15,7 @@ class Ui_LoginWindow(object):
         LoginWindow.resize(460, 700)
         LoginWindow.setMinimumSize(QtCore.QSize(420, 620))
         LoginWindow.setStyleSheet("\n"
-"QWidget#LoginWindow {\n"
+"QWidget#centralwidget {\n"
 "    background-color: #E8F6FD;\n"
 "}\n"
 "QFrame#card {\n"
@@ -126,7 +126,10 @@ class Ui_LoginWindow(object):
 "    font-size: 13px;\n"
 "}\n"
 "   ")
-        self.root_layout = QtWidgets.QVBoxLayout(LoginWindow)
+        self.centralwidget = QtWidgets.QWidget(parent=LoginWindow)
+        self.centralwidget.setGeometry(QtCore.QRect(0, 0, 460, 700))
+        self.centralwidget.setObjectName("centralwidget")
+        self.root_layout = QtWidgets.QVBoxLayout(self.centralwidget)
         self.root_layout.setContentsMargins(40, 40, 40, 32)
         self.root_layout.setSpacing(0)
         self.root_layout.setObjectName("root_layout")
@@ -134,7 +137,7 @@ class Ui_LoginWindow(object):
         self.logo_row.setObjectName("logo_row")
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
         self.logo_row.addItem(spacerItem)
-        self.lbl_logo = QtWidgets.QLabel(parent=LoginWindow)
+        self.lbl_logo = QtWidgets.QLabel(parent=self.centralwidget)
         self.lbl_logo.setMinimumSize(QtCore.QSize(76, 76))
         self.lbl_logo.setMaximumSize(QtCore.QSize(76, 76))
         self.lbl_logo.setStyleSheet("\n"
@@ -153,19 +156,19 @@ class Ui_LoginWindow(object):
         self.root_layout.addLayout(self.logo_row)
         spacerItem2 = QtWidgets.QSpacerItem(0, 12, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Fixed)
         self.root_layout.addItem(spacerItem2)
-        self.lbl_title = QtWidgets.QLabel(parent=LoginWindow)
+        self.lbl_title = QtWidgets.QLabel(parent=self.centralwidget)
         self.lbl_title.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.lbl_title.setObjectName("lbl_title")
         self.root_layout.addWidget(self.lbl_title)
         spacerItem3 = QtWidgets.QSpacerItem(0, 4, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Fixed)
         self.root_layout.addItem(spacerItem3)
-        self.lbl_subtitle = QtWidgets.QLabel(parent=LoginWindow)
+        self.lbl_subtitle = QtWidgets.QLabel(parent=self.centralwidget)
         self.lbl_subtitle.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.lbl_subtitle.setObjectName("lbl_subtitle")
         self.root_layout.addWidget(self.lbl_subtitle)
         spacerItem4 = QtWidgets.QSpacerItem(0, 24, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Fixed)
         self.root_layout.addItem(spacerItem4)
-        self.card = QtWidgets.QFrame(parent=LoginWindow)
+        self.card = QtWidgets.QFrame(parent=self.centralwidget)
         self.card.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.card.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.card.setObjectName("card")
@@ -266,7 +269,7 @@ class Ui_LoginWindow(object):
         self.root_layout.addWidget(self.card)
         spacerItem17 = QtWidgets.QSpacerItem(0, 16, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Fixed)
         self.root_layout.addItem(spacerItem17)
-        self.banner = QtWidgets.QFrame(parent=LoginWindow)
+        self.banner = QtWidgets.QFrame(parent=self.centralwidget)
         self.banner.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.banner.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.banner.setObjectName("banner")
@@ -285,6 +288,7 @@ class Ui_LoginWindow(object):
         self.root_layout.addWidget(self.banner)
         spacerItem18 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
         self.root_layout.addItem(spacerItem18)
+        LoginWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(LoginWindow)
         QtCore.QMetaObject.connectSlotsByName(LoginWindow)
