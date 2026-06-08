@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'KhachHang.ui'
+# Form implementation generated from reading ui file 'D:\Nam1\KTLT\K25411_KTLT\UI_KhachHang\KhachHang.ui'
 #
 # Created by: PyQt6 UI code generator 6.10.0
 #
@@ -16,7 +16,7 @@ class Ui_DashboardWindow(object):
         DashboardWindow.setMinimumSize(QtCore.QSize(440, 600))
         DashboardWindow.setStyleSheet("\n"
 "/* ── Nền tổng ── */\n"
-"QWidget#DashboardWindow {\n"
+"QWidget#centralwidget {\n"
 "    background-color: #E8F6FD;\n"
 "}\n"
 "\n"
@@ -159,11 +159,14 @@ class Ui_DashboardWindow(object):
 "    font-size: 12px;\n"
 "}\n"
 "   ")
-        self.root_vbox = QtWidgets.QVBoxLayout(DashboardWindow)
+        self.centralwidget = QtWidgets.QWidget(parent=DashboardWindow)
+        self.centralwidget.setGeometry(QtCore.QRect(0, 0, 440, 680))
+        self.centralwidget.setObjectName("centralwidget")
+        self.root_vbox = QtWidgets.QVBoxLayout(self.centralwidget)
         self.root_vbox.setContentsMargins(0, 0, 0, 0)
         self.root_vbox.setSpacing(0)
         self.root_vbox.setObjectName("root_vbox")
-        self.header = QtWidgets.QFrame(parent=DashboardWindow)
+        self.header = QtWidgets.QFrame(parent=self.centralwidget)
         self.header.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.header.setObjectName("header")
         self.header_layout = QtWidgets.QHBoxLayout(self.header)
@@ -193,7 +196,7 @@ class Ui_DashboardWindow(object):
         self.btn_logout.setObjectName("btn_logout")
         self.header_layout.addWidget(self.btn_logout)
         self.root_vbox.addWidget(self.header)
-        self.scroll_area = QtWidgets.QScrollArea(parent=DashboardWindow)
+        self.scroll_area = QtWidgets.QScrollArea(parent=self.centralwidget)
         self.scroll_area.setStyleSheet("QScrollArea { background: transparent; border: none; } QScrollBar:vertical { width: 6px; background: #E8F6FD; } QScrollBar::handle:vertical { background: #B3E0F5; border-radius: 3px; } QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical { height: 0px; }")
         self.scroll_area.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
         self.scroll_area.setWidgetResizable(True)
@@ -315,6 +318,7 @@ class Ui_DashboardWindow(object):
         self.body_vbox.addItem(spacerItem4)
         self.scroll_area.setWidget(self.scroll_contents)
         self.root_vbox.addWidget(self.scroll_area)
+        DashboardWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(DashboardWindow)
         QtCore.QMetaObject.connectSlotsByName(DashboardWindow)
