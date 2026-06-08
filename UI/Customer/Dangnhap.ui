@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>LoginWindow</class>
- <widget class="QWidget" name="LoginWindow">
+ <widget class="QMainWindow" name="LoginWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -21,7 +21,7 @@
   </property>
   <property name="styleSheet">
    <string notr="true">
-QWidget#LoginWindow {
+QWidget#centralwidget {
     background-color: #E8F6FD;
 }
 QFrame#card {
@@ -133,7 +133,16 @@ QLabel#lbl_no_account {
 }
    </string>
   </property>
-  <layout class="QVBoxLayout" name="root_layout">
+  <widget class="QWidget" name="centralwidget">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>460</width>
+     <height>700</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="root_layout">
    <property name="spacing">
     <number>0</number>
    </property>
@@ -717,6 +726,7 @@ QLabel#lbl_logo {
     </spacer>
    </item>
   </layout>
+  </widget>
  </widget>
  <tabstops>
   <tabstop>inp_username</tabstop>
