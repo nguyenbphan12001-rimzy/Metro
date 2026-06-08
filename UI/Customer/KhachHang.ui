@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>DashboardWindow</class>
- <widget class="QWidget" name="DashboardWindow">
+ <widget class="QMainWindow" name="DashboardWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -22,7 +22,7 @@
   <property name="styleSheet">
    <string notr="true">
 /* ── Nền tổng ── */
-QWidget#DashboardWindow {
+QWidget#centralwidget {
     background-color: #E8F6FD;
 }
 
@@ -166,7 +166,16 @@ QLabel#lbl_tip_body {
 }
    </string>
   </property>
-  <layout class="QVBoxLayout" name="root_vbox">
+  <widget class="QWidget" name="centralwidget">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>440</width>
+     <height>680</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="root_vbox">
    <property name="spacing">
     <number>0</number>
    </property>
@@ -639,6 +648,7 @@ QLabel#lbl_tip_body {
     </widget>
    </item>
   </layout>
+  </widget>
  </widget>
  <resources/>
  <connections/>
