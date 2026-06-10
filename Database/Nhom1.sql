@@ -4,35 +4,7 @@
 USE MetroDB;
 GO
 
-CREATE TABLE USERS (
-    user_id INT PRIMARY KEY,
-    user_name VARCHAR(100) NOT NULL,
-    password VARCHAR(200) NOT NULL,
-    role VARCHAR(100) DEFAULT 'customer' CHECK (role IN ('customer', 'admin', 'staff')),
-    phone VARCHAR(20)
-);
 
-CREATE TABLE STATIONS (
-    station_id INT PRIMARY KEY,
-    station_name VARCHAR(100) NOT NULL
-);
-
-CREATE TABLE ROUTES (
-    route_id INT PRIMARY KEY,
-    route_name VARCHAR(100) NOT NULL
-);
-
-CREATE TABLE PAYMENT_METHODS (
-    method_id INT PRIMARY KEY,
-    method_name VARCHAR(100) NOT NULL
-);
-
-CREATE TABLE TICKET_TYPES (
-    type_id INT PRIMARY KEY,
-    type_name VARCHAR(100) NOT NULL,
-    price DECIMAL(10, 2) NULL CHECK (price IS NULL OR price > 0),
-    validity_days INT NULL CHECK (validity_days IS NULL OR validity_days > 0)
-);
 
 -- =========================================================
 -- NHÓM 1: CHÈN DỮ LIỆU MẪU (ĐÃ ĐỒNG BỘ CỘT VÀ ĐIỀU KIỆN)

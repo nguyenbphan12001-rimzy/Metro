@@ -9,103 +9,12 @@ GO
 -- TẠO CẤU TRÚC BẢNG (NHÓM 2 - ĐÃ ĐỒNG BỘ KHÓA VÀ CHECK CONSTRAINT)
 -- =========================================================
 
-CREATE TABLE ROUTESTATIONS (
-    route_station_id INT PRIMARY KEY,
-    route_id INT,
-    station_id INT,
-    station_order INT NOT NULL,
-    FOREIGN KEY (route_id) REFERENCES ROUTES(route_id),
-    FOREIGN KEY (station_id) REFERENCES STATIONS(station_id)
-);
 
-CREATE TABLE TRAINS (
-    train_id INT PRIMARY KEY,
-    train_name VARCHAR(100) NOT NULL,
-    route_id INT,
-    capacity INT DEFAULT 300,
-    status VARCHAR(50) DEFAULT 'operational' CHECK (status IN ('operational', 'maintenance', 'out of service')),
-    FOREIGN KEY (route_id) REFERENCES ROUTES(route_id)
-);
-
-CREATE TABLE WALLETS (
-    wallet_id INT PRIMARY KEY,
-    user_id INT UNIQUE,
-    balance DECIMAL(10,2) DEFAULT 0.00 CHECK (balance >= 0),
-    currency VARCHAR(10) DEFAULT 'VND',
-    FOREIGN KEY (user_id) REFERENCES USERS(user_id)
-);
-
-CREATE TABLE STAFFS (
-    staff_id INT PRIMARY KEY,
-    staff_name VARCHAR(100) NOT NULL,
-    station_id INT,
-    shift VARCHAR(50) CHECK (shift IN ('sáng', 'chiều', 'tối')),
-    FOREIGN KEY (station_id) REFERENCES STATIONS(station_id)
-);
-
-CREATE TABLE PRICE_TABLE (
-    price_id INT PRIMARY KEY,
-    from_station_id INT,
-    to_station_id INT,
-    route_id INT,
-    base_price DECIMAL(10,2) NOT NULL CHECK (base_price >= 0),
-    FOREIGN KEY (from_station_id) REFERENCES STATIONS(station_id),
-    FOREIGN KEY (to_station_id) REFERENCES STATIONS(station_id),
-    FOREIGN KEY (route_id) REFERENCES ROUTES(route_id)
-);
-
-CREATE TABLE ADMIN_HISTORY (
-    log_id INT PRIMARY KEY,
-    user_id INT,
-    action VARCHAR(255) NOT NULL,
-    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES USERS(user_id)
-);
-
-CREATE TABLE PRICE_HISTORY (
-    history_id INT PRIMARY KEY,
-    price_id INT,
-    old_price DECIMAL(10,2),
-    new_price DECIMAL(10,2),
-    changed_by INT,
-    FOREIGN KEY (price_id) REFERENCES PRICE_TABLE(price_id),
-    FOREIGN KEY (changed_by) REFERENCES USERS(user_id)
-);
-
-CREATE TABLE DEPOSIT_HISTORY (
-    deposit_id INT PRIMARY KEY,
-    wallet_id INT,
-    user_id INT,
-    method_id INT,
-    amount DECIMAL(10,2) CHECK (amount > 0),
-    FOREIGN KEY (wallet_id) REFERENCES WALLETS(wallet_id),
-    FOREIGN KEY (user_id) REFERENCES USERS(user_id),
-    FOREIGN KEY (method_id) REFERENCES PAYMENT_METHODS(method_id)
-);
-
-CREATE TABLE TICKETS (
-    ticket_id INT PRIMARY KEY,
-    user_id INT,
-    train_id INT,
-    type_id INT,
-    from_station_id INT,
-    to_station_id INT,
-    price DECIMAL(10,2) CHECK (price >= 0),
-    qr_code VARCHAR(50) UNIQUE,
-    status VARCHAR(50) DEFAULT 'unused' CHECK (status IN ('used', 'unused', 'expired', 'cancelled')),
-    FOREIGN KEY (user_id) REFERENCES USERS(user_id),
-    FOREIGN KEY (train_id) REFERENCES TRAINS(train_id),
-    FOREIGN KEY (type_id) REFERENCES TICKET_TYPES(type_id), -- ĐÃ SỬA THÀNH type_id CHUẨN NHÓM 1
-    FOREIGN KEY (from_station_id) REFERENCES STATIONS(station_id),
-    FOREIGN KEY (to_station_id) REFERENCES STATIONS(station_id)
-);
-
--- =========================================================
 -- CHÈN DỮ LIỆU MẪU (NHÓM 2 - ĐÃ ĐỒNG BỘ DATA CHỮ THƯỜNG)
 -- =========================================================
 
 -- 6. ROUTESTATIONS (26 dòng)
-INSERT INTO ROUTESTATIONS (route_station_id, route_id, station_id, station_order) VALUES
+INSERT INTO ROUTESTATIONS (route_station_id, route_id, station_id, position) VALUES
 (1, 101, 1, 1),   (2, 101, 2, 2),   (3, 101, 3, 3),   (4, 101, 4, 4),   (5, 101, 5, 5),
 (6, 101, 6, 6),   (7, 101, 7, 7),   (8, 101, 8, 8),   (9, 101, 9, 9),   (10, 101, 10, 10),
 (11, 101, 11, 11), (12, 101, 12, 12), (13, 101, 13, 13), (14, 101, 14, 14),
@@ -114,17 +23,17 @@ INSERT INTO ROUTESTATIONS (route_station_id, route_id, station_id, station_order
 (25, 102, 24, 11), (26, 102, 25, 12);
 
 -- 7. TRAINS (10 đoàn tàu - Đổi status về chữ thường)
-INSERT INTO TRAINS (train_id, train_name, route_id, capacity, status) VALUES
-(1, 'Đoàn tàu SE-01', 101, 300, 'operational'),
-(2, 'Đoàn tàu SE-02', 101, 300, 'operational'),
-(3, 'Đoàn tàu SE-03', 101, 300, 'operational'),
-(4, 'Đoàn tàu SE-04', 101, 300, 'maintenance'),
-(5, 'Đoàn tàu SE-05', 101, 300, 'operational'),
-(6, 'Đoàn tàu TL-01', 102, 300, 'operational'),
-(7, 'Đoàn tàu TL-02', 102, 300, 'operational'),
-(8, 'Đoàn tàu TL-03', 102, 300, 'operational'),
-(9, 'Đoàn tàu TL-04', 102, 300, 'operational'),
-(10, 'Đoàn tàu TL-05', 102, 300, 'operational');
+INSERT INTO TRAINS (train_id, route_id, departure_time, arrival_time, capacity) VALUES
+(1, 101, '05:00', '06:00', 300),
+(2, 101, '05:30', '06:30', 300),
+(3, 101, '06:00', '07:00', 300),
+(4, 101, '06:30', '07:30', 300),
+(5, 101, '07:00', '08:00', 300),
+(6, 102, '05:00', '06:10', 300),
+(7, 102, '05:30', '06:40', 300),
+(8, 102, '06:00', '07:10', 300),
+(9, 102, '06:30', '07:40', 300),
+(10, 102, '07:00', '08:10', 300);
 
 -- 8. WALLETS (50 ví)
 INSERT INTO WALLETS (wallet_id, user_id, balance, currency) VALUES

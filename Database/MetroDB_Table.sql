@@ -37,7 +37,7 @@ CREATE TABLE TICKET_TYPES (
 -- ====================================================================
 
 CREATE TABLE ROUTESTATIONS (
-    id INT PRIMARY KEY,
+    route_station_id INT PRIMARY KEY,
     route_id INT,
     station_id INT,
     position INT NOT NULL CHECK (position > 0),                   -- Ràng buộc số 11
@@ -56,17 +56,10 @@ CREATE TABLE TRAINS (
     FOREIGN KEY (route_id) REFERENCES ROUTES(route_id)
 );
 
--- BẢNG MỚI: Quản lý chuyến đi thực tế theo ngày
-CREATE TABLE TRIPS (
-    trip_id INT PRIMARY KEY,
-    train_id INT,
-    trip_date DATE NOT NULL,
-    status VARCHAR(20) DEFAULT 'SCHEDULED' CHECK (status IN ('SCHEDULED', 'RUNNING', 'COMPLETED', 'CANCELLED')),
-    FOREIGN KEY (train_id) REFERENCES TRAINS(train_id)
-);
+
 
 CREATE TABLE ADMIN_HISTORY (
-    log_id INT PRIMARY KEY,
+    ad_log_id INT PRIMARY KEY,
     admin_id INT,
     action VARCHAR(50) NOT NULL,
     target_table VARCHAR(100) NOT NULL,
@@ -111,7 +104,7 @@ CREATE TABLE STAFFS (
 -- ====================================================================
 
 CREATE TABLE PRICE_HISTORY (
-    history_id INT PRIMARY KEY,
+    price_history_id INT PRIMARY KEY,
     price_id INT,
     old_price DECIMAL(10, 2) NOT NULL CHECK (old_price > 0),     -- Ràng buộc số 8
     new_price DECIMAL(10, 2) NOT NULL CHECK (new_price > 0),     -- Ràng buộc số 8
