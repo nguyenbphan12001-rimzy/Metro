@@ -7,7 +7,8 @@ CREATE TABLE USERS (
     user_name VARCHAR(100) NOT NULL,
     password VARCHAR(200) NOT NULL,
     role VARCHAR(100) DEFAULT 'customer' CHECK (role IN ('customer', 'admin', 'staff')), -- Bổ sung 'staff'
-    phone VARCHAR(20)
+    phone VARCHAR(20),
+    DoB VARCHAR(20) NOT NULL
 );
 
 CREATE TABLE STATIONS (
