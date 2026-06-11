@@ -41,6 +41,11 @@ INSERT INTO DEPOSIT_HISTORY (deposit_id, wallet_id, user_id, method_id, amount) 
 (89, 48, 48, 4, 50000), (90, 48, 48, 2, 200000), (91, 49, 49, 3, 250000), (92, 49, 49, 3, 100000),
 (93, 50, 50, 2, 150000), (94, 50, 50, 4, 50000), (95, 4, 4, 3, 100000), (96, 5, 5, 2, 200000),
 (97, 6, 6, 3, 150000), (98, 7, 7, 4, 50000), (99, 8, 8, 3, 300000), (100, 9, 9, 2, 100000);
+INSERT INTO DEPOSIT_HISTORY (deposit_id, wallet_id, user_id, method_id, amount, created_at) VALUES
+(201, 52, 52, 3, 200000.00, '2026-04-01 07:05:00'), -- Nạp tiền qua MoMo trong Tháng 4
+(202, 53, 53, 4, 300000.00, '2026-07-01 07:05:00'), -- Nạp tiền qua VNPay trong Tháng 7
+(203, 54, 54, 2, 150000.00, '2026-06-10 08:05:00'), -- Nạp qua Thẻ tín dụng
+(204, 55, 55, 3, 100000.00, '2026-06-10 09:05:00'); -- Nạp qua MoMo
 
 -- 3. TICKETS (Thông tin Vé tàu - ĐÃ ĐỒNG BỘ TRẠNG THÁI CHỮ THƯỜNG)
 INSERT INTO TICKETS (ticket_id, user_id, train_id, type_id, from_station_id, to_station_id, price, qr_code, status) VALUES
@@ -92,3 +97,19 @@ INSERT INTO TICKETS (ticket_id, user_id, train_id, type_id, from_station_id, to_
 (56, 12, 6, 1, 1, 14, 19000, 'QR_056', 'cancelled'), (57, 13, 7, 1, 1, 24, 11000, 'QR_057', 'cancelled'),
 (58, 14, 8, 2, 1, 14, 40000, 'QR_058', 'cancelled'), (59, 15, 9, 1, 1, 8, 8000, 'QR_059', 'cancelled'),
 (60, 16, 10, 1, 1, 22, 9000, 'QR_060', 'cancelled');
+-- 2. Khởi tạo các vé đặc biệt (ID bắt đầu từ 101 để tránh trùng lặp PK)
+INSERT INTO TICKETS (ticket_id, user_id, train_id, type_id, from_station_id, to_station_id, price, qr_code, status, issued_at, expires_at) VALUES
+-- [Temporal Data] Vé lượt phát sinh và đã đi trong Tháng 4
+(101, 52, 1, 1, 1, 3, 15000.00, 'QR_APR_101', 'USED', '2026-04-15 08:00:00', '2026-04-15 23:59:59'),
+
+-- [Temporal Data] Vé lượt được mua sẵn cho Tháng 7 (Chưa sử dụng)
+(102, 53, 6, 1, 1, 15, 15000.00, 'QR_JUL_102', 'UNUSED', '2026-07-02 08:00:00', '2026-07-02 23:59:59'),
+
+-- [Ticket Status Case] Vé bị hủy và có hoàn lại tiền (Status thành CANCELLED theo CHECK constraint)
+(103, 55, 2, 1, 1, 5, 20000.00, 'QR_REFUND_103', 'CANCELLED', '2026-06-11 08:00:00', '2026-06-11 23:59:59'),
+
+-- [Ticket Status Case] Vé bị hủy đơn thuần do hệ thống hoặc lỗi người dùng (Không hoàn tiền)
+(104, 55, 3, 1, 2, 6, 17000.00, 'QR_CANCEL_104', 'CANCELLED', '2026-06-11 09:00:00', '2026-06-11 23:59:59'),
+
+-- [Edge Case Stress Scan] Vé Ngày (Type 2 - cho phép đi lại nhiều lần, Ga đi/đến để NULL rất đúng nghiệp vụ vé ngày)
+(105, 54, 1, 2, NULL, NULL, 40000.00, 'QR_STRESS_105', 'USED', '2026-06-11 06:00:00', '2026-06-12 06:00:00');
