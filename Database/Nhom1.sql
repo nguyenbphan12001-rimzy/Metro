@@ -104,3 +104,14 @@ INSERT INTO USERS (user_id, user_name, password, role, phone) VALUES
 (48, 'user_48',  'hashed_password_default', 'customer', '0901234548'),
 (49, 'user_49',  'hashed_password_default', 'customer', '0901234549'),
 (50, 'user_50',  'hashed_password_default', 'customer', '0901234550');
+-- ====================================================================
+-- DỮ LIỆU BỔ SUNG CHO FILE 1: 01_insert_nhom1.sql
+-- Thêm Khách hàng mới cho các kịch bản Edge Cases & Temporal Data
+-- ====================================================================
+
+INSERT INTO USERS (user_id, user_name, password, role, phone) VALUES
+(51, 'user_edge_zero',   'hashed_password_default', 'customer', '0901234551'), -- Khách hàng có ví 0đ để test chặn mua vé
+(52, 'user_temporal_apr', 'hashed_password_default', 'customer', '0901234552'), -- Khách hàng tạo dữ liệu trong quá khứ (Tháng 4)
+(53, 'user_temporal_jul', 'hashed_password_default', 'customer', '0901234553'), -- Khách hàng tạo dữ liệu trong tương lai (Tháng 7)
+(54, 'user_stress_scan',  'hashed_password_default', 'customer', '0901234554'), -- Khách hàng test kịch bản quét vé dồn dập
+(55, 'user_refund_test',  'hashed_password_default', 'customer', '0901234555'); -- Khách hàng test kịch bản Hủy / Hoàn tiền vé
