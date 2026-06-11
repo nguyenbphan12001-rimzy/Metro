@@ -67,6 +67,13 @@ INSERT INTO TRANSACTIONS (transaction_id, user_id, wallet_id, ticket_id, amount,
 (58, 14, 14, 58, 40000.00,  '2026-06-02 06:10:00'),
 (59, 15, 15, 59, 21000.00,  '2026-06-02 06:40:00'),
 (60, 16, 16, 60, 29000.00,  '2026-06-02 07:10:00');
+-- 1. Ghi nhận giao dịch mua các vé trên (Đảm bảo dòng tiền logic với Amount)
+INSERT INTO TRANSACTIONS (transaction_id, user_id, wallet_id, ticket_id, amount, created_at) VALUES
+(201, 52, 52, 101, 15000.00, '2026-04-15 07:55:00'), -- Giao dịch mua vé Tháng 4
+(202, 53, 53, 102, 15000.00, '2026-07-02 07:55:00'), -- Giao dịch mua vé Tháng 7
+(203, 55, 55, 103, 20000.00, '2026-06-11 07:45:00'), -- Giao dịch mua vé 103
+(204, 55, 55, 104, 17000.00, '2026-06-11 08:45:00'), -- Giao dịch mua vé 104
+(205, 54, 54, 105, 40000.00, '2026-06-11 05:50:00'); -- Giao dịch mua vé ngày stress-test
 
 -- 16. SCANNING_HISTORY (50 vé USED x 2 lần quét IN/OUT = 100 dòng)
 INSERT INTO SCANNING_HISTORY (scan_id, ticket_id, staff_id, station_id, scan_type, scanned_at) VALUES
