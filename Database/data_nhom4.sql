@@ -127,6 +127,19 @@ INSERT INTO SCANNING_HISTORY (scan_id, ticket_id, staff_id, station_id, scan_typ
 (95,  48, 501, 1,  'IN',  '2026-06-01 06:15:00'), (96,  48, 503, 13, 'OUT', '2026-06-01 06:50:00'),
 (97,  49, 509, 8,  'IN',  '2026-06-01 06:45:00'), (98,  49, 505, 14, 'OUT', '2026-06-01 07:25:00'),
 (99,  50, 501, 1,  'IN',  '2026-06-01 07:15:00'), (100, 50, 511, 15, 'OUT', '2026-06-01 07:30:00');
+-- 2. Lịch sử quét vé ra/vào ga (Staff_id để NULL đại diện cho việc quét tự động qua cổng máy)
+INSERT INTO SCANNING_HISTORY (scan_id, ticket_id, staff_id, station_id, scan_type, scanned_at) VALUES
+-- Quét vé thông thường phát sinh trong Tháng 4
+(301, 101, NULL, 1, 'IN',  '2026-04-15 08:10:00'),
+(302, 101, NULL, 3, 'OUT', '2026-04-15 08:40:00'),
+
+-- Kịch bản Stress-test: Khách hàng quét liên tục tại các trạm trong thời gian rất ngắn bằng Vé Ngày (Ticket 105)
+(303, 105, NULL, 1, 'IN',  '2026-06-11 06:15:00'), -- 06:15 Quét VÀO Ga Bến Thành
+(304, 105, NULL, 1, 'OUT', '2026-06-11 06:18:00'), -- 06:18 Đổi ý đi ra ngay lập tức tại Ga Bến Thành
+(305, 105, NULL, 1, 'IN',  '2026-06-11 06:22:00'), -- 06:22 Quay lại quét VÀO lại Ga Bến Thành lần nữa
+(306, 105, NULL, 2, 'OUT', '2026-06-11 06:35:00'), -- 06:35 Đến Ga Nhà hát Thành phố và quét RA
+(307, 105, NULL, 2, 'IN',  '2026-06-11 06:41:00'), -- 06:41 Chỉ 6 phút sau, quay lại quét VÀO tiếp tại Ga Nhà hát Thành phố
+(308, 105, NULL, 3, 'OUT', '2026-06-11 06:55:00'); -- 06:55 Đến Ga Ba Son và quét RA
 
 -- 17. REFUNDS (5 vé CANCELLED được hoàn tiền)
 INSERT INTO REFUNDS (refund_id, ticket_id, wallet_id, amount, created_at) VALUES
