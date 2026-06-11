@@ -75,6 +75,12 @@ INSERT INTO DEPOSIT_HISTORY (deposit_id, wallet_id, user_id, method_id, amount, 
 (95, 4,  4,  3, 100000, '2026-05-24 08:00:00'), (96, 5,  5,  2, 200000, '2026-05-24 09:00:00'),
 (97, 6,  6,  3, 150000, '2026-05-24 08:00:00'), (98, 7,  7,  4, 50000,  '2026-05-24 09:00:00'),
 (99, 8,  8,  3, 300000, '2026-05-25 08:00:00'), (100,9,  9,  2, 100000, '2026-05-25 09:00:00');
+-- 1. Nạp tiền vào tài khoản (Ngoại trừ tài khoản ví 0 đồng)
+INSERT INTO DEPOSIT_HISTORY (deposit_id, wallet_id, user_id, method_id, amount, created_at) VALUES
+(201, 52, 52, 3, 200000.00, '2026-04-01 07:05:00'), -- Nạp tiền qua MoMo trong Tháng 4
+(202, 53, 53, 4, 300000.00, '2026-07-01 07:05:00'), -- Nạp tiền qua VNPay trong Tháng 7
+(203, 54, 54, 2, 150000.00, '2026-06-10 08:05:00'), -- Nạp qua Thẻ tín dụng
+(204, 55, 55, 3, 100000.00, '2026-06-10 09:05:00'); -- Nạp qua MoMo
 
 -- 14. TICKETS
 -- Lưu ý: status dùng chữ HOA theo CHECK constraint ('UNUSED','USED','EXPIRED','CANCELLED')
