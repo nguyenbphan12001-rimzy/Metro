@@ -148,3 +148,6 @@ INSERT INTO REFUNDS (refund_id, ticket_id, wallet_id, amount, created_at) VALUES
 (3, 58, 14, 40000.00, '2026-06-02 08:20:00'),
 (4, 59, 15, 21000.00, '2026-06-02 08:30:00'),
 (5, 60, 16, 29000.00, '2026-06-02 08:40:00');
+-- 3. Chi tiết nghiệp vụ Hoàn tiền (REFUNDS) liên kết với vé bị hủy (Ticket 103)
+INSERT INTO REFUNDS (refund_id, ticket_id, wallet_id, amount, created_at) VALUES
+(401, 103, 55, 20000.00, '2026-06-11 08:15:00'); -- Hoàn trả đầy đủ 20,000đ vào ví của User 55 sau khi hủy vé thành công
