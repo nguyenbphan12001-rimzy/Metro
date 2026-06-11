@@ -181,3 +181,14 @@ INSERT INTO TICKETS (ticket_id, user_id, train_id, type_id, from_station_id, to_
 (56, 12, 6, 1, 1, 14, 19000, 'QR_056', 'cancelled'), (57, 13, 7, 1, 1, 24, 11000, 'QR_057', 'cancelled'),
 (58, 14, 8, 2, 1, 14, 40000, 'QR_058', 'cancelled'), (59, 15, 9, 1, 1, 8, 8000, 'QR_059', 'cancelled'),
 (60, 16, 10, 1, 1, 22, 9000, 'QR_060', 'cancelled');
+-- ====================================================================
+-- DỮ LIỆU BỔ SUNG CHO FILE 2: 02_insert_nhom2.sql
+-- Thêm Ví tiền (WALLETS) tương ứng cho các tài khoản kiểm thử mới
+-- ====================================================================
+
+INSERT INTO WALLETS (wallet_id, user_id, balance, last_updated) VALUES
+(51, 51, 0.00,      '2026-04-15 10:00:00'), -- Số dư đúng bằng 0 để hệ thống chặn khi đặt mua vé lượt
+(52, 52, 200000.00, '2026-04-01 07:00:00'), -- Tài khoản có tiền hoạt động từ Tháng 4
+(53, 53, 300000.00, '2026-07-01 07:00:00'), -- Tài khoản có tiền hoạt động từ Tháng 7
+(54, 54, 150000.00, '2026-06-10 08:00:00'), -- Tài khoản dùng để mua vé ngày di chuyển liên tục
+(55, 55, 100000.00, '2026-06-10 09:00:00'); -- Tài khoản dùng để mua vé sau đó hủy/hoàn tiền
