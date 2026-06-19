@@ -67,3 +67,4 @@ INSERT INTO USERS (user_id, user_name, password, role, phone) VALUES
 (53, 'user_temporal_jul', 'hashed_password_default', 'customer', '0901234553'), -- Khách hàng tạo dữ liệu trong tương lai (Tháng 7)
 (54, 'user_stress_scan',  'hashed_password_default', 'customer', '0901234554'), -- Khách hàng test kịch bản quét vé dồn dập
 (55, 'user_refund_test',  'hashed_password_default', 'customer', '0901234555'); -- Khách hàng test kịch bản Hủy / Hoàn tiền vé
+GO
