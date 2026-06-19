@@ -2,6 +2,9 @@
 -- 3. DỮ LIỆU VÉ VÀ GIAO DỊCH
 -- (Đã xóa các vé CANCELLED số 56-60)
 -- =========================================================
+USE MetroDB;
+GO
+
 INSERT INTO TICKETS (ticket_id, user_id, train_id, type_id, from_station_id, to_station_id, price, qr_code, status, issued_at) VALUES
 (1, 4, 1, 1, 1, 14, 19000.00, 'QR_001', 'USED', '2026-05-28 05:10:00'),
 (2, 5, 2, 1, 1, 8, 8000.00, 'QR_002', 'USED', '2026-05-28 05:40:00'),
