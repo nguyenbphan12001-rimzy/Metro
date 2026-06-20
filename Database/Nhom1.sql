@@ -5,11 +5,11 @@ GO
 -- =========================================================
 -- 1. DỮ LIỆU BẢNG GỐC (ROUTES, STATIONS, PAYMENT_METHODS, TICKET_TYPES, USERS)
 -- =========================================================
-INSERT INTO ROUTES (route_id, route_name) VALUES
+INSERT INTO ROUTE (route_id, route_name) VALUES
 (101, 'Tuyến số 1 (Bến Thành - Suối Tiên)'),
 (102, 'Tuyến số 2 (Bến Thành - Tham Lương)');
 
-INSERT INTO STATIONS (station_id, station_name) VALUES
+INSERT INTO STATION (station_id, station_name) VALUES
 (1, 'Ga Bến Thành'), (2, 'Ga Nhà hát Thành phố'), (3, 'Ga Ba Son'),
 (4, 'Ga Công viên Văn Thánh'), (5, 'Ga Tân Cảng'), (6, 'Ga Thảo Điền'),
 (7, 'Ga An Phú'), (8, 'Ga Rạch Chiếc'), (9, 'Ga Phước Long'),
@@ -20,17 +20,17 @@ INSERT INTO STATIONS (station_id, station_name) VALUES
 (22, 'Ga Đồng Đen'), (23, 'Ga Nguyễn Hồng Đào'), (24, 'Ga Tàu Trường Chinh'),
 (25, 'Ga Tham Lương');
 
-INSERT INTO PAYMENT_METHODS (method_id, method_name) VALUES
+INSERT INTO PAYMENT_METHOD (method_id, method_name) VALUES
 (1, 'Tiền mặt'), (2, 'Thẻ tín dụng'), (3, 'MoMo'), (4, 'VNPay');
 
-INSERT INTO TICKET_TYPES (type_id, type_name, price, validity_days) VALUES
+INSERT INTO TICKET_TYPE (type_id, type_name, price, validity_days) VALUES
 (1, 'Vé lượt',       NULL,      NULL),
 (2, 'Vé ngày',       40000.00,  1),
 (3, 'Vé tháng SV',   100000.00, 30),
 (4, 'Vé tháng PT',   200000.00, 30);
 
 -- Lưu ý: Đổi role của 3 user đầu tiên thành 'customer'
-INSERT INTO USERS (user_id, user_name, password, role, phone) VALUES
+INSERT INTO USER (user_id, user_name, password, role, phone) VALUES
 (1, 'user_1', 'hashed_pw', 'customer', '0911234501'), (2, 'user_2', 'hashed_pw', 'customer', '0911234502'),
 (3, 'user_3', 'hashed_pw', 'customer', '0911234503'), (4, 'user_4', 'hashed_pw', 'customer', '0901234504'),
 (5, 'user_5', 'hashed_pw', 'customer', '0901234505'), (6, 'user_6', 'hashed_pw', 'customer', '0901234506'),
@@ -61,7 +61,7 @@ INSERT INTO USERS (user_id, user_name, password, role, phone) VALUES
 -- Thêm Khách hàng mới cho các kịch bản Edge Cases & Temporal Data
 -- ====================================================================
 
-INSERT INTO USERS (user_id, user_name, password, role, phone) VALUES
+INSERT INTO USER (user_id, user_name, password, role, phone) VALUES
 (51, 'user_edge_zero',   'hashed_password_default', 'customer', '0901234551'), -- Khách hàng có ví 0đ để test chặn mua vé
 (52, 'user_temporal_apr', 'hashed_password_default', 'customer', '0901234552'), -- Khách hàng tạo dữ liệu trong quá khứ (Tháng 4)
 (53, 'user_temporal_jul', 'hashed_password_default', 'customer', '0901234553'), -- Khách hàng tạo dữ liệu trong tương lai (Tháng 7)

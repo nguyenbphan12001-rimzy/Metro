@@ -3,7 +3,7 @@
 -- =========================================================
 USE MetroDB;
 GO
-INSERT INTO ROUTESTATIONS (route_station_id, route_id, station_id, position) VALUES
+INSERT INTO ROUTESTATION (route_station_id, route_id, station_id, position) VALUES
 (1, 101, 1, 1), (2, 101, 2, 2), (3, 101, 3, 3), (4, 101, 4, 4), (5, 101, 5, 5),
 (6, 101, 6, 6), (7, 101, 7, 7), (8, 101, 8, 8), (9, 101, 9, 9), (10, 101, 10, 10),
 (11, 101, 11, 11), (12, 101, 12, 12), (13, 101, 13, 13), (14, 101, 14, 14),
@@ -11,7 +11,7 @@ INSERT INTO ROUTESTATIONS (route_station_id, route_id, station_id, position) VAL
 (20, 102, 19, 6), (21, 102, 20, 7), (22, 102, 21, 8), (23, 102, 22, 9), (24, 102, 23, 10),
 (25, 102, 24, 11), (26, 102, 25, 12);
 
-INSERT INTO TRAINS (train_id, route_id, departure_time, arrival_time, capacity) VALUES
+INSERT INTO TRAIN (train_id, route_id, departure_time, arrival_time, capacity) VALUES
 (1, 101, '05:00', '06:00', 300), (2, 101, '05:30', '06:30', 300),
 (3, 101, '06:00', '07:00', 300), (4, 101, '06:30', '07:30', 300),
 (5, 101, '07:00', '08:00', 300), (6, 102, '05:00', '06:10', 300),
@@ -38,7 +38,7 @@ INSERT INTO PRICE_TABLE (price_id, route_id, from_station_id, to_station_id, pri
 (49, 102, 17, 25, 29000.00), (50, 102, 15, 25, 33000.00);
 
 -- Mặc định khởi tạo ví điện tử cho 50 users
-INSERT INTO WALLETS (wallet_id, user_id, balance, last_updated) VALUES
+INSERT INTO WALLET (wallet_id, user_id, balance, last_updated) VALUES
 (1, 1, 450000.00, CURRENT_TIMESTAMP), (2, 2, 120000.00, CURRENT_TIMESTAMP),
 (3, 3, 350000.00, CURRENT_TIMESTAMP), (4, 4, 20000.00, CURRENT_TIMESTAMP),
 (5, 5, 150000.00, CURRENT_TIMESTAMP), (6, 6, 0.00, CURRENT_TIMESTAMP),

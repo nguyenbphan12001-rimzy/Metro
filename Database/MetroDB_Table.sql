@@ -10,7 +10,7 @@ GO
 -- NHÓM 1: CÁC BẢNG GỐC
 -- ====================================================================
 
-CREATE TABLE USERS (
+CREATE TABLE USER (
     user_id    INT PRIMARY KEY,
     user_name  VARCHAR(100) NOT NULL,
     password   VARCHAR(200) NOT NULL,
@@ -19,22 +19,22 @@ CREATE TABLE USERS (
     DoB        DATE
 );
 
-CREATE TABLE STATIONS (
+CREATE TABLE STATION (
     station_id   INT PRIMARY KEY,
     station_name VARCHAR(100) NOT NULL
 );
 
-CREATE TABLE ROUTES (
+CREATE TABLE ROUTE (
     route_id   INT PRIMARY KEY,
     route_name VARCHAR(100) NOT NULL
 );
 
-CREATE TABLE PAYMENT_METHODS (
+CREATE TABLE PAYMENT_METHOD (
     method_id   INT PRIMARY KEY,
     method_name VARCHAR(100) NOT NULL
 );
 
-CREATE TABLE TICKET_TYPES (
+CREATE TABLE TICKET_TYPE (
     type_id       INT PRIMARY KEY,
     type_name     VARCHAR(100) NOT NULL,
     price         DECIMAL(10,2) NULL CHECK (price IS NULL OR price > 0),
@@ -45,7 +45,7 @@ CREATE TABLE TICKET_TYPES (
 -- NHÓM 2: CÁC BẢNG PHỤ THUỘC LỚP 1
 -- ====================================================================
 
-CREATE TABLE ROUTESTATIONS (
+CREATE TABLE ROUTESTATION (
     route_station_id INT PRIMARY KEY,
     route_id         INT,
     station_id       INT,
@@ -55,7 +55,7 @@ CREATE TABLE ROUTESTATIONS (
     FOREIGN KEY (station_id) REFERENCES STATIONS(station_id)
 );
 
-CREATE TABLE TRAINS (
+CREATE TABLE TRAIN (
     train_id       INT PRIMARY KEY,
     route_id       INT,
     departure_time TIME NOT NULL,
@@ -64,7 +64,7 @@ CREATE TABLE TRAINS (
     FOREIGN KEY (route_id) REFERENCES ROUTES(route_id)
 );
 
-CREATE TABLE WALLETS (
+CREATE TABLE WALLET (
     wallet_id    INT PRIMARY KEY,
     user_id      INT UNIQUE,
     balance      DECIMAL(15,2) DEFAULT 500000.00 CHECK (balance >= 0), -- Mặc định sẵn 500k như nhóm chốt, ví động trừ dần khi mua vé
@@ -87,7 +87,7 @@ CREATE TABLE PRICE_TABLE (
 -- NHÓM 3: CÁC BẢNG LIÊN QUAN ĐẾN VÉ
 -- ====================================================================
 
-CREATE TABLE TICKETS (
+CREATE TABLE TICKET (
     ticket_id       INT PRIMARY KEY,
     user_id         INT,
     type_id         INT,
@@ -108,7 +108,7 @@ CREATE TABLE TICKETS (
 -- NHÓM 4: CÁC BẢNG NGHIỆP VỤ
 -- ====================================================================
 
-CREATE TABLE TRANSACTIONS (
+CREATE TABLE TRANSACTION (
     transaction_id INT PRIMARY KEY,
     user_id        INT,
     wallet_id      INT,
