@@ -15,7 +15,8 @@ CREATE TABLE USERS (
     user_name  VARCHAR(100) NOT NULL,
     password   VARCHAR(200) NOT NULL,
     role       VARCHAR(100) DEFAULT 'customer' CHECK (role IN ('customer')),
-    phone      VARCHAR(20)
+    phone      VARCHAR(20),
+    DoB        DATE
 );
 
 CREATE TABLE STATIONS (
@@ -48,6 +49,7 @@ CREATE TABLE ROUTESTATIONS (
     route_station_id INT PRIMARY KEY,
     route_id         INT,
     station_id       INT,
+    method_id      INT,
     position         INT NOT NULL CHECK (position > 0),
     FOREIGN KEY (route_id)   REFERENCES ROUTES(route_id),
     FOREIGN KEY (station_id) REFERENCES STATIONS(station_id)
