@@ -129,6 +129,16 @@ CREATE TABLE SCANNING_HISTORY (
     FOREIGN KEY (ticket_id)  REFERENCES TICKETS(ticket_id),
     FOREIGN KEY (station_id) REFERENCES STATIONS(station_id)
 );
+CREATE TABLE REFUNDS (
+    refund_id  INT PRIMARY KEY,
+    ticket_id  INT,
+    wallet_id  INT,
+    amount     DECIMAL(15,2) NOT NULL CHECK (amount > 0),
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    -- Các ràng buộc khóa ngoại để đảm bảo tính toàn vẹn dữ liệu
+    FOREIGN KEY (ticket_id) REFERENCES TICKETS(ticket_id),
+    FOREIGN KEY (wallet_id) REFERENCES WALLETS(wallet_id)
+);
 GO
 
 -- ====================================================================
