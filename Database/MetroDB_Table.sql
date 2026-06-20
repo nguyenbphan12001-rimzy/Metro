@@ -49,10 +49,9 @@ CREATE TABLE ROUTESTATION (
     route_station_id INT PRIMARY KEY,
     route_id         INT,
     station_id       INT,
-    method_id      INT,
     position         INT NOT NULL CHECK (position > 0),
-    FOREIGN KEY (route_id)   REFERENCES ROUTES(route_id),
-    FOREIGN KEY (station_id) REFERENCES STATIONS(station_id)
+    FOREIGN KEY (route_id)   REFERENCES ROUTE(route_id),
+    FOREIGN KEY (station_id) REFERENCES STATION(station_id)
 );
 
 CREATE TABLE TRAIN (
@@ -61,7 +60,7 @@ CREATE TABLE TRAIN (
     departure_time TIME NOT NULL,
     arrival_time   TIME NOT NULL,
     capacity       INT NOT NULL CHECK (capacity > 0),
-    FOREIGN KEY (route_id) REFERENCES ROUTES(route_id)
+    FOREIGN KEY (route_id) REFERENCES ROUTE(route_id)
 );
 
 CREATE TABLE WALLET (
@@ -69,7 +68,7 @@ CREATE TABLE WALLET (
     user_id      INT UNIQUE,
     balance      DECIMAL(15,2) DEFAULT 500000.00 CHECK (balance >= 0), -- Mặc định sẵn 500k như nhóm chốt, ví động trừ dần khi mua vé
     last_updated DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES USERS(user_id)
+    FOREIGN KEY (user_id) REFERENCES USER(user_id)
 );
 
 CREATE TABLE PRICE_TABLE (
@@ -78,9 +77,9 @@ CREATE TABLE PRICE_TABLE (
     from_station_id INT,
     to_station_id   INT,
     price           DECIMAL(10,2) NOT NULL CHECK (price > 0),
-    FOREIGN KEY (route_id)        REFERENCES ROUTES(route_id),
-    FOREIGN KEY (from_station_id) REFERENCES STATIONS(station_id),
-    FOREIGN KEY (to_station_id)   REFERENCES STATIONS(station_id)
+    FOREIGN KEY (route_id)        REFERENCES ROUTE(route_id),
+    FOREIGN KEY (from_station_id) REFERENCES STATION(station_id),
+    FOREIGN KEY (to_station_id)   REFERENCES STATION(station_id)
 );
 
 -- ====================================================================
@@ -97,10 +96,10 @@ CREATE TABLE TICKET (
     qr_code         VARCHAR(100) NOT NULL UNIQUE,
     status          VARCHAR(50) DEFAULT 'UNUSED' CHECK (status IN ('UNUSED', 'USED', 'EXPIRED')),
     issued_at       DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id)         REFERENCES USERS(user_id),
-    FOREIGN KEY (type_id)         REFERENCES TICKET_TYPES(type_id),
-    FOREIGN KEY (from_station_id) REFERENCES STATIONS(station_id),
-    FOREIGN KEY (to_station_id)   REFERENCES STATIONS(station_id),
+    FOREIGN KEY (user_id)         REFERENCES USER(user_id),
+    FOREIGN KEY (type_id)         REFERENCES TICKET_TYPE(type_id),
+    FOREIGN KEY (from_station_id) REFERENCES STATION(station_id),
+    FOREIGN KEY (to_station_id)   REFERENCES STATION(station_id),
     CONSTRAINT CHK_Tickets_DistinctStations CHECK (from_station_id IS NULL OR to_station_id IS NULL OR from_station_id <> to_station_id)
 );
 
@@ -112,12 +111,13 @@ CREATE TABLE TRANSACTION (
     transaction_id INT PRIMARY KEY,
     user_id        INT,
     wallet_id      INT,
+    method_id      INT,
     ticket_id      INT,
     amount         DECIMAL(15,2) NOT NULL CHECK (amount > 0),
     created_at     DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id)   REFERENCES USERS(user_id),
-    FOREIGN KEY (wallet_id) REFERENCES WALLETS(wallet_id),
-    FOREIGN KEY (ticket_id) REFERENCES TICKETS(ticket_id)
+    FOREIGN KEY (user_id)   REFERENCES USER(user_id),
+    FOREIGN KEY (wallet_id) REFERENCES WALLET(wallet_id),
+    FOREIGN KEY (ticket_id) REFERENCES TICKET(ticket_id)
 );
 
 CREATE TABLE SCANNING_HISTORY (
@@ -126,8 +126,8 @@ CREATE TABLE SCANNING_HISTORY (
     station_id INT,
     scan_type  VARCHAR(10) NOT NULL CHECK (scan_type IN ('IN','OUT')), -- Hệ thống tự động ghi nhận khi khách tự quét mã tại cổng
     scanned_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (ticket_id)  REFERENCES TICKETS(ticket_id),
-    FOREIGN KEY (station_id) REFERENCES STATIONS(station_id)
+    FOREIGN KEY (ticket_id)  REFERENCES TICKET(ticket_id),
+    FOREIGN KEY (station_id) REFERENCES STATION(station_id)
 );
 CREATE TABLE REFUNDS (
     refund_id  INT PRIMARY KEY,
@@ -136,8 +136,8 @@ CREATE TABLE REFUNDS (
     amount     DECIMAL(15,2) NOT NULL CHECK (amount > 0),
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     -- Các ràng buộc khóa ngoại để đảm bảo tính toàn vẹn dữ liệu
-    FOREIGN KEY (ticket_id) REFERENCES TICKETS(ticket_id),
-    FOREIGN KEY (wallet_id) REFERENCES WALLETS(wallet_id)
+    FOREIGN KEY (ticket_id) REFERENCES TICKET(ticket_id),
+    FOREIGN KEY (wallet_id) REFERENCES WALLET(wallet_id)
 );
 GO
 
@@ -152,10 +152,10 @@ AFTER INSERT
 AS
 BEGIN
     SET NOCOUNT ON;
-    UPDATE WALLETS
+    UPDATE WALLET
     SET balance = balance - i.amount,
         last_updated = CURRENT_TIMESTAMP
-    FROM WALLETS w
+    FROM WALLET w
     JOIN inserted i ON w.wallet_id = i.wallet_id;
 END;
 GO
@@ -164,9 +164,9 @@ GO
 -- CHỈ MỤC (INDEX) TỐI ƯU TỐC ĐỘ TRUY VẤN CHO HÀNH KHÁCH
 -- ====================================================================
 
-CREATE NONCLUSTERED INDEX IX_Tickets_UserStatus ON TICKETS(user_id, status);
-CREATE NONCLUSTERED INDEX IX_Tickets_QRCode ON TICKETS(qr_code);
+CREATE NONCLUSTERED INDEX IX_Tickets_UserStatus ON TICKET(user_id, status);
+CREATE NONCLUSTERED INDEX IX_Tickets_QRCode ON TICKET(qr_code);
 CREATE NONCLUSTERED INDEX IX_Scanning_TicketTime ON SCANNING_HISTORY(ticket_id, scanned_at);
-CREATE NONCLUSTERED INDEX IX_Transactions_UserTime ON TRANSACTIONS(user_id, created_at);
+CREATE NONCLUSTERED INDEX IX_Transactions_UserTime ON TRANSACTION(user_id, created_at);
 CREATE NONCLUSTERED INDEX IX_PriceTable_Stations ON PRICE_TABLE(from_station_id, to_station_id);
 GO
