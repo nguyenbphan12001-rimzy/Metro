@@ -1,7 +1,7 @@
 -- =========================================================
 -- 3. DỮ LIỆU VÉ VÀ GIAO DỊCH
 -- =========================================================
-USE MetroDB;
+USE Metro_Customer;
 GO
 
 INSERT INTO TICKET (ticket_id, user_id, train_id, type_id, from_station_id, to_station_id, price, qr_code, status, issued_at) VALUES

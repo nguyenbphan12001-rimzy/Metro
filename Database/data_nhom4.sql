@@ -2,9 +2,8 @@
 -- FILE 4: Insert dữ liệu bảng nghiệp vụ
 -- Chạy sau file 03_insert_nhom3.sql
 -- =========================================================
-USE MetroDB;
+USE Metro_Customer;
 GO
-
 -- =========================================================
 -- 4. DỮ LIỆU LỊCH SỬ QUÉT CỔNG (TỰ ĐỘNG, KHÔNG STAFF)
 -- =========================================================

@@ -1,7 +1,7 @@
 -- =========================================================
 -- 2. DỮ LIỆU HẠ TẦNG (ROUTESTATIONS, TRAINS, PRICE_TABLE, WALLETS)
 -- =========================================================
-USE MetroDB;
+USE Metro_Customer;
 GO
 INSERT INTO ROUTESTATION (route_station_id, route_id, station_id, position) VALUES
 (1, 101, 1, 1), (2, 101, 2, 2), (3, 101, 3, 3), (4, 101, 4, 4), (5, 101, 5, 5),
