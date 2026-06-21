@@ -83,6 +83,7 @@ CREATE TABLE WALLET (
     FOREIGN KEY (user_id) REFERENCES [USER](user_id) -- Gọi đến [USER]
 );
 
+
 CREATE TABLE PRICE_TABLE (
     price_id        INT PRIMARY KEY,
     route_id        INT,
@@ -116,6 +117,17 @@ CREATE TABLE TICKET (
     FOREIGN KEY (to_station_id)   REFERENCES STATION(station_id),
     CONSTRAINT CHK_Tickets_DistinctStations CHECK (from_station_id IS NULL OR to_station_id IS NULL OR from_station_id <> to_station_id)
 );
+CREATE TABLE DEPOSIT_HISTORY (
+    deposit_id INT PRIMARY KEY,
+    wallet_id  INT,
+    user_id    INT,
+    method_id  INT,
+    amount     DECIMAL(15,2) NOT NULL CHECK (amount > 0),
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (wallet_id) REFERENCES WALLET(wallet_id),
+    FOREIGN KEY (user_id)   REFERENCES [USER](user_id),
+    FOREIGN KEY (method_id) REFERENCES PAYMENT_METHOD(method_id)
+);
 
 -- ====================================================================
 -- NHÓM 4: CÁC BẢNG NGHIỆP VỤ
@@ -126,7 +138,6 @@ CREATE TABLE [TRANSACTION] (
     transaction_id INT PRIMARY KEY,
     user_id        INT,
     wallet_id      INT,
-    method_id      INT,
     ticket_id      INT,
     amount         DECIMAL(15,2) NOT NULL CHECK (amount > 0),
     created_at     DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -178,6 +189,24 @@ BEGIN
 END;
 GO
 
+
+CREATE TRIGGER trg_after_deposit
+ON DEPOSIT_HISTORY
+AFTER INSERT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    UPDATE w
+    SET w.balance = w.balance + agg.total_amount,
+        w.last_updated = CURRENT_TIMESTAMP
+    FROM WALLET w
+    JOIN (
+        SELECT wallet_id, SUM(amount) AS total_amount
+        FROM inserted
+        GROUP BY wallet_id
+    ) agg ON w.wallet_id = agg.wallet_id;
+END;
+GO
 -- ====================================================================
 -- CHỈ MỤC (INDEX) TỐI ƯU TỐC ĐỘ TRUY VẤN
 -- ====================================================================
@@ -187,4 +216,5 @@ CREATE NONCLUSTERED INDEX IX_Tickets_QRCode ON TICKET(qr_code);
 CREATE NONCLUSTERED INDEX IX_Scanning_TicketTime ON SCANNING_HISTORY(ticket_id, scanned_at);
 CREATE NONCLUSTERED INDEX IX_Transactions_UserTime ON [TRANSACTION](user_id, created_at); -- Đưa về bảng số ít có ngoặc vuông
 CREATE NONCLUSTERED INDEX IX_PriceTable_Stations ON PRICE_TABLE(from_station_id, to_station_id);
+CREATE NONCLUSTERED INDEX IX_Deposit_WalletTime ON DEPOSIT_HISTORY(wallet_id, created_at);
 GO
