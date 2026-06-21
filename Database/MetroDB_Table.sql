@@ -1,5 +1,3 @@
-
-
 CREATE DATABASE MetroDB;
 GO
 
@@ -10,7 +8,8 @@ GO
 -- NHÓM 1: CÁC BẢNG GỐC
 -- ====================================================================
 
-CREATE TABLE USER (
+-- Đổi từ USER thành USERS để tránh trùng từ khóa hệ thống
+CREATE TABLE USERS (
     user_id    INT PRIMARY KEY,
     user_name  VARCHAR(100) NOT NULL,
     password   VARCHAR(200) NOT NULL,
@@ -66,9 +65,9 @@ CREATE TABLE TRAIN (
 CREATE TABLE WALLET (
     wallet_id    INT PRIMARY KEY,
     user_id      INT UNIQUE,
-    balance      DECIMAL(15,2) DEFAULT 500000.00 CHECK (balance >= 0), -- Mặc định sẵn 500k như nhóm chốt, ví động trừ dần khi mua vé
+    balance      DECIMAL(15,2) DEFAULT 500000.00 CHECK (balance >= 0),
     last_updated DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES USER(user_id)
+    FOREIGN KEY (user_id) REFERENCES USERS(user_id) -- Cập nhật theo USERS
 );
 
 CREATE TABLE PRICE_TABLE (
@@ -89,6 +88,7 @@ CREATE TABLE PRICE_TABLE (
 CREATE TABLE TICKET (
     ticket_id       INT PRIMARY KEY,
     user_id         INT,
+    train_id        INT, -- THÊM VÀO ĐỂ KHỚP VỚI FILE INSERT DỮ LIỆU CỦA EM
     type_id         INT,
     from_station_id INT NULL,
     to_station_id   INT NULL,
@@ -96,7 +96,8 @@ CREATE TABLE TICKET (
     qr_code         VARCHAR(100) NOT NULL UNIQUE,
     status          VARCHAR(50) DEFAULT 'UNUSED' CHECK (status IN ('UNUSED', 'USED', 'EXPIRED')),
     issued_at       DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id)         REFERENCES USER(user_id),
+    FOREIGN KEY (user_id)         REFERENCES USERS(user_id), -- Cập nhật theo USERS
+    FOREIGN KEY (train_id)        REFERENCES TRAIN(train_id), -- Khóa ngoại bổ sung
     FOREIGN KEY (type_id)         REFERENCES TICKET_TYPE(type_id),
     FOREIGN KEY (from_station_id) REFERENCES STATION(station_id),
     FOREIGN KEY (to_station_id)   REFERENCES STATION(station_id),
@@ -107,7 +108,8 @@ CREATE TABLE TICKET (
 -- NHÓM 4: CÁC BẢNG NGHIỆP VỤ
 -- ====================================================================
 
-CREATE TABLE TRANSACTION (
+-- Đổi từ TRANSACTION thành TRANSACTIONS để tránh trùng từ khóa hệ thống
+CREATE TABLE TRANSACTIONS (
     transaction_id INT PRIMARY KEY,
     user_id        INT,
     wallet_id      INT,
@@ -115,7 +117,7 @@ CREATE TABLE TRANSACTION (
     ticket_id      INT,
     amount         DECIMAL(15,2) NOT NULL CHECK (amount > 0),
     created_at     DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id)   REFERENCES USER(user_id),
+    FOREIGN KEY (user_id)   REFERENCES USERS(user_id), -- Cập nhật theo USERS
     FOREIGN KEY (wallet_id) REFERENCES WALLET(wallet_id),
     FOREIGN KEY (ticket_id) REFERENCES TICKET(ticket_id)
 );
@@ -124,28 +126,28 @@ CREATE TABLE SCANNING_HISTORY (
     scan_id    INT PRIMARY KEY,
     ticket_id  INT,
     station_id INT,
-    scan_type  VARCHAR(10) NOT NULL CHECK (scan_type IN ('IN','OUT')), -- Hệ thống tự động ghi nhận khi khách tự quét mã tại cổng
+    scan_type  VARCHAR(10) NOT NULL CHECK (scan_type IN ('IN','OUT')),
     scanned_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (ticket_id)  REFERENCES TICKET(ticket_id),
     FOREIGN KEY (station_id) REFERENCES STATION(station_id)
 );
+
 CREATE TABLE REFUNDS (
     refund_id  INT PRIMARY KEY,
     ticket_id  INT,
     wallet_id  INT,
     amount     DECIMAL(15,2) NOT NULL CHECK (amount > 0),
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    -- Các ràng buộc khóa ngoại để đảm bảo tính toàn vẹn dữ liệu
     FOREIGN KEY (ticket_id) REFERENCES TICKET(ticket_id),
     FOREIGN KEY (wallet_id) REFERENCES WALLET(wallet_id)
 );
 GO
 
 -- ====================================================================
--- TRIGGER TỰ ĐỘNG HÓA (Đảm bảo tính nhất quán dữ liệu ví điện tử)
+-- TRIGGER TỰ ĐỘNG HÓA
 -- ====================================================================
 
--- Kích hoạt sau khi INSERT vào TRANSACTIONS, tự động trừ số tiền (amount) khỏi số dư (balance) của ví hành khách
+-- Đã sửa đồng bộ bảng TRANSACTIONS (số nhiều)
 CREATE TRIGGER trg_after_transaction
 ON TRANSACTIONS
 AFTER INSERT
@@ -161,12 +163,12 @@ END;
 GO
 
 -- ====================================================================
--- CHỈ MỤC (INDEX) TỐI ƯU TỐC ĐỘ TRUY VẤN CHO HÀNH KHÁCH
+-- CHỈ MỤC (INDEX) TỐI ƯU TỐC ĐỘ TRUY VẤN
 -- ====================================================================
 
 CREATE NONCLUSTERED INDEX IX_Tickets_UserStatus ON TICKET(user_id, status);
 CREATE NONCLUSTERED INDEX IX_Tickets_QRCode ON TICKET(qr_code);
 CREATE NONCLUSTERED INDEX IX_Scanning_TicketTime ON SCANNING_HISTORY(ticket_id, scanned_at);
-CREATE NONCLUSTERED INDEX IX_Transactions_UserTime ON TRANSACTION(user_id, created_at);
+CREATE NONCLUSTERED INDEX IX_Transactions_UserTime ON TRANSACTIONS(user_id, created_at); -- Sửa tên bảng ở đây
 CREATE NONCLUSTERED INDEX IX_PriceTable_Stations ON PRICE_TABLE(from_station_id, to_station_id);
 GO
