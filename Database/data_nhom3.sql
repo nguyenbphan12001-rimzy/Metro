@@ -1,6 +1,5 @@
 -- =========================================================
 -- 3. DỮ LIỆU VÉ VÀ GIAO DỊCH
--- (Đã xóa các vé CANCELLED số 56-60)
 -- =========================================================
 USE MetroDB;
 GO
@@ -62,7 +61,8 @@ INSERT INTO TICKET (ticket_id, user_id, train_id, type_id, from_station_id, to_s
 (54, 10, 4, 1, 1, 8, 21000.00, 'QR_054', 'EXPIRED', '2026-05-01 06:40:00'),
 (55, 11, 5, 1, 1, 22, 29000.00, 'QR_055', 'EXPIRED', '2026-05-01 07:10:00');
 
-INSERT INTO TRANSACTION (transaction_id, user_id, wallet_id, ticket_id, amount, created_at) VALUES
+-- Chuyển TRANSACTION thành [TRANSACTION] có bọc ngoặc vuông
+INSERT INTO [TRANSACTION] (transaction_id, user_id, wallet_id, ticket_id, amount, created_at) VALUES
 (1, 4, 4, 1, 19000.00, '2026-05-28 05:10:00'), (2, 5, 5, 2, 8000.00, '2026-05-28 05:40:00'),
 (3, 6, 6, 3, 20000.00, '2026-05-28 06:10:00'), (4, 7, 7, 4, 6000.00, '2026-05-28 06:40:00'),
 (5, 8, 8, 5, 9000.00, '2026-05-28 07:10:00'), (6, 9, 9, 6, 40000.00, '2026-05-28 05:10:00'),

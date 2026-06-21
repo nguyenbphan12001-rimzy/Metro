@@ -1,4 +1,3 @@
-
 USE MetroDB;
 GO
 
@@ -29,8 +28,8 @@ INSERT INTO TICKET_TYPE (type_id, type_name, price, validity_days) VALUES
 (3, 'Vé tháng SV',   100000.00, 30),
 (4, 'Vé tháng PT',   200000.00, 30);
 
--- Lưu ý: Đổi role của 3 user đầu tiên thành 'customer'
-INSERT INTO USER (user_id, user_name, password, role, phone) VALUES
+-- Lưu ý: Đổi role của 3 user đầu tiên thành 'customer' và bọc [USER]
+INSERT INTO [USER] (user_id, user_name, password, role, phone) VALUES
 (1, 'user_1', 'hashed_pw', 'customer', '0911234501'), (2, 'user_2', 'hashed_pw', 'customer', '0911234502'),
 (3, 'user_3', 'hashed_pw', 'customer', '0911234503'), (4, 'user_4', 'hashed_pw', 'customer', '0901234504'),
 (5, 'user_5', 'hashed_pw', 'customer', '0901234505'), (6, 'user_6', 'hashed_pw', 'customer', '0901234506'),
@@ -56,15 +55,16 @@ INSERT INTO USER (user_id, user_name, password, role, phone) VALUES
 (45, 'user_45', 'hashed_pw', 'customer', '0901234545'), (46, 'user_46', 'hashed_pw', 'customer', '0901234546'),
 (47, 'user_47', 'hashed_pw', 'customer', '0901234547'), (48, 'user_48', 'hashed_pw', 'customer', '0901234548'),
 (49, 'user_49', 'hashed_pw', 'customer', '0901234549'), (50, 'user_50', 'hashed_pw', 'customer', '0901234550');
+
 -- ====================================================================
 -- DỮ LIỆU BỔ SUNG CHO FILE 1: 01_insert_nhom1.sql
 -- Thêm Khách hàng mới cho các kịch bản Edge Cases & Temporal Data
 -- ====================================================================
 
-INSERT INTO USER (user_id, user_name, password, role, phone) VALUES
-(51, 'user_edge_zero',   'hashed_password_default', 'customer', '0901234551'), -- Khách hàng có ví 0đ để test chặn mua vé
-(52, 'user_temporal_apr', 'hashed_password_default', 'customer', '0901234552'), -- Khách hàng tạo dữ liệu trong quá khứ (Tháng 4)
-(53, 'user_temporal_jul', 'hashed_password_default', 'customer', '0901234553'), -- Khách hàng tạo dữ liệu trong tương lai (Tháng 7)
-(54, 'user_stress_scan',  'hashed_password_default', 'customer', '0901234554'), -- Khách hàng test kịch bản quét vé dồn dập
-(55, 'user_refund_test',  'hashed_password_default', 'customer', '0901234555'); -- Khách hàng test kịch bản Hủy / Hoàn tiền vé
+INSERT INTO [USER] (user_id, user_name, password, role, phone) VALUES
+(51, 'user_edge_zero',   'hashed_password_default', 'customer', '0901234551'),
+(52, 'user_temporal_apr', 'hashed_password_default', 'customer', '0901234552'),
+(53, 'user_temporal_jul', 'hashed_password_default', 'customer', '0901234553'),
+(54, 'user_stress_scan',  'hashed_password_default', 'customer', '0901234554'),
+(55, 'user_refund_test',  'hashed_password_default', 'customer', '0901234555');
 GO
