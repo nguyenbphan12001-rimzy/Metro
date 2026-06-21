@@ -1,15 +1,28 @@
-CREATE DATABASE MetroDB;
+-- ====================================================================
+-- TỰ ĐỘNG DỌN DẸP: XÓA DATABASE CŨ NẾU ĐÃ TỒN TẠI ĐỂ TRÁNH LỖI TRÙNG ĐỐI TƯỢNG
+-- ====================================================================
+USE master;
 GO
 
-USE MetroDB;
+IF EXISTS (SELECT name FROM sys.databases WHERE name = N'Metro_Customer')
+BEGIN
+    ALTER DATABASE Metro_Customer SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+    DROP DATABASE Metro_Customer;
+END
+GO
+
+CREATE DATABASE Metro_Customer;
+GO
+
+USE Metro_Customer;
 GO
 
 -- ====================================================================
 -- NHÓM 1: CÁC BẢNG GỐC
 -- ====================================================================
 
--- Đổi từ USER thành USERS để tránh trùng từ khóa hệ thống
-CREATE TABLE USERS (
+-- Giữ nguyên USER dạng số ít bằng cách bọc dấu [ ]
+CREATE TABLE [USER] (
     user_id    INT PRIMARY KEY,
     user_name  VARCHAR(100) NOT NULL,
     password   VARCHAR(200) NOT NULL,
@@ -67,7 +80,7 @@ CREATE TABLE WALLET (
     user_id      INT UNIQUE,
     balance      DECIMAL(15,2) DEFAULT 500000.00 CHECK (balance >= 0),
     last_updated DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES USERS(user_id) -- Cập nhật theo USERS
+    FOREIGN KEY (user_id) REFERENCES [USER](user_id) -- Gọi đến [USER]
 );
 
 CREATE TABLE PRICE_TABLE (
@@ -88,7 +101,7 @@ CREATE TABLE PRICE_TABLE (
 CREATE TABLE TICKET (
     ticket_id       INT PRIMARY KEY,
     user_id         INT,
-    train_id        INT, -- THÊM VÀO ĐỂ KHỚP VỚI FILE INSERT DỮ LIỆU CỦA EM
+    train_id        INT,
     type_id         INT,
     from_station_id INT NULL,
     to_station_id   INT NULL,
@@ -96,8 +109,8 @@ CREATE TABLE TICKET (
     qr_code         VARCHAR(100) NOT NULL UNIQUE,
     status          VARCHAR(50) DEFAULT 'UNUSED' CHECK (status IN ('UNUSED', 'USED', 'EXPIRED')),
     issued_at       DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id)         REFERENCES USERS(user_id), -- Cập nhật theo USERS
-    FOREIGN KEY (train_id)        REFERENCES TRAIN(train_id), -- Khóa ngoại bổ sung
+    FOREIGN KEY (user_id)         REFERENCES [USER](user_id), -- Gọi đến [USER]
+    FOREIGN KEY (train_id)        REFERENCES TRAIN(train_id),
     FOREIGN KEY (type_id)         REFERENCES TICKET_TYPE(type_id),
     FOREIGN KEY (from_station_id) REFERENCES STATION(station_id),
     FOREIGN KEY (to_station_id)   REFERENCES STATION(station_id),
@@ -108,8 +121,8 @@ CREATE TABLE TICKET (
 -- NHÓM 4: CÁC BẢNG NGHIỆP VỤ
 -- ====================================================================
 
--- Đổi từ TRANSACTION thành TRANSACTIONS để tránh trùng từ khóa hệ thống
-CREATE TABLE TRANSACTIONS (
+-- Giữ nguyên TRANSACTION dạng số ít bằng cách bọc dấu [ ]
+CREATE TABLE [TRANSACTION] (
     transaction_id INT PRIMARY KEY,
     user_id        INT,
     wallet_id      INT,
@@ -117,7 +130,7 @@ CREATE TABLE TRANSACTIONS (
     ticket_id      INT,
     amount         DECIMAL(15,2) NOT NULL CHECK (amount > 0),
     created_at     DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id)   REFERENCES USERS(user_id), -- Cập nhật theo USERS
+    FOREIGN KEY (user_id)   REFERENCES [USER](user_id), -- Gọi đến [USER]
     FOREIGN KEY (wallet_id) REFERENCES WALLET(wallet_id),
     FOREIGN KEY (ticket_id) REFERENCES TICKET(ticket_id)
 );
@@ -147,9 +160,8 @@ GO
 -- TRIGGER TỰ ĐỘNG HÓA
 -- ====================================================================
 
--- Đã sửa đồng bộ bảng TRANSACTIONS (số nhiều)
 CREATE TRIGGER trg_after_transaction
-ON TRANSACTIONS
+ON [TRANSACTION] -- Đưa về bảng số ít có ngoặc vuông
 AFTER INSERT
 AS
 BEGIN
@@ -169,6 +181,6 @@ GO
 CREATE NONCLUSTERED INDEX IX_Tickets_UserStatus ON TICKET(user_id, status);
 CREATE NONCLUSTERED INDEX IX_Tickets_QRCode ON TICKET(qr_code);
 CREATE NONCLUSTERED INDEX IX_Scanning_TicketTime ON SCANNING_HISTORY(ticket_id, scanned_at);
-CREATE NONCLUSTERED INDEX IX_Transactions_UserTime ON TRANSACTIONS(user_id, created_at); -- Sửa tên bảng ở đây
+CREATE NONCLUSTERED INDEX IX_Transactions_UserTime ON [TRANSACTION](user_id, created_at); -- Đưa về bảng số ít có ngoặc vuông
 CREATE NONCLUSTERED INDEX IX_PriceTable_Stations ON PRICE_TABLE(from_station_id, to_station_id);
 GO
