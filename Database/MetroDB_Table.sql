@@ -161,16 +161,20 @@ GO
 -- ====================================================================
 
 CREATE TRIGGER trg_after_transaction
-ON [TRANSACTION] -- Đưa về bảng số ít có ngoặc vuông
+ON [TRANSACTION]
 AFTER INSERT
 AS
 BEGIN
     SET NOCOUNT ON;
-    UPDATE WALLET
-    SET balance = balance - i.amount,
-        last_updated = CURRENT_TIMESTAMP
+    UPDATE w
+    SET w.balance = w.balance - agg.total_amount,
+        w.last_updated = CURRENT_TIMESTAMP
     FROM WALLET w
-    JOIN inserted i ON w.wallet_id = i.wallet_id;
+    JOIN (
+        SELECT wallet_id, SUM(amount) AS total_amount
+        FROM inserted
+        GROUP BY wallet_id
+    ) agg ON w.wallet_id = agg.wallet_id;
 END;
 GO
 
