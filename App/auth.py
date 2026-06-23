@@ -10,6 +10,7 @@ def login(user_name, password):
         (user_name, password)
     )
     user = cursor.fetchone()
+    print(f"DEBUG LOGIN -> Thử đăng nhập với: {user_name} | Kết quả tìm thấy: {user}")
     conn.close()
 
     if user:

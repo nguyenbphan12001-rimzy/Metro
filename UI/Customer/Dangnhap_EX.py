@@ -1,8 +1,8 @@
-from PyQt6.QtWidgets import QMessageBox
+from PyQt6.QtWidgets import QMessageBox, QMainWindow
 
 from UI.Customer.Dangnhap import Ui_LoginWindow
 from App.auth import login
-
+from UI.Customer.Dangky_Ex import Dangky_EX
 
 class Dangnhap_EX(Ui_LoginWindow):
     def setupUi(self, MainWindow):
@@ -30,3 +30,14 @@ class Dangnhap_EX(Ui_LoginWindow):
         ui.setupUi(self.wallet_window, user_id)
         self.wallet_window.show()
         self.MainWindow.close()
+
+    def open_register_window(self):
+        """Mở cửa sổ đăng ký và tạm ẩn cửa sổ đăng nhập hiện tại."""
+
+        self.register_window = QMainWindow()
+        self.register_ui = Dangky_EX()
+
+        self.register_ui.setupUi(self.register_window, login_controller=self)
+
+        self.register_window.show()
+        self.MainWindow.hide()
