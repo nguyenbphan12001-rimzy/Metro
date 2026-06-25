@@ -13,7 +13,7 @@ class Dangky_EX(Ui_RegisterWindow):
         self.MainWindow = MainWindow
         self.login_controller = login_controller  # Giữ liên kết với màn hình đăng nhập
 
-        # KẾT NỐI SỰ KIỆN NÚT BẤM (Đã đổi sang btn_dangky theo đúng giao diện của bạn)
+        # KẾT NỐI SỰ KIỆN NÚT BẤM (Đã đổi sang btn_dangky theo đúng giao diện)
         self.btn_dangky.clicked.connect(self.handle_registration)
         self.btn_back_login.clicked.connect(self.back_to_login)  # Chữ Đăng nhập ngay
 

@@ -1,5 +1,5 @@
 from UI.Customer.KhachHang import Ui_DashboardWindow
-from App.wallet import get_wallet
+from MyCollection.wallet import get_wallet
 
 
 class KhachHang_EX(Ui_DashboardWindow):
@@ -14,7 +14,7 @@ class KhachHang_EX(Ui_DashboardWindow):
         self.card_buy.mousePressEvent = lambda event: self.open_buy_ticket()
 
     def open_buy_ticket(self):
-        from UI.Customer.Thanhtoan_EX import ThanhToan_EX   # đổi tên đúng theo file EX màn thanh toán của mày
+        from UI.Customer.Thanhtoan_EX import ThanhToan_EX
         from PyQt6.QtWidgets import QMainWindow
 
         self.buy_window = QMainWindow()

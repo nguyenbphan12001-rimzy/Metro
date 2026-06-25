@@ -1,7 +1,7 @@
 from PyQt6.QtWidgets import QMessageBox, QMainWindow
 
 from UI.Customer.Dangnhap import Ui_LoginWindow
-from App.auth import login
+from MyCollection.auth import login
 from UI.Customer.Dangky_Ex import Dangky_EX
 
 class Dangnhap_EX(Ui_LoginWindow):
