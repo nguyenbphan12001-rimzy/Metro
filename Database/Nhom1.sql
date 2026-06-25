@@ -4,7 +4,7 @@ GO
 -- =========================================================
 -- 1. DỮ LIỆU BẢNG GỐC (ROUTES, STATIONS, PAYMENT_METHODS, TICKET_TYPES, USERS)
 -- =========================================================
-IINSERT INTO STATION (station_id, station_name) VALUES
+INSERT INTO STATION (station_id, station_name) VALUES
 (1, N'Ga Bến Thành'), (2, N'Ga Nhà hát Thành phố'), (3, N'Ga Ba Son'),
 (4, N'Ga Công viên Văn Thánh'), (5, N'Ga Tân Cảng'), (6, N'Ga Thảo Điền'),
 (7, N'Ga An Phú'), (8, N'Ga Rạch Chiếc'), (9, N'Ga Phước Long'),
