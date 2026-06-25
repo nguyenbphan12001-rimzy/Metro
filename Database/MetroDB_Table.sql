@@ -33,26 +33,25 @@ CREATE TABLE [USER] (
 
 CREATE TABLE STATION (
     station_id   INT PRIMARY KEY,
-    station_name VARCHAR(100) NOT NULL
+    station_name NVARCHAR(100) NOT NULL
 );
 
 CREATE TABLE ROUTE (
     route_id   INT PRIMARY KEY,
-    route_name VARCHAR(100) NOT NULL
+    route_name NVARCHAR(100) NOT NULL
 );
 
 CREATE TABLE PAYMENT_METHOD (
     method_id   INT PRIMARY KEY,
-    method_name VARCHAR(100) NOT NULL
+    method_name NVARCHAR(100) NOT NULL
 );
 
 CREATE TABLE TICKET_TYPE (
     type_id       INT PRIMARY KEY,
-    type_name     VARCHAR(100) NOT NULL,
+    type_name     NVARCHAR(100) NOT NULL,
     price         DECIMAL(10,2) NULL CHECK (price IS NULL OR price > 0),
     validity_days INT NULL CHECK (validity_days IS NULL OR validity_days > 0)
 );
-
 -- ====================================================================
 -- NHÓM 2: CÁC BẢNG PHỤ THUỘC LỚP 1
 -- ====================================================================

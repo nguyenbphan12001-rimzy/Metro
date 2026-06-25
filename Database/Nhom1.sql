@@ -4,29 +4,29 @@ GO
 -- =========================================================
 -- 1. DỮ LIỆU BẢNG GỐC (ROUTES, STATIONS, PAYMENT_METHODS, TICKET_TYPES, USERS)
 -- =========================================================
-INSERT INTO ROUTE (route_id, route_name) VALUES
-(101, 'Tuyến số 1 (Bến Thành - Suối Tiên)'),
-(102, 'Tuyến số 2 (Bến Thành - Tham Lương)');
+IINSERT INTO STATION (station_id, station_name) VALUES
+(1, N'Ga Bến Thành'), (2, N'Ga Nhà hát Thành phố'), (3, N'Ga Ba Son'),
+(4, N'Ga Công viên Văn Thánh'), (5, N'Ga Tân Cảng'), (6, N'Ga Thảo Điền'),
+(7, N'Ga An Phú'), (8, N'Ga Rạch Chiếc'), (9, N'Ga Phước Long'),
+(10, N'Ga Bình Thái'), (11, N'Ga Thủ Đức'), (12, N'Ga Khu Công nghệ cao'),
+(13, N'Ga Đại học Quốc Gia'), (14, N'Ga Bến xe Suối Tiên'), (15, N'Ga Tao Đàn'),
+(16, N'Ga Dân Chủ'), (17, N'Ga Hòa Hưng'), (18, N'Ga Lê Thị Riêng'),
+(19, N'Ga Phạm Văn Hai'), (20, N'Ga Trường Chinh'), (21, N'Ga Bà Quẹo'),
+(22, N'Ga Đồng Đen'), (23, N'Ga Nguyễn Hồng Đào'), (24, N'Ga Tàu Trường Chinh'),
+(25, N'Ga Tham Lương');
 
-INSERT INTO STATION (station_id, station_name) VALUES
-(1, 'Ga Bến Thành'), (2, 'Ga Nhà hát Thành phố'), (3, 'Ga Ba Son'),
-(4, 'Ga Công viên Văn Thánh'), (5, 'Ga Tân Cảng'), (6, 'Ga Thảo Điền'),
-(7, 'Ga An Phú'), (8, 'Ga Rạch Chiếc'), (9, 'Ga Phước Long'),
-(10, 'Ga Bình Thái'), (11, 'Ga Thủ Đức'), (12, 'Ga Khu Công nghệ cao'),
-(13, 'Ga Đại học Quốc Gia'), (14, 'Ga Bến xe Suối Tiên'), (15, 'Ga Tao Đàn'),
-(16, 'Ga Dân Chủ'), (17, 'Ga Hòa Hưng'), (18, 'Ga Lê Thị Riêng'),
-(19, 'Ga Phạm Văn Hai'), (20, 'Ga Trường Chinh'), (21, 'Ga Bà Quẹo'),
-(22, 'Ga Đồng Đen'), (23, 'Ga Nguyễn Hồng Đào'), (24, 'Ga Tàu Trường Chinh'),
-(25, 'Ga Tham Lương');
+INSERT INTO ROUTE (route_id, route_name) VALUES
+(101, N'Tuyến số 1 (Bến Thành - Suối Tiên)'),
+(102, N'Tuyến số 2 (Bến Thành - Tham Lương)');
 
 INSERT INTO PAYMENT_METHOD (method_id, method_name) VALUES
-(1, 'Tiền mặt'), (2, 'Thẻ tín dụng'), (3, 'MoMo'), (4, 'VNPay');
+(1, N'Tiền mặt'), (2, N'Thẻ tín dụng'), (3, N'MoMo'), (4, N'VNPay');
 
 INSERT INTO TICKET_TYPE (type_id, type_name, price, validity_days) VALUES
-(1, 'Vé lượt',       NULL,      NULL),
-(2, 'Vé ngày',       40000.00,  1),
-(3, 'Vé tháng SV',   100000.00, 30),
-(4, 'Vé tháng PT',   200000.00, 30);
+(1, N'Vé lượt',       NULL,      NULL),
+(2, N'Vé ngày',       40000.00,  1),
+(3, N'Vé tháng SV',   100000.00, 30),
+(4, N'Vé tháng PT',   200000.00, 30);
 
 -- 5 user đầu: người cao tuổi (>=60 tuổi tính theo năm 2026) -> test miễn phí vé
 INSERT INTO [USER] (user_id, user_name, password, role, phone, DoB) VALUES
