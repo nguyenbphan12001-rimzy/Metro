@@ -1,0 +1,549 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>RouteStationWindow</class>
+ <widget class="QMainWindow" name="RouteStationWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>450</width>
+    <height>703</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Quản lý Tuyến đường &amp; Nhà ga</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">
+    QMainWindow { background-color: #EBF1F5; }
+    #central_panel { background-color: #FFFFFF; border-radius: 16px; }
+    QLabel#lbl_title { color: #0A2540; font-weight: bold; font-size: 16px; }
+    QLabel#lbl_sub_route { color: #4A5568; font-weight: bold; font-size: 12px; }
+    QComboBox { border: 1px solid #CBD5E0; border-radius: 6px; padding: 6px 12px; background-color: #FFFFFF; color: #2D3748; }
+    QPushButton#btn_add_route { background-color: #3182CE; color: #FFFFFF; border-radius: 6px; font-weight: bold; padding: 8px; }
+    QPushButton#btn_add_route:hover { background-color: #2B6CB0; }
+    QFrame.station_item { background-color: #F7FAFC; border: 1px solid #E2E8F0; border-radius: 10px; }
+    QLabel.lbl_pos { color: #718096; font-weight: bold; }
+    QLabel.lbl_station_name { color: #2D3748; font-weight: bold; font-size: 13px; }
+    QPushButton.action_btn { background-color: #FFFFFF; border: 1px solid #CBD5E0; border-radius: 4px; max-width: 28px; max-height: 28px; min-width: 28px; min-height: 28px; }
+    QPushButton.action_btn:hover { background-color: #EDF2F7; }
+    QPushButton#btn_add_station { background-color: #3182CE; color: #FFFFFF; border-radius: 6px; font-weight: bold; padding: 8px; }
+    QPushButton#btn_add_station:hover { background-color: #2B6CB0; }
+   </string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="main_layout">
+    <property name="spacing">
+     <number>12</number>
+    </property>
+    <property name="leftMargin">
+     <number>15</number>
+    </property>
+    <property name="topMargin">
+     <number>15</number>
+    </property>
+    <property name="rightMargin">
+     <number>15</number>
+    </property>
+    <property name="bottomMargin">
+     <number>15</number>
+    </property>
+    <item>
+     <widget class="QFrame" name="central_panel">
+      <property name="styleSheet">
+       <string notr="true">background-color: #F0FAFF ;</string>
+      </property>
+      <layout class="QVBoxLayout" name="panel_layout">
+       <property name="spacing">
+        <number>12</number>
+       </property>
+       <property name="leftMargin">
+        <number>15</number>
+       </property>
+       <property name="topMargin">
+        <number>15</number>
+       </property>
+       <property name="rightMargin">
+        <number>15</number>
+       </property>
+       <property name="bottomMargin">
+        <number>15</number>
+       </property>
+       <item>
+        <layout class="QHBoxLayout" name="header_layout">
+         <item>
+          <widget class="QLabel" name="lbl_title">
+           <property name="text">
+            <string>Quản lý Tuyến đường &amp; Nhà ga</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="header_spacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>0</width>
+             <height>0</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btn_back">
+           <property name="text">
+            <string> Đóng</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QLabel" name="lbl_sub_route">
+         <property name="font">
+          <font>
+           <pointsize>-1</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Tuyến đường</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="combo_routes">
+         <property name="font">
+          <font>
+           <pointsize>9</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">border-radius: 6px; padding: 8px;
+background-color: rgb(255, 255, 255);</string>
+         </property>
+         <item>
+          <property name="text">
+           <string>Tuyến 1: Bến Thành - Suối Tiên</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btn_add_route">
+         <property name="font">
+          <font>
+           <pointsize>9</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: #29B6F6;</string>
+         </property>
+         <property name="text">
+          <string>+ Thêm Tuyến đường Mới</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QScrollArea" name="scrollArea">
+         <property name="styleSheet">
+          <string notr="true">QScrollArea { border: none; background-color: transparent; }</string>
+         </property>
+         <property name="widgetResizable">
+          <bool>true</bool>
+         </property>
+         <widget class="QWidget" name="scrollAreaWidgetContents">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>390</width>
+            <height>433</height>
+           </rect>
+          </property>
+          <layout class="QVBoxLayout" name="scroll_layout">
+           <property name="spacing">
+            <number>8</number>
+           </property>
+           <item>
+            <widget class="QFrame" name="station_1">
+             <property name="styleSheet">
+              <string notr="true">background-color: rgb(255, 255, 255);</string>
+             </property>
+             <property name="class" stdset="0">
+              <string>station_item</string>
+             </property>
+             <layout class="QHBoxLayout" name="st1_lay">
+              <item>
+               <widget class="QLabel" name="st1_pos">
+                <property name="text">
+                 <string>[Pos 1]</string>
+                </property>
+                <property name="class" stdset="0">
+                 <string>lbl_pos</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="st1_name">
+                <property name="font">
+                 <font>
+                  <pointsize>-1</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Bến Thành</string>
+                </property>
+                <property name="class" stdset="0">
+                 <string>lbl_station_name</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="st1_space">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>0</width>
+                  <height>0</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QPushButton" name="st1_edit">
+                <property name="text">
+                 <string>✏️</string>
+                </property>
+                <property name="class" stdset="0">
+                 <string>action_btn</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="st1_up">
+                <property name="text">
+                 <string>🔼</string>
+                </property>
+                <property name="class" stdset="0">
+                 <string>action_btn</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="st1_down">
+                <property name="text">
+                 <string>🔽</string>
+                </property>
+                <property name="class" stdset="0">
+                 <string>action_btn</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="st1_del">
+                <property name="text">
+                 <string>🗑️</string>
+                </property>
+                <property name="class" stdset="0">
+                 <string>action_btn</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QFrame" name="station_2">
+             <property name="styleSheet">
+              <string notr="true">background-color: rgb(255, 255, 255);</string>
+             </property>
+             <property name="class" stdset="0">
+              <string>station_item</string>
+             </property>
+             <layout class="QHBoxLayout" name="st2_lay">
+              <item>
+               <widget class="QLabel" name="st2_pos">
+                <property name="text">
+                 <string>[Pos 2]</string>
+                </property>
+                <property name="class" stdset="0">
+                 <string>lbl_pos</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="st2_name">
+                <property name="text">
+                 <string>Văn Thánh</string>
+                </property>
+                <property name="class" stdset="0">
+                 <string>lbl_station_name</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="st2_space">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>0</width>
+                  <height>0</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QPushButton" name="st2_edit">
+                <property name="text">
+                 <string>✏️</string>
+                </property>
+                <property name="class" stdset="0">
+                 <string>action_btn</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="st2_up">
+                <property name="text">
+                 <string>🔼</string>
+                </property>
+                <property name="class" stdset="0">
+                 <string>action_btn</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="st2_down">
+                <property name="text">
+                 <string>🔽</string>
+                </property>
+                <property name="class" stdset="0">
+                 <string>action_btn</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="st2_del">
+                <property name="text">
+                 <string>🗑️</string>
+                </property>
+                <property name="class" stdset="0">
+                 <string>action_btn</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QFrame" name="station_3">
+             <property name="styleSheet">
+              <string notr="true">background-color: rgb(255, 255, 255);</string>
+             </property>
+             <property name="class" stdset="0">
+              <string>station_item</string>
+             </property>
+             <layout class="QHBoxLayout" name="st3_lay">
+              <item>
+               <widget class="QLabel" name="st3_pos">
+                <property name="text">
+                 <string>[Pos 3]</string>
+                </property>
+                <property name="class" stdset="0">
+                 <string>lbl_pos</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="st3_name">
+                <property name="text">
+                 <string>Tân Cảng</string>
+                </property>
+                <property name="class" stdset="0">
+                 <string>lbl_station_name</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="st3_space">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>0</width>
+                  <height>0</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QPushButton" name="st3_edit">
+                <property name="text">
+                 <string>✏️</string>
+                </property>
+                <property name="class" stdset="0">
+                 <string>action_btn</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="st3_up">
+                <property name="text">
+                 <string>🔼</string>
+                </property>
+                <property name="class" stdset="0">
+                 <string>action_btn</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="st3_down">
+                <property name="text">
+                 <string>🔽</string>
+                </property>
+                <property name="class" stdset="0">
+                 <string>action_btn</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="st3_del">
+                <property name="text">
+                 <string>🗑️</string>
+                </property>
+                <property name="class" stdset="0">
+                 <string>action_btn</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QFrame" name="station_4">
+             <property name="styleSheet">
+              <string notr="true">background-color: rgb(255, 255, 255);</string>
+             </property>
+             <property name="class" stdset="0">
+              <string>station_item</string>
+             </property>
+             <layout class="QHBoxLayout" name="st4_lay">
+              <item>
+               <widget class="QLabel" name="st4_pos">
+                <property name="text">
+                 <string>[Pos 4]</string>
+                </property>
+                <property name="class" stdset="0">
+                 <string>lbl_pos</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="st4_name">
+                <property name="text">
+                 <string>Suối Tiên</string>
+                </property>
+                <property name="class" stdset="0">
+                 <string>lbl_station_name</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="st4_space">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>0</width>
+                  <height>0</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QPushButton" name="st4_edit">
+                <property name="text">
+                 <string>✏️</string>
+                </property>
+                <property name="class" stdset="0">
+                 <string>action_btn</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="st4_up">
+                <property name="text">
+                 <string>🔼</string>
+                </property>
+                <property name="class" stdset="0">
+                 <string>action_btn</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="st4_down">
+                <property name="text">
+                 <string>🔽</string>
+                </property>
+                <property name="class" stdset="0">
+                 <string>action_btn</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="st4_del">
+                <property name="text">
+                 <string>🗑️</string>
+                </property>
+                <property name="class" stdset="0">
+                 <string>action_btn</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btn_add_station">
+         <property name="font">
+          <font>
+           <pointsize>9</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: #29B6F6;</string>
+         </property>
+         <property name="text">
+          <string>+ Thêm Nhà ga Mới</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

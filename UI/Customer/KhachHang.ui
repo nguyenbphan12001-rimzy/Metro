@@ -1,0 +1,680 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DashboardWindow</class>
+ <widget class="QMainWindow" name="DashboardWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>440</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>440</width>
+    <height>600</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Metro Ticket System – Dashboard</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">
+/* ── Nền tổng ── */
+QWidget#centralwidget {
+    background-color: #E8F6FD;
+}
+
+/* ── Header ── */
+QFrame#header {
+    background-color: #FFFFFF;
+    border-bottom: 1px solid #B3E0F5;
+}
+QLabel#lbl_avatar {
+    background-color: #29B6F6;
+    border-radius: 22px;
+    color: #FFFFFF;
+    font-size: 15px;
+    font-weight: 700;
+}
+QLabel#lbl_name {
+    color: #0A4D7A;
+    font-size: 15px;
+    font-weight: 700;
+}
+QLabel#lbl_email {
+    color: #3A9EC9;
+    font-size: 12px;
+}
+QPushButton#btn_logout {
+    background-color: #FFFFFF;
+    border: 1.5px solid #B3E0F5;
+    border-radius: 10px;
+    color: #0288D1;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 6px 14px;
+}
+QPushButton#btn_logout:hover {
+    background-color: #E1F5FE;
+    border-color: #29B6F6;
+}
+QPushButton#btn_logout:pressed {
+    background-color: #B3E0F5;
+}
+
+/* ── Wallet card ── */
+QFrame#wallet_card {
+    background: qlineargradient(x1:0,y1:0,x2:1,y2:1,
+        stop:0 #0288D1, stop:0.5 #29B6F6, stop:1 #4FC3F7);
+    border-radius: 18px;
+    border: none;
+}
+QLabel#lbl_wallet_title {
+    color: #E1F5FE;
+    font-size: 13px;
+    font-weight: 500;
+}
+QLabel#lbl_balance {
+    color: #FFFFFF;
+    font-size: 30px;
+    font-weight: 700;
+}
+QPushButton#btn_topup {
+    background-color: rgba(255,255,255,0.22);
+    border: 1.5px solid rgba(255,255,255,0.55);
+    border-radius: 10px;
+    color: #FFFFFF;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 9px 0px;
+}
+QPushButton#btn_topup:hover {
+    background-color: rgba(255,255,255,0.35);
+}
+QPushButton#btn_topup:pressed {
+    background-color: rgba(255,255,255,0.15);
+}
+QPushButton#btn_history {
+    background-color: rgba(255,255,255,0.12);
+    border: 1.5px solid rgba(255,255,255,0.40);
+    border-radius: 10px;
+    color: #FFFFFF;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 9px 0px;
+}
+QPushButton#btn_history:hover {
+    background-color: rgba(255,255,255,0.25);
+}
+QPushButton#btn_history:pressed {
+    background-color: rgba(255,255,255,0.08);
+}
+
+/* ── Menu cards ── */
+QFrame#card_buy,
+QFrame#card_myticket {
+    background-color: #FFFFFF;
+    border-radius: 16px;
+    border: 1.5px solid #B3E0F5;
+}
+QFrame#card_buy:hover,
+QFrame#card_myticket:hover {
+    border-color: #29B6F6;
+    background-color: #F0FAFF;
+}
+QLabel#lbl_icon_buy,
+QLabel#lbl_icon_ticket {
+    background-color: #E1F5FE;
+    border-radius: 12px;
+    font-size: 22px;
+}
+QLabel#lbl_menu_title {
+    color: #0A4D7A;
+    font-size: 15px;
+    font-weight: 700;
+}
+QLabel#lbl_menu_sub {
+    color: #3A9EC9;
+    font-size: 12px;
+}
+QPushButton#btn_buy,
+QPushButton#btn_myticket {
+    background-color: transparent;
+    border: none;
+    text-align: left;
+}
+
+/* ── Tip banner ── */
+QFrame#tip_banner {
+    background-color: #E1F5FE;
+    border-radius: 14px;
+    border: 1px solid #B3E0F5;
+}
+QLabel#lbl_tip_icon {
+    font-size: 18px;
+}
+QLabel#lbl_tip_title {
+    color: #0288D1;
+    font-size: 13px;
+    font-weight: 700;
+}
+QLabel#lbl_tip_body {
+    color: #0D6FA6;
+    font-size: 12px;
+}
+   </string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="root_vbox">
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <item>
+     <widget class="QFrame" name="header">
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <layout class="QHBoxLayout" name="header_layout">
+       <property name="spacing">
+        <number>12</number>
+       </property>
+       <property name="leftMargin">
+        <number>20</number>
+       </property>
+       <property name="topMargin">
+        <number>14</number>
+       </property>
+       <property name="rightMargin">
+        <number>20</number>
+       </property>
+       <property name="bottomMargin">
+        <number>14</number>
+       </property>
+       <item>
+        <widget class="QLabel" name="lbl_avatar">
+         <property name="minimumSize">
+          <size>
+           <width>44</width>
+           <height>44</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>44</width>
+           <height>44</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>KH</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="user_info_vbox">
+         <property name="spacing">
+          <number>2</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="lbl_name">
+           <property name="text">
+            <string>Khách Hàng #123</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="lbl_email">
+           <property name="text">
+            <string>customer@metro.vn</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <spacer>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btn_logout">
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
+         <property name="text">
+          <string>⇥  Đăng xuất</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QScrollArea" name="scroll_area">
+      <property name="styleSheet">
+       <string notr="true">QScrollArea { background: transparent; border: none; } QScrollBar:vertical { width: 6px; background: #E8F6FD; } QScrollBar::handle:vertical { background: #B3E0F5; border-radius: 3px; } QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical { height: 0px; }</string>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::NoFrame</enum>
+      </property>
+      <property name="widgetResizable">
+       <bool>true</bool>
+      </property>
+      <widget class="QWidget" name="scroll_contents">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>440</width>
+         <height>526</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QWidget#scroll_contents { background: transparent; }</string>
+       </property>
+       <layout class="QVBoxLayout" name="body_vbox">
+        <property name="spacing">
+         <number>16</number>
+        </property>
+        <property name="leftMargin">
+         <number>20</number>
+        </property>
+        <property name="topMargin">
+         <number>20</number>
+        </property>
+        <property name="rightMargin">
+         <number>20</number>
+        </property>
+        <property name="bottomMargin">
+         <number>24</number>
+        </property>
+        <item>
+         <widget class="QFrame" name="wallet_card">
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <layout class="QVBoxLayout" name="wallet_vbox">
+           <property name="spacing">
+            <number>8</number>
+           </property>
+           <property name="leftMargin">
+            <number>22</number>
+           </property>
+           <property name="topMargin">
+            <number>20</number>
+           </property>
+           <property name="rightMargin">
+            <number>22</number>
+           </property>
+           <property name="bottomMargin">
+            <number>20</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="lbl_wallet_title">
+             <property name="text">
+              <string>Số dư ví</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="lbl_balance">
+             <property name="text">
+              <string>500,000 VNĐ</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer>
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeType">
+              <enum>QSizePolicy::Fixed</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>0</width>
+               <height>6</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="wallet_btn_row">
+             <property name="spacing">
+              <number>12</number>
+             </property>
+             <item>
+              <widget class="QPushButton" name="btn_topup">
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
+               </property>
+               <property name="text">
+                <string>+  Nạp tiền  ↗</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btn_history">
+               <property name="cursor">
+                <cursorShape>PointingHandCursor</cursorShape>
+               </property>
+               <property name="text">
+                <string>⏱  Lịch sử</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btn_refund">
+               <property name="font">
+                <font>
+                 <pointsize>-1</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton {
+    background-color: rgba(255, 255, 255, 0.12);
+    border: 1.5px solid rgba(255, 255, 255, 0.40);
+    border-radius: 10px;
+    color: #FFFFFF;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 9px 0px;
+}
+
+QPushButton:hover {
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+QPushButton:pressed {
+    background-color: rgba(255, 255, 255, 0.08);
+}</string>
+               </property>
+               <property name="text">
+                <string>Hoàn vé</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="menu_grid">
+          <property name="spacing">
+           <number>14</number>
+          </property>
+          <item>
+           <widget class="QFrame" name="card_buy">
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <layout class="QVBoxLayout" name="card_buy_vbox">
+             <property name="spacing">
+              <number>10</number>
+             </property>
+             <property name="leftMargin">
+              <number>16</number>
+             </property>
+             <property name="topMargin">
+              <number>18</number>
+             </property>
+             <property name="rightMargin">
+              <number>16</number>
+             </property>
+             <property name="bottomMargin">
+              <number>18</number>
+             </property>
+             <item>
+              <widget class="QLabel" name="lbl_icon_buy">
+               <property name="minimumSize">
+                <size>
+                 <width>44</width>
+                 <height>44</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>44</width>
+                 <height>44</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>🎫</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="lbl_menu_title">
+               <property name="text">
+                <string>Mua vé ↗</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="lbl_menu_sub">
+               <property name="text">
+                <string>Chọn tuyến và mua vé</string>
+               </property>
+               <property name="wordWrap">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer>
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>0</width>
+                 <height>10</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QFrame" name="card_myticket">
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <layout class="QVBoxLayout" name="card_ticket_vbox">
+             <property name="spacing">
+              <number>10</number>
+             </property>
+             <property name="leftMargin">
+              <number>16</number>
+             </property>
+             <property name="topMargin">
+              <number>18</number>
+             </property>
+             <property name="rightMargin">
+              <number>16</number>
+             </property>
+             <property name="bottomMargin">
+              <number>18</number>
+             </property>
+             <item>
+              <widget class="QLabel" name="lbl_icon_ticket">
+               <property name="minimumSize">
+                <size>
+                 <width>44</width>
+                 <height>44</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>44</width>
+                 <height>44</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>📱</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="lbl_menu_title_2">
+               <property name="styleSheet">
+                <string notr="true">color: #0A4D7A; font-size: 15px; font-weight: 700;</string>
+               </property>
+               <property name="text">
+                <string>Vé của tôi ↗</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="lbl_menu_sub_2">
+               <property name="styleSheet">
+                <string notr="true">color: #3A9EC9; font-size: 12px;</string>
+               </property>
+               <property name="text">
+                <string>Xem vé đã mua</string>
+               </property>
+               <property name="wordWrap">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer>
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>0</width>
+                 <height>10</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QFrame" name="tip_banner">
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <layout class="QHBoxLayout" name="tip_layout">
+           <property name="spacing">
+            <number>10</number>
+           </property>
+           <property name="leftMargin">
+            <number>16</number>
+           </property>
+           <property name="topMargin">
+            <number>14</number>
+           </property>
+           <property name="rightMargin">
+            <number>16</number>
+           </property>
+           <property name="bottomMargin">
+            <number>14</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="lbl_tip_icon">
+             <property name="text">
+              <string>💡</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignHCenter|Qt::AlignTop</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <layout class="QVBoxLayout" name="tip_text_vbox">
+             <property name="spacing">
+              <number>3</number>
+             </property>
+             <item>
+              <widget class="QLabel" name="lbl_tip_title">
+               <property name="text">
+                <string>Mẹo tiết kiệm</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="lbl_tip_body">
+               <property name="text">
+                <string>Mua vé tháng để tiết kiệm đến 30% chi phí đi lại!</string>
+               </property>
+               <property name="wordWrap">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <spacer>
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
