@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'D:\Nam1\KTLT\K25411_KTLT\UI_KhachHang\Dangnhap.ui'
+# Form implementation generated from reading ui file 'Dangnhap_Ver4.ui'
 #
 # Created by: PyQt6 UI code generator 6.10.0
 #
@@ -9,177 +9,222 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 
 
-class Ui_LoginWindow(object):
+class Ui_LoginWindow_Ver4(object):
     def setupUi(self, LoginWindow):
         LoginWindow.setObjectName("LoginWindow")
         LoginWindow.resize(460, 700)
         LoginWindow.setMinimumSize(QtCore.QSize(420, 620))
         LoginWindow.setStyleSheet("\n"
+"/* ── Nền tổng: gradient xanh đậm theo chiều dọc ── */\n"
 "QWidget#centralwidget {\n"
-"    background-color: #E8F6FD;\n"
+"    background: qlineargradient(x1:0, y1:0, x2:0.3, y2:1,\n"
+"        stop:0 #0D1F3C,\n"
+"        stop:0.4 #0A3060,\n"
+"        stop:0.7 #0D4080,\n"
+"        stop:1   #1A5FA8);\n"
 "}\n"
+"\n"
+"/* ── Card login nổi lên ── */\n"
 "QFrame#card {\n"
-"    background-color: #FFFFFF;\n"
-"    border-radius: 20px;\n"
-"    border: 1.5px solid #B3E0F5;\n"
+"    background-color: rgba(255, 255, 255, 0.97);\n"
+"    border-radius: 24px;\n"
+"    border: 1px solid rgba(255, 255, 255, 0.15);\n"
 "}\n"
+"\n"
+"/* ── Logo: khung ngoài tạo hiệu ứng 3D ── */\n"
+"QFrame#logo_outer {\n"
+"    background: qlineargradient(x1:0, y1:0, x2:1, y2:1,\n"
+"        stop:0 #1E90FF, stop:0.5 #0060D0, stop:1 #003A8C);\n"
+"    border-radius: 24px;\n"
+"    border-top: 2px solid rgba(255,255,255,0.28);\n"
+"    border-left: 1px solid rgba(255,255,255,0.12);\n"
+"    border-right: 1px solid rgba(0,0,0,0.25);\n"
+"    border-bottom: 2px solid rgba(0,0,0,0.35);\n"
+"}\n"
+"QFrame#logo_inner {\n"
+"    background: qlineargradient(x1:0, y1:0, x2:1, y2:1,\n"
+"        stop:0 #2AA0FF, stop:1 #0070E0);\n"
+"    border-radius: 16px;\n"
+"    border-top: 1px solid rgba(255,255,255,0.2);\n"
+"    border-bottom: 1px solid rgba(0,0,0,0.3);\n"
+"}\n"
+"QLabel#lbl_logo_icon {\n"
+"    color: #E0F2FE;\n"
+"    font-size: 28px;\n"
+"}\n"
+"\n"
+"/* ── Tiêu đề ── */\n"
 "QLabel#lbl_title {\n"
-"    color: #0A4D7A;\n"
+"    color: #FFFFFF;\n"
 "    font-size: 22px;\n"
 "    font-weight: 700;\n"
 "}\n"
 "QLabel#lbl_subtitle {\n"
-"    color: #3A9EC9;\n"
-"    font-size: 13px;\n"
+"    color: rgba(148, 213, 252, 0.85);\n"
+"    font-size: 12px;\n"
+"    letter-spacing: 1px;\n"
 "}\n"
+"\n"
+"/* ── Label field ── */\n"
 "QLabel#lbl_field_user,\n"
 "QLabel#lbl_field_pass {\n"
-"    color: #0D6FA6;\n"
-"    font-size: 13px;\n"
-"    font-weight: 600;\n"
+"    color: #0369A1;\n"
+"    font-size: 11px;\n"
+"    font-weight: 700;\n"
+"    letter-spacing: 0.8px;\n"
 "}\n"
+"\n"
+"/* ── Input fields ── */\n"
 "QLineEdit#inp_username,\n"
 "QLineEdit#inp_password {\n"
-"    background-color: #F0FAFF;\n"
-"    border: 1.5px solid #B3E0F5;\n"
+"    background-color: #F0F9FF;\n"
+"    border: 1.5px solid #BAE6FD;\n"
 "    border-radius: 12px;\n"
 "    padding: 11px 14px;\n"
 "    font-size: 14px;\n"
-"    color: #0A3D5C;\n"
+"    color: #0C4A6E;\n"
 "    selection-background-color: #29B6F6;\n"
 "}\n"
 "QLineEdit#inp_username:hover,\n"
 "QLineEdit#inp_password:hover {\n"
-"    border-color: #29B6F6;\n"
+"    border-color: #38BDF8;\n"
 "    background-color: #E8F6FD;\n"
 "}\n"
 "QLineEdit#inp_username:focus,\n"
 "QLineEdit#inp_password:focus {\n"
-"    border-color: #0288D1;\n"
+"    border-color: #0284C7;\n"
 "    background-color: #FFFFFF;\n"
 "}\n"
+"\n"
+"/* ── Eye button ── */\n"
 "QPushButton#btn_eye {\n"
 "    background: transparent;\n"
 "    border: none;\n"
-"    color: #4FC3F7;\n"
+"    color: #38BDF8;\n"
 "    font-size: 16px;\n"
 "    padding: 0px;\n"
 "}\n"
-"QPushButton#btn_eye:hover {\n"
-"    color: #0288D1;\n"
-"}\n"
+"QPushButton#btn_eye:hover { color: #0284C7; }\n"
+"\n"
+"/* ── Nút đăng nhập gradient 3D ── */\n"
 "QPushButton#btn_login {\n"
-"    background: qlineargradient(x1:0,y1:0,x2:1,y2:0,\n"
-"        stop:0 #0288D1, stop:1 #29B6F6);\n"
+"    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,\n"
+"        stop:0 #0284C7, stop:0.5 #0EA5E9, stop:1 #38BDF8);\n"
 "    color: #FFFFFF;\n"
 "    border: none;\n"
 "    border-radius: 14px;\n"
 "    font-size: 15px;\n"
 "    font-weight: 700;\n"
 "    padding: 14px 0px;\n"
+"    border-top: 1px solid rgba(255,255,255,0.2);\n"
 "}\n"
 "QPushButton#btn_login:hover {\n"
-"    background: qlineargradient(x1:0,y1:0,x2:1,y2:0,\n"
-"        stop:0 #039BE5, stop:1 #4FC3F7);\n"
+"    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,\n"
+"        stop:0 #0369A1, stop:0.5 #0284C7, stop:1 #0EA5E9);\n"
 "}\n"
 "QPushButton#btn_login:pressed {\n"
-"    background: qlineargradient(x1:0,y1:0,x2:1,y2:0,\n"
-"        stop:0 #0277BD, stop:1 #0288D1);\n"
+"    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,\n"
+"        stop:0 #075985, stop:1 #0284C7);\n"
+"    border-top: 1px solid rgba(0,0,0,0.15);\n"
 "}\n"
 "QPushButton#btn_login:disabled {\n"
-"    background: #B3E0F5;\n"
-"    color: #FFFFFF;\n"
+"    background: #BAE6FD;\n"
+"    color: rgba(255,255,255,0.6);\n"
 "}\n"
+"\n"
+"/* ── Link buttons ── */\n"
 "QPushButton#btn_register,\n"
 "QPushButton#btn_forgot {\n"
 "    background: transparent;\n"
 "    border: none;\n"
-"    color: #0288D1;\n"
+"    color: #0284C7;\n"
 "    font-size: 13px;\n"
 "    font-weight: 600;\n"
 "    text-decoration: underline;\n"
 "    padding: 0px;\n"
 "}\n"
 "QPushButton#btn_register:hover,\n"
-"QPushButton#btn_forgot:hover {\n"
-"    color: #01579B;\n"
+"QPushButton#btn_forgot:hover { color: #075985; }\n"
+"\n"
+"/* ── Divider ── */\n"
+"QLabel#lbl_divider { color: #7DD3FC; font-size: 12px; }\n"
+"QFrame#line_left, QFrame#line_right { color: #BAE6FD; }\n"
+"QLabel#lbl_no_account { color: #64748B; font-size: 13px; }\n"
+"\n"
+"/* ── Footer pills ── */\n"
+"QFrame#pill_1, QFrame#pill_2 {\n"
+"    background-color: rgba(255, 255, 255, 0.09);\n"
+"    border: 1px solid rgba(148, 213, 252, 0.22);\n"
+"    border-radius: 16px;\n"
 "}\n"
-"QFrame#banner {\n"
-"    background-color: #E1F5FE;\n"
-"    border-radius: 12px;\n"
-"    border: 1px solid #B3E0F5;\n"
+"QLabel#lbl_pill_1, QLabel#lbl_pill_2 {\n"
+"    color: rgba(186, 230, 253, 0.8);\n"
+"    font-size: 11px;\n"
 "}\n"
-"QLabel#lbl_banner {\n"
-"    color: #0D6FA6;\n"
-"    font-size: 12px;\n"
-"}\n"
-"QLabel#lbl_divider {\n"
-"    color: #81D4FA;\n"
-"    font-size: 12px;\n"
-"}\n"
-"QFrame#line_left,\n"
-"QFrame#line_right {\n"
-"    color: #B3E0F5;\n"
-"}\n"
-"QLabel#lbl_no_account {\n"
-"    color: #3A9EC9;\n"
-"    font-size: 13px;\n"
+"QLabel#lbl_pill_dot_1, QLabel#lbl_pill_dot_2 {\n"
+"    color: #38BDF8;\n"
+"    font-size: 18px;\n"
+"    padding-bottom: 4px;\n"
 "}\n"
 "   ")
         self.centralwidget = QtWidgets.QWidget(parent=LoginWindow)
-        self.centralwidget.setGeometry(QtCore.QRect(0, 0, 460, 700))
         self.centralwidget.setObjectName("centralwidget")
         self.root_layout = QtWidgets.QVBoxLayout(self.centralwidget)
-        self.root_layout.setContentsMargins(40, 40, 40, 32)
+        self.root_layout.setContentsMargins(36, 38, 36, 28)
         self.root_layout.setSpacing(0)
         self.root_layout.setObjectName("root_layout")
         self.logo_row = QtWidgets.QHBoxLayout()
         self.logo_row.setObjectName("logo_row")
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
         self.logo_row.addItem(spacerItem)
-        self.lbl_logo = QtWidgets.QLabel(parent=self.centralwidget)
-        self.lbl_logo.setMinimumSize(QtCore.QSize(76, 76))
-        self.lbl_logo.setMaximumSize(QtCore.QSize(76, 76))
-        self.lbl_logo.setStyleSheet("\n"
-"QLabel#lbl_logo {\n"
-"    background-color: #0288D1;\n"
-"    border-radius: 38px;\n"
-"    font-size: 30px;\n"
-"    border: 2px solid #29B6F6;\n"
-"}\n"
-"        ")
-        self.lbl_logo.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.lbl_logo.setObjectName("lbl_logo")
-        self.logo_row.addWidget(self.lbl_logo)
+        self.logo_outer = QtWidgets.QFrame(parent=self.centralwidget)
+        self.logo_outer.setMinimumSize(QtCore.QSize(88, 88))
+        self.logo_outer.setMaximumSize(QtCore.QSize(88, 88))
+        self.logo_outer.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
+        self.logo_outer.setObjectName("logo_outer")
+        self.logo_outer_layout = QtWidgets.QVBoxLayout(self.logo_outer)
+        self.logo_outer_layout.setContentsMargins(10, 10, 10, 10)
+        self.logo_outer_layout.setObjectName("logo_outer_layout")
+        self.logo_inner = QtWidgets.QFrame(parent=self.logo_outer)
+        self.logo_inner.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
+        self.logo_inner.setObjectName("logo_inner")
+        self.logo_inner_layout = QtWidgets.QVBoxLayout(self.logo_inner)
+        self.logo_inner_layout.setContentsMargins(0, 0, 0, 0)
+        self.logo_inner_layout.setObjectName("logo_inner_layout")
+        self.lbl_logo_icon = QtWidgets.QLabel(parent=self.logo_inner)
+        self.lbl_logo_icon.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.lbl_logo_icon.setObjectName("lbl_logo_icon")
+        self.logo_inner_layout.addWidget(self.lbl_logo_icon)
+        self.logo_outer_layout.addWidget(self.logo_inner)
+        self.logo_row.addWidget(self.logo_outer)
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
         self.logo_row.addItem(spacerItem1)
         self.root_layout.addLayout(self.logo_row)
-        spacerItem2 = QtWidgets.QSpacerItem(0, 12, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Fixed)
+        spacerItem2 = QtWidgets.QSpacerItem(0, 14, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Fixed)
         self.root_layout.addItem(spacerItem2)
         self.lbl_title = QtWidgets.QLabel(parent=self.centralwidget)
         self.lbl_title.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.lbl_title.setObjectName("lbl_title")
         self.root_layout.addWidget(self.lbl_title)
-        spacerItem3 = QtWidgets.QSpacerItem(0, 4, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Fixed)
+        spacerItem3 = QtWidgets.QSpacerItem(0, 5, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Fixed)
         self.root_layout.addItem(spacerItem3)
         self.lbl_subtitle = QtWidgets.QLabel(parent=self.centralwidget)
         self.lbl_subtitle.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.lbl_subtitle.setObjectName("lbl_subtitle")
         self.root_layout.addWidget(self.lbl_subtitle)
-        spacerItem4 = QtWidgets.QSpacerItem(0, 24, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Fixed)
+        spacerItem4 = QtWidgets.QSpacerItem(0, 22, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Fixed)
         self.root_layout.addItem(spacerItem4)
         self.card = QtWidgets.QFrame(parent=self.centralwidget)
-        self.card.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.card.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
+        self.card.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
         self.card.setObjectName("card")
         self.card_layout = QtWidgets.QVBoxLayout(self.card)
-        self.card_layout.setContentsMargins(28, 28, 28, 24)
+        self.card_layout.setContentsMargins(28, 26, 28, 24)
         self.card_layout.setSpacing(0)
         self.card_layout.setObjectName("card_layout")
         self.lbl_field_user = QtWidgets.QLabel(parent=self.card)
         self.lbl_field_user.setObjectName("lbl_field_user")
         self.card_layout.addWidget(self.lbl_field_user)
-        spacerItem5 = QtWidgets.QSpacerItem(0, 6, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Fixed)
+        spacerItem5 = QtWidgets.QSpacerItem(0, 7, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Fixed)
         self.card_layout.addItem(spacerItem5)
         self.inp_username = QtWidgets.QLineEdit(parent=self.card)
         self.inp_username.setClearButtonEnabled(True)
@@ -190,7 +235,7 @@ class Ui_LoginWindow(object):
         self.lbl_field_pass = QtWidgets.QLabel(parent=self.card)
         self.lbl_field_pass.setObjectName("lbl_field_pass")
         self.card_layout.addWidget(self.lbl_field_pass)
-        spacerItem7 = QtWidgets.QSpacerItem(0, 6, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Fixed)
+        spacerItem7 = QtWidgets.QSpacerItem(0, 7, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Fixed)
         self.card_layout.addItem(spacerItem7)
         self.pass_row = QtWidgets.QHBoxLayout()
         self.pass_row.setSpacing(0)
@@ -267,27 +312,46 @@ class Ui_LoginWindow(object):
         self.forgot_row.addItem(spacerItem16)
         self.card_layout.addLayout(self.forgot_row)
         self.root_layout.addWidget(self.card)
-        spacerItem17 = QtWidgets.QSpacerItem(0, 16, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Fixed)
+        spacerItem17 = QtWidgets.QSpacerItem(0, 18, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Fixed)
         self.root_layout.addItem(spacerItem17)
-        self.banner = QtWidgets.QFrame(parent=self.centralwidget)
-        self.banner.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.banner.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.banner.setObjectName("banner")
-        self.banner_layout = QtWidgets.QHBoxLayout(self.banner)
-        self.banner_layout.setContentsMargins(14, 11, 14, 11)
-        self.banner_layout.setSpacing(8)
-        self.banner_layout.setObjectName("banner_layout")
-        self.lbl_banner_icon = QtWidgets.QLabel(parent=self.banner)
-        self.lbl_banner_icon.setAlignment(QtCore.Qt.AlignmentFlag.AlignHCenter|QtCore.Qt.AlignmentFlag.AlignTop)
-        self.lbl_banner_icon.setObjectName("lbl_banner_icon")
-        self.banner_layout.addWidget(self.lbl_banner_icon)
-        self.lbl_banner = QtWidgets.QLabel(parent=self.banner)
-        self.lbl_banner.setWordWrap(True)
-        self.lbl_banner.setObjectName("lbl_banner")
-        self.banner_layout.addWidget(self.lbl_banner)
-        self.root_layout.addWidget(self.banner)
-        spacerItem18 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
-        self.root_layout.addItem(spacerItem18)
+        self.footer_row = QtWidgets.QHBoxLayout()
+        self.footer_row.setSpacing(10)
+        self.footer_row.setObjectName("footer_row")
+        spacerItem18 = QtWidgets.QSpacerItem(10, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.footer_row.addItem(spacerItem18)
+        self.pill_1 = QtWidgets.QFrame(parent=self.centralwidget)
+        self.pill_1.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
+        self.pill_1.setObjectName("pill_1")
+        self.pill_1_layout = QtWidgets.QHBoxLayout(self.pill_1)
+        self.pill_1_layout.setContentsMargins(12, 5, 12, 5)
+        self.pill_1_layout.setSpacing(5)
+        self.pill_1_layout.setObjectName("pill_1_layout")
+        self.lbl_pill_dot_1 = QtWidgets.QLabel(parent=self.pill_1)
+        self.lbl_pill_dot_1.setObjectName("lbl_pill_dot_1")
+        self.pill_1_layout.addWidget(self.lbl_pill_dot_1)
+        self.lbl_pill_1 = QtWidgets.QLabel(parent=self.pill_1)
+        self.lbl_pill_1.setObjectName("lbl_pill_1")
+        self.pill_1_layout.addWidget(self.lbl_pill_1)
+        self.footer_row.addWidget(self.pill_1)
+        self.pill_2 = QtWidgets.QFrame(parent=self.centralwidget)
+        self.pill_2.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
+        self.pill_2.setObjectName("pill_2")
+        self.pill_2_layout = QtWidgets.QHBoxLayout(self.pill_2)
+        self.pill_2_layout.setContentsMargins(12, 5, 12, 5)
+        self.pill_2_layout.setSpacing(5)
+        self.pill_2_layout.setObjectName("pill_2_layout")
+        self.lbl_pill_dot_2 = QtWidgets.QLabel(parent=self.pill_2)
+        self.lbl_pill_dot_2.setObjectName("lbl_pill_dot_2")
+        self.pill_2_layout.addWidget(self.lbl_pill_dot_2)
+        self.lbl_pill_2 = QtWidgets.QLabel(parent=self.pill_2)
+        self.lbl_pill_2.setObjectName("lbl_pill_2")
+        self.pill_2_layout.addWidget(self.lbl_pill_2)
+        self.footer_row.addWidget(self.pill_2)
+        spacerItem19 = QtWidgets.QSpacerItem(10, 20, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.footer_row.addItem(spacerItem19)
+        self.root_layout.addLayout(self.footer_row)
+        spacerItem20 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
+        self.root_layout.addItem(spacerItem20)
         LoginWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(LoginWindow)
@@ -301,12 +365,12 @@ class Ui_LoginWindow(object):
     def retranslateUi(self, LoginWindow):
         _translate = QtCore.QCoreApplication.translate
         LoginWindow.setWindowTitle(_translate("LoginWindow", "Metro Ticket System"))
-        self.lbl_logo.setText(_translate("LoginWindow", "🚇"))
+        self.lbl_logo_icon.setText(_translate("LoginWindow", "🚇"))
         self.lbl_title.setText(_translate("LoginWindow", "Metro Ticket System"))
-        self.lbl_subtitle.setText(_translate("LoginWindow", "Hệ thống quản lý bán vé metro"))
-        self.lbl_field_user.setText(_translate("LoginWindow", "Username"))
+        self.lbl_subtitle.setText(_translate("LoginWindow", "Hệ thống bán vé metro TP.HCM"))
+        self.lbl_field_user.setText(_translate("LoginWindow", "USERNAME"))
         self.inp_username.setPlaceholderText(_translate("LoginWindow", "Nhập username của bạn"))
-        self.lbl_field_pass.setText(_translate("LoginWindow", "Password"))
+        self.lbl_field_pass.setText(_translate("LoginWindow", "PASSWORD"))
         self.inp_password.setPlaceholderText(_translate("LoginWindow", "Nhập mật khẩu"))
         self.btn_eye.setText(_translate("LoginWindow", "👁"))
         self.btn_login.setText(_translate("LoginWindow", "Đăng nhập  ↗"))
@@ -314,5 +378,7 @@ class Ui_LoginWindow(object):
         self.lbl_no_account.setText(_translate("LoginWindow", "Chưa có tài khoản?"))
         self.btn_register.setText(_translate("LoginWindow", "Đăng ký ngay"))
         self.btn_forgot.setText(_translate("LoginWindow", "Quên mật khẩu?"))
-        self.lbl_banner_icon.setText(_translate("LoginWindow", "ℹ️"))
-        self.lbl_banner.setText(_translate("LoginWindow", "<b>Phân quyền:</b> Hệ thống tự động nhận diện role (admin/customer) sau khi đăng nhập."))
+        self.lbl_pill_dot_1.setText(_translate("LoginWindow", "•"))
+        self.lbl_pill_1.setText(_translate("LoginWindow", "Tuyến 1 đang hoạt động"))
+        self.lbl_pill_dot_2.setText(_translate("LoginWindow", "•"))
+        self.lbl_pill_2.setText(_translate("LoginWindow", "Tuyến 2 đang hoạt động"))

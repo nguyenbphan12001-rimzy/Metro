@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'D:\Nam1\KTLT\K25411_KTLT\UI_KhachHang\KhachHang.ui'
+# Form implementation generated from reading ui file 'KhachHang_Ver2.ui'
 #
 # Created by: PyQt6 UI code generator 6.10.0
 #
@@ -9,158 +9,250 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 
 
-class Ui_DashboardWindow(object):
+class Ui_DashboardWindow_Ver2(object):
     def setupUi(self, DashboardWindow):
         DashboardWindow.setObjectName("DashboardWindow")
         DashboardWindow.resize(440, 680)
         DashboardWindow.setMinimumSize(QtCore.QSize(440, 600))
         DashboardWindow.setStyleSheet("\n"
-"/* ── Nền tổng ── */\n"
+"/* ══════════════════════════════════════════════\n"
+"   BASE — nền gradient nhẹ để tạo chiều sâu tổng thể\n"
+"   ══════════════════════════════════════════════ */\n"
 "QWidget#centralwidget {\n"
-"    background-color: #E8F6FD;\n"
+"    background: qlineargradient(\n"
+"        x1:0, y1:0, x2:0, y2:1,\n"
+"        stop:0 #D6EEF8,\n"
+"        stop:0.45 #E8F6FD,\n"
+"        stop:1 #F0FAFE\n"
+"    );\n"
 "}\n"
 "\n"
-"/* ── Header ── */\n"
+"/* ══════════════════════════════════════════════\n"
+"   HEADER — nổi lên với shadow dưới\n"
+"   ══════════════════════════════════════════════ */\n"
 "QFrame#header {\n"
 "    background-color: #FFFFFF;\n"
-"    border-bottom: 1px solid #B3E0F5;\n"
+"    border-bottom: 1px solid #C5E8F7;\n"
+"    /* shadow giả bằng bottom border dày hơn */\n"
+"    border-bottom: 2px solid #B3DDF0;\n"
 "}\n"
+"\n"
+"/* Avatar — ring effect bằng double border */\n"
 "QLabel#lbl_avatar {\n"
-"    background-color: #29B6F6;\n"
+"    background: qlineargradient(x1:0,y1:0,x2:1,y2:1,\n"
+"        stop:0 #29B6F6, stop:1 #0277BD);\n"
 "    border-radius: 22px;\n"
 "    color: #FFFFFF;\n"
 "    font-size: 15px;\n"
-"    font-weight: 700;\n"
+"    font-weight: 800;\n"
+"    border: 2px solid #81D4FA;\n"
 "}\n"
+"\n"
 "QLabel#lbl_name {\n"
-"    color: #0A4D7A;\n"
+"    color: #0A3D6B;\n"
 "    font-size: 15px;\n"
 "    font-weight: 700;\n"
+"    letter-spacing: 0.2px;\n"
 "}\n"
+"\n"
 "QLabel#lbl_email {\n"
-"    color: #3A9EC9;\n"
-"    font-size: 12px;\n"
+"    color: #4BADD6;\n"
+"    font-size: 11px;\n"
+"    letter-spacing: 0.3px;\n"
 "}\n"
+"\n"
+"/* Logout button — ghost style với hover lift */\n"
 "QPushButton#btn_logout {\n"
 "    background-color: #FFFFFF;\n"
-"    border: 1.5px solid #B3E0F5;\n"
+"    border: 1.5px solid #90CAE8;\n"
 "    border-radius: 10px;\n"
-"    color: #0288D1;\n"
-"    font-size: 13px;\n"
+"    color: #0277BD;\n"
+"    font-size: 12px;\n"
 "    font-weight: 600;\n"
 "    padding: 6px 14px;\n"
 "}\n"
 "QPushButton#btn_logout:hover {\n"
 "    background-color: #E1F5FE;\n"
-"    border-color: #29B6F6;\n"
+"    border-color: #0EA5E9;\n"
+"    color: #0369A1;\n"
 "}\n"
 "QPushButton#btn_logout:pressed {\n"
-"    background-color: #B3E0F5;\n"
+"    background-color: #BAE6FD;\n"
+"    border-color: #0284C7;\n"
 "}\n"
 "\n"
-"/* ── Wallet card ── */\n"
+"/* ══════════════════════════════════════════════\n"
+"   WALLET CARD — flagship element, glassmorphism + depth\n"
+"   ══════════════════════════════════════════════ */\n"
 "QFrame#wallet_card {\n"
-"    background: qlineargradient(x1:0,y1:0,x2:1,y2:1,\n"
-"        stop:0 #0288D1, stop:0.5 #29B6F6, stop:1 #4FC3F7);\n"
-"    border-radius: 18px;\n"
-"    border: none;\n"
+"    background: qlineargradient(\n"
+"        x1:0, y1:0, x2:1, y2:1,\n"
+"        stop:0   #01579B,\n"
+"        stop:0.3 #0277BD,\n"
+"        stop:0.65 #0288D1,\n"
+"        stop:1   #29B6F6\n"
+"    );\n"
+"    border-radius: 20px;\n"
+"    border: 1px solid rgba(255,255,255,0.25);\n"
+"    /* Depth trick: inner highlight top + shadow bottom via border layering */\n"
+"    border-top: 1.5px solid rgba(255,255,255,0.45);\n"
+"    border-bottom: 3px solid rgba(0,60,120,0.35);\n"
 "}\n"
+"\n"
 "QLabel#lbl_wallet_title {\n"
-"    color: #E1F5FE;\n"
-"    font-size: 13px;\n"
+"    color: rgba(225, 245, 254, 0.85);\n"
+"    font-size: 12px;\n"
 "    font-weight: 500;\n"
+"    letter-spacing: 0.8px;\n"
 "}\n"
+"\n"
 "QLabel#lbl_balance {\n"
 "    color: #FFFFFF;\n"
-"    font-size: 30px;\n"
-"    font-weight: 700;\n"
-"}\n"
-"QPushButton#btn_topup {\n"
-"    background-color: rgba(255,255,255,0.22);\n"
-"    border: 1.5px solid rgba(255,255,255,0.55);\n"
-"    border-radius: 10px;\n"
-"    color: #FFFFFF;\n"
-"    font-size: 13px;\n"
-"    font-weight: 600;\n"
-"    padding: 9px 0px;\n"
-"}\n"
-"QPushButton#btn_topup:hover {\n"
-"    background-color: rgba(255,255,255,0.35);\n"
-"}\n"
-"QPushButton#btn_topup:pressed {\n"
-"    background-color: rgba(255,255,255,0.15);\n"
-"}\n"
-"QPushButton#btn_history {\n"
-"    background-color: rgba(255,255,255,0.12);\n"
-"    border: 1.5px solid rgba(255,255,255,0.40);\n"
-"    border-radius: 10px;\n"
-"    color: #FFFFFF;\n"
-"    font-size: 13px;\n"
-"    font-weight: 600;\n"
-"    padding: 9px 0px;\n"
-"}\n"
-"QPushButton#btn_history:hover {\n"
-"    background-color: rgba(255,255,255,0.25);\n"
-"}\n"
-"QPushButton#btn_history:pressed {\n"
-"    background-color: rgba(255,255,255,0.08);\n"
+"    font-size: 32px;\n"
+"    font-weight: 800;\n"
+"    letter-spacing: -0.5px;\n"
 "}\n"
 "\n"
-"/* ── Menu cards ── */\n"
+"/* Nạp tiền button — frosted glass effect */\n"
+"QPushButton#btn_topup {\n"
+"    background-color: rgba(255,255,255,0.18);\n"
+"    border: 1.5px solid rgba(255,255,255,0.50);\n"
+"    border-radius: 12px;\n"
+"    color: #FFFFFF;\n"
+"    font-size: 13px;\n"
+"    font-weight: 700;\n"
+"    padding: 11px 0px;\n"
+"    letter-spacing: 0.3px;\n"
+"}\n"
+"QPushButton#btn_topup:hover {\n"
+"    background-color: rgba(255,255,255,0.32);\n"
+"    border-color: rgba(255,255,255,0.80);\n"
+"}\n"
+"QPushButton#btn_topup:pressed {\n"
+"    background-color: rgba(255,255,255,0.12);\n"
+"    border-color: rgba(255,255,255,0.35);\n"
+"}\n"
+"\n"
+"/* Hoàn vé button — viền nhạt hơn để phân vai phụ so với nút Nạp tiền chính */\n"
+"QPushButton#btn_refund {\n"
+"    background-color: rgba(255,255,255,0.08);\n"
+"    border: 1.5px solid rgba(255,255,255,0.30);\n"
+"    border-radius: 12px;\n"
+"    color: #FFFFFF;\n"
+"    font-size: 13px;\n"
+"    font-weight: 700;\n"
+"    padding: 11px 0px;\n"
+"    letter-spacing: 0.3px;\n"
+"}\n"
+"QPushButton#btn_refund:hover {\n"
+"    background-color: rgba(255,255,255,0.18);\n"
+"    border-color: rgba(255,255,255,0.55);\n"
+"}\n"
+"QPushButton#btn_refund:pressed {\n"
+"    background-color: rgba(255,255,255,0.10);\n"
+"}\n"
+"\n"
+"/* ══════════════════════════════════════════════\n"
+"   MENU CARDS — nổi 3D với shadow + hover lift\n"
+"   ══════════════════════════════════════════════ */\n"
 "QFrame#card_buy,\n"
 "QFrame#card_myticket {\n"
 "    background-color: #FFFFFF;\n"
-"    border-radius: 16px;\n"
-"    border: 1.5px solid #B3E0F5;\n"
+"    border-radius: 18px;\n"
+"    /* Layered border để tạo elevation illusion */\n"
+"    border: 1px solid #C8E9F5;\n"
+"    border-bottom: 3px solid #A8D5EC;\n"
+"    border-right: 2px solid #B8DFF0;\n"
 "}\n"
 "QFrame#card_buy:hover,\n"
 "QFrame#card_myticket:hover {\n"
+"    background: qlineargradient(x1:0,y1:0,x2:0,y2:1,\n"
+"        stop:0 #FFFFFF, stop:1 #F0FAFF);\n"
 "    border-color: #29B6F6;\n"
-"    background-color: #F0FAFF;\n"
-"}\n"
-"QLabel#lbl_icon_buy,\n"
-"QLabel#lbl_icon_ticket {\n"
-"    background-color: #E1F5FE;\n"
-"    border-radius: 12px;\n"
-"    font-size: 22px;\n"
-"}\n"
-"QLabel#lbl_menu_title {\n"
-"    color: #0A4D7A;\n"
-"    font-size: 15px;\n"
-"    font-weight: 700;\n"
-"}\n"
-"QLabel#lbl_menu_sub {\n"
-"    color: #3A9EC9;\n"
-"    font-size: 12px;\n"
-"}\n"
-"QPushButton#btn_buy,\n"
-"QPushButton#btn_myticket {\n"
-"    background-color: transparent;\n"
-"    border: none;\n"
-"    text-align: left;\n"
+"    border-bottom: 3px solid #0288D1;\n"
+"    border-right: 2px solid #4FC3F7;\n"
 "}\n"
 "\n"
-"/* ── Tip banner ── */\n"
-"QFrame#tip_banner {\n"
-"    background-color: #E1F5FE;\n"
+"/* Icon bubble — gradient background cho depth */\n"
+"QLabel#lbl_icon_buy {\n"
+"    background: qlineargradient(x1:0,y1:0,x2:1,y2:1,\n"
+"        stop:0 #E1F5FE, stop:1 #B3E5FC);\n"
 "    border-radius: 14px;\n"
-"    border: 1px solid #B3E0F5;\n"
+"    font-size: 24px;\n"
+"    border: 1px solid #81D4FA;\n"
 "}\n"
+"QLabel#lbl_icon_ticket {\n"
+"    background: qlineargradient(x1:0,y1:0,x2:1,y2:1,\n"
+"        stop:0 #E8F5E9, stop:1 #C8E6C9);\n"
+"    border-radius: 14px;\n"
+"    font-size: 24px;\n"
+"    border: 1px solid #A5D6A7;\n"
+"}\n"
+"\n"
+"QLabel#lbl_menu_title {\n"
+"    color: #083F66;\n"
+"    font-size: 15px;\n"
+"    font-weight: 700;\n"
+"    letter-spacing: 0.1px;\n"
+"}\n"
+"QLabel#lbl_menu_sub {\n"
+"    color: #4A9FC0;\n"
+"    font-size: 11.5px;\n"
+"    line-height: 1.4;\n"
+"}\n"
+"\n"
+"/* ══════════════════════════════════════════════\n"
+"   TIP BANNER — subtle card với accent border kép\n"
+"   ══════════════════════════════════════════════ */\n"
+"QFrame#tip_banner {\n"
+"    background: qlineargradient(x1:0,y1:0,x2:1,y2:0,\n"
+"        stop:0 #E1F5FE, stop:1 #EDF7FB);\n"
+"    border-radius: 16px;\n"
+"    border: 1px solid #B3E0F5;\n"
+"    border-left: 4px solid #29B6F6;\n"
+"}\n"
+"\n"
 "QLabel#lbl_tip_icon {\n"
-"    font-size: 18px;\n"
+"    font-size: 20px;\n"
 "}\n"
 "QLabel#lbl_tip_title {\n"
-"    color: #0288D1;\n"
+"    color: #0277BD;\n"
 "    font-size: 13px;\n"
 "    font-weight: 700;\n"
+"    letter-spacing: 0.1px;\n"
 "}\n"
 "QLabel#lbl_tip_body {\n"
-"    color: #0D6FA6;\n"
-"    font-size: 12px;\n"
+"    color: #1A6E9A;\n"
+"    font-size: 11.5px;\n"
+"    line-height: 1.5;\n"
+"}\n"
+"\n"
+"/* ══════════════════════════════════════════════\n"
+"   SCROLL AREA — trong suốt, scrollbar mỏng\n"
+"   ══════════════════════════════════════════════ */\n"
+"QScrollArea {\n"
+"    background: transparent;\n"
+"    border: none;\n"
+"}\n"
+"QScrollBar:vertical {\n"
+"    width: 5px;\n"
+"    background: transparent;\n"
+"    margin: 4px 0px;\n"
+"}\n"
+"QScrollBar::handle:vertical {\n"
+"    background: #90CAE8;\n"
+"    border-radius: 2px;\n"
+"    min-height: 20px;\n"
+"}\n"
+"QScrollBar::handle:vertical:hover {\n"
+"    background: #29B6F6;\n"
+"}\n"
+"QScrollBar::add-line:vertical,\n"
+"QScrollBar::sub-line:vertical {\n"
+"    height: 0px;\n"
 "}\n"
 "   ")
         self.centralwidget = QtWidgets.QWidget(parent=DashboardWindow)
-        self.centralwidget.setGeometry(QtCore.QRect(0, 0, 440, 680))
         self.centralwidget.setObjectName("centralwidget")
         self.root_vbox = QtWidgets.QVBoxLayout(self.centralwidget)
         self.root_vbox.setContentsMargins(0, 0, 0, 0)
@@ -197,7 +289,6 @@ class Ui_DashboardWindow(object):
         self.header_layout.addWidget(self.btn_logout)
         self.root_vbox.addWidget(self.header)
         self.scroll_area = QtWidgets.QScrollArea(parent=self.centralwidget)
-        self.scroll_area.setStyleSheet("QScrollArea { background: transparent; border: none; } QScrollBar:vertical { width: 6px; background: #E8F6FD; } QScrollBar::handle:vertical { background: #B3E0F5; border-radius: 3px; } QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical { height: 0px; }")
         self.scroll_area.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
         self.scroll_area.setWidgetResizable(True)
         self.scroll_area.setObjectName("scroll_area")
@@ -206,15 +297,15 @@ class Ui_DashboardWindow(object):
         self.scroll_contents.setStyleSheet("QWidget#scroll_contents { background: transparent; }")
         self.scroll_contents.setObjectName("scroll_contents")
         self.body_vbox = QtWidgets.QVBoxLayout(self.scroll_contents)
-        self.body_vbox.setContentsMargins(20, 20, 20, 24)
+        self.body_vbox.setContentsMargins(20, 22, 20, 28)
         self.body_vbox.setSpacing(16)
         self.body_vbox.setObjectName("body_vbox")
         self.wallet_card = QtWidgets.QFrame(parent=self.scroll_contents)
         self.wallet_card.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.wallet_card.setObjectName("wallet_card")
         self.wallet_vbox = QtWidgets.QVBoxLayout(self.wallet_card)
-        self.wallet_vbox.setContentsMargins(22, 20, 22, 20)
-        self.wallet_vbox.setSpacing(8)
+        self.wallet_vbox.setContentsMargins(24, 22, 24, 22)
+        self.wallet_vbox.setSpacing(6)
         self.wallet_vbox.setObjectName("wallet_vbox")
         self.lbl_wallet_title = QtWidgets.QLabel(parent=self.wallet_card)
         self.lbl_wallet_title.setObjectName("lbl_wallet_title")
@@ -222,7 +313,7 @@ class Ui_DashboardWindow(object):
         self.lbl_balance = QtWidgets.QLabel(parent=self.wallet_card)
         self.lbl_balance.setObjectName("lbl_balance")
         self.wallet_vbox.addWidget(self.lbl_balance)
-        spacerItem1 = QtWidgets.QSpacerItem(0, 6, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Fixed)
+        spacerItem1 = QtWidgets.QSpacerItem(0, 10, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Fixed)
         self.wallet_vbox.addItem(spacerItem1)
         self.wallet_btn_row = QtWidgets.QHBoxLayout()
         self.wallet_btn_row.setSpacing(12)
@@ -231,12 +322,21 @@ class Ui_DashboardWindow(object):
         self.btn_topup.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.btn_topup.setObjectName("btn_topup")
         self.wallet_btn_row.addWidget(self.btn_topup)
-        self.btn_history = QtWidgets.QPushButton(parent=self.wallet_card)
-        self.btn_history.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-        self.btn_history.setObjectName("btn_history")
-        self.wallet_btn_row.addWidget(self.btn_history)
+        self.btn_refund = QtWidgets.QPushButton(parent=self.wallet_card)
+        self.btn_refund.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.btn_refund.setObjectName("btn_refund")
+        self.wallet_btn_row.addWidget(self.btn_refund)
         self.wallet_vbox.addLayout(self.wallet_btn_row)
         self.body_vbox.addWidget(self.wallet_card)
+        self.lbl_section_menu = QtWidgets.QLabel(parent=self.scroll_contents)
+        self.lbl_section_menu.setStyleSheet("\n"
+"            color: #5B9EB8;\n"
+"            font-size: 11px;\n"
+"            font-weight: 700;\n"
+"            letter-spacing: 1.2px;\n"
+"           ")
+        self.lbl_section_menu.setObjectName("lbl_section_menu")
+        self.body_vbox.addWidget(self.lbl_section_menu)
         self.menu_grid = QtWidgets.QHBoxLayout()
         self.menu_grid.setSpacing(14)
         self.menu_grid.setObjectName("menu_grid")
@@ -245,12 +345,12 @@ class Ui_DashboardWindow(object):
         self.card_buy.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.card_buy.setObjectName("card_buy")
         self.card_buy_vbox = QtWidgets.QVBoxLayout(self.card_buy)
-        self.card_buy_vbox.setContentsMargins(16, 18, 16, 18)
+        self.card_buy_vbox.setContentsMargins(18, 20, 18, 20)
         self.card_buy_vbox.setSpacing(10)
         self.card_buy_vbox.setObjectName("card_buy_vbox")
         self.lbl_icon_buy = QtWidgets.QLabel(parent=self.card_buy)
-        self.lbl_icon_buy.setMinimumSize(QtCore.QSize(44, 44))
-        self.lbl_icon_buy.setMaximumSize(QtCore.QSize(44, 44))
+        self.lbl_icon_buy.setMinimumSize(QtCore.QSize(48, 48))
+        self.lbl_icon_buy.setMaximumSize(QtCore.QSize(48, 48))
         self.lbl_icon_buy.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.lbl_icon_buy.setObjectName("lbl_icon_buy")
         self.card_buy_vbox.addWidget(self.lbl_icon_buy)
@@ -261,7 +361,7 @@ class Ui_DashboardWindow(object):
         self.lbl_menu_sub.setWordWrap(True)
         self.lbl_menu_sub.setObjectName("lbl_menu_sub")
         self.card_buy_vbox.addWidget(self.lbl_menu_sub)
-        spacerItem2 = QtWidgets.QSpacerItem(0, 10, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
+        spacerItem2 = QtWidgets.QSpacerItem(0, 6, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
         self.card_buy_vbox.addItem(spacerItem2)
         self.menu_grid.addWidget(self.card_buy)
         self.card_myticket = QtWidgets.QFrame(parent=self.scroll_contents)
@@ -269,25 +369,25 @@ class Ui_DashboardWindow(object):
         self.card_myticket.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.card_myticket.setObjectName("card_myticket")
         self.card_ticket_vbox = QtWidgets.QVBoxLayout(self.card_myticket)
-        self.card_ticket_vbox.setContentsMargins(16, 18, 16, 18)
+        self.card_ticket_vbox.setContentsMargins(18, 20, 18, 20)
         self.card_ticket_vbox.setSpacing(10)
         self.card_ticket_vbox.setObjectName("card_ticket_vbox")
         self.lbl_icon_ticket = QtWidgets.QLabel(parent=self.card_myticket)
-        self.lbl_icon_ticket.setMinimumSize(QtCore.QSize(44, 44))
-        self.lbl_icon_ticket.setMaximumSize(QtCore.QSize(44, 44))
+        self.lbl_icon_ticket.setMinimumSize(QtCore.QSize(48, 48))
+        self.lbl_icon_ticket.setMaximumSize(QtCore.QSize(48, 48))
         self.lbl_icon_ticket.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.lbl_icon_ticket.setObjectName("lbl_icon_ticket")
         self.card_ticket_vbox.addWidget(self.lbl_icon_ticket)
         self.lbl_menu_title_2 = QtWidgets.QLabel(parent=self.card_myticket)
-        self.lbl_menu_title_2.setStyleSheet("color: #0A4D7A; font-size: 15px; font-weight: 700;")
+        self.lbl_menu_title_2.setStyleSheet("color: #083F66; font-size: 15px; font-weight: 700; letter-spacing: 0.1px;")
         self.lbl_menu_title_2.setObjectName("lbl_menu_title_2")
         self.card_ticket_vbox.addWidget(self.lbl_menu_title_2)
         self.lbl_menu_sub_2 = QtWidgets.QLabel(parent=self.card_myticket)
-        self.lbl_menu_sub_2.setStyleSheet("color: #3A9EC9; font-size: 12px;")
+        self.lbl_menu_sub_2.setStyleSheet("color: #4A9FC0; font-size: 11.5px;")
         self.lbl_menu_sub_2.setWordWrap(True)
         self.lbl_menu_sub_2.setObjectName("lbl_menu_sub_2")
         self.card_ticket_vbox.addWidget(self.lbl_menu_sub_2)
-        spacerItem3 = QtWidgets.QSpacerItem(0, 10, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
+        spacerItem3 = QtWidgets.QSpacerItem(0, 6, QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Expanding)
         self.card_ticket_vbox.addItem(spacerItem3)
         self.menu_grid.addWidget(self.card_myticket)
         self.body_vbox.addLayout(self.menu_grid)
@@ -295,15 +395,15 @@ class Ui_DashboardWindow(object):
         self.tip_banner.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.tip_banner.setObjectName("tip_banner")
         self.tip_layout = QtWidgets.QHBoxLayout(self.tip_banner)
-        self.tip_layout.setContentsMargins(16, 14, 16, 14)
-        self.tip_layout.setSpacing(10)
+        self.tip_layout.setContentsMargins(18, 16, 18, 16)
+        self.tip_layout.setSpacing(14)
         self.tip_layout.setObjectName("tip_layout")
         self.lbl_tip_icon = QtWidgets.QLabel(parent=self.tip_banner)
         self.lbl_tip_icon.setAlignment(QtCore.Qt.AlignmentFlag.AlignHCenter|QtCore.Qt.AlignmentFlag.AlignTop)
         self.lbl_tip_icon.setObjectName("lbl_tip_icon")
         self.tip_layout.addWidget(self.lbl_tip_icon)
         self.tip_text_vbox = QtWidgets.QVBoxLayout()
-        self.tip_text_vbox.setSpacing(3)
+        self.tip_text_vbox.setSpacing(4)
         self.tip_text_vbox.setObjectName("tip_text_vbox")
         self.lbl_tip_title = QtWidgets.QLabel(parent=self.tip_banner)
         self.lbl_tip_title.setObjectName("lbl_tip_title")
@@ -330,16 +430,17 @@ class Ui_DashboardWindow(object):
         self.lbl_name.setText(_translate("DashboardWindow", "Khách Hàng #123"))
         self.lbl_email.setText(_translate("DashboardWindow", "customer@metro.vn"))
         self.btn_logout.setText(_translate("DashboardWindow", "⇥  Đăng xuất"))
-        self.lbl_wallet_title.setText(_translate("DashboardWindow", "Số dư ví"))
+        self.lbl_wallet_title.setText(_translate("DashboardWindow", "💳  SỐ DƯ VÍ ĐIỆN TỬ"))
         self.lbl_balance.setText(_translate("DashboardWindow", "500,000 VNĐ"))
-        self.btn_topup.setText(_translate("DashboardWindow", "+  Nạp tiền  ↗"))
-        self.btn_history.setText(_translate("DashboardWindow", "⏱  Lịch sử"))
+        self.btn_topup.setText(_translate("DashboardWindow", "＋  Nạp tiền  ↗"))
+        self.btn_refund.setText(_translate("DashboardWindow", "↩  Hoàn vé  ↗"))
+        self.lbl_section_menu.setText(_translate("DashboardWindow", "Dịch vụ"))
         self.lbl_icon_buy.setText(_translate("DashboardWindow", "🎫"))
-        self.lbl_menu_title.setText(_translate("DashboardWindow", "Mua vé ↗"))
-        self.lbl_menu_sub.setText(_translate("DashboardWindow", "Chọn tuyến và mua vé"))
-        self.lbl_icon_ticket.setText(_translate("DashboardWindow", "📱"))
-        self.lbl_menu_title_2.setText(_translate("DashboardWindow", "Vé của tôi ↗"))
-        self.lbl_menu_sub_2.setText(_translate("DashboardWindow", "Xem vé đã mua"))
+        self.lbl_menu_title.setText(_translate("DashboardWindow", "Mua vé  ↗"))
+        self.lbl_menu_sub.setText(_translate("DashboardWindow", "Chọn tuyến & thanh toán nhanh"))
+        self.lbl_icon_ticket.setText(_translate("DashboardWindow", "🎟️"))
+        self.lbl_menu_title_2.setText(_translate("DashboardWindow", "Vé của tôi  ↗"))
+        self.lbl_menu_sub_2.setText(_translate("DashboardWindow", "Vé còn hiệu lực & lịch sử"))
         self.lbl_tip_icon.setText(_translate("DashboardWindow", "💡"))
         self.lbl_tip_title.setText(_translate("DashboardWindow", "Mẹo tiết kiệm"))
-        self.lbl_tip_body.setText(_translate("DashboardWindow", "Mua vé tháng để tiết kiệm đến 30% chi phí đi lại!"))
+        self.lbl_tip_body.setText(_translate("DashboardWindow", "Vé 3 tháng tiết kiệm đến 30% so với mua vé lẻ hàng ngày."))

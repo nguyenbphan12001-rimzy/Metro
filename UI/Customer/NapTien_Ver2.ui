@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>TopUpWindow</class>
+ <widget class="QMainWindow" name="TopUpWindow">
+  <property name="geometry">
+   <rect><x>0</x><y>0</y><width>460</width><height>700</height></rect>
+  </property>
+  <property name="minimumSize">
+   <size><width>420</width><height>640</height></size>
+  </property>
+  <property name="windowTitle">
+   <string>Metro Ticket System – Nạp tiền</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">
+/* ── Nền tổng: gradient xanh đậm (đồng bộ Login/Dashboard) ── */
+QWidget#centralwidget {
+    background: qlineargradient(x1:0, y1:0, x2:0.3, y2:1,
+        stop:0 #0D1F3C,
+        stop:0.4 #0A3060,
+        stop:0.7 #0D4080,
+        stop:1   #1A5FA8);
+}
+
+/* ── Header row ── */
+QPushButton#btn_back {
+    background: rgba(255,255,255,0.10);
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 10px;
+    color: #E0F2FE;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 6px 14px;
+}
+QPushButton#btn_back:hover { background: rgba(255,255,255,0.18); }
+
+QLabel#lbl_header_title {
+    color: #FFFFFF;
+    font-size: 17px;
+    font-weight: 700;
+}
+
+/* ── Card số dư hiện tại (gradient xanh, giống dashboard) ── */
+QFrame#balance_card {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+        stop:0 #0EA5E9, stop:0.5 #0284C7, stop:1 #075985);
+    border-radius: 20px;
+    border-top: 1px solid rgba(255,255,255,0.25);
+}
+QLabel#lbl_balance_caption {
+    color: rgba(255,255,255,0.85);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+QLabel#lbl_balance_value {
+    color: #FFFFFF;
+    font-size: 30px;
+    font-weight: 800;
+}
+
+/* ── Card trắng chứa form nạp tiền ── */
+QFrame#form_card {
+    background-color: rgba(255, 255, 255, 0.97);
+    border-radius: 22px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+QLabel#lbl_field_amount,
+QLabel#lbl_field_quick,
+QLabel#lbl_field_method {
+    color: #0369A1;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+}
+
+/* ── Ô nhập số tiền ── */
+QLineEdit#inp_amount {
+    background-color: #F0F9FF;
+    border: 1.5px solid #BAE6FD;
+    border-radius: 12px;
+    padding: 12px 14px;
+    font-size: 18px;
+    font-weight: 700;
+    color: #0C4A6E;
+    selection-background-color: #29B6F6;
+}
+QLineEdit#inp_amount:hover { border-color: #38BDF8; background-color: #E8F6FD; }
+QLineEdit#inp_amount:focus { border-color: #0284C7; background-color: #FFFFFF; }
+
+/* ── Quick amount chips ── */
+QPushButton#btn_quick_1, QPushButton#btn_quick_2,
+QPushButton#btn_quick_3, QPushButton#btn_quick_4 {
+    background-color: #F0F9FF;
+    border: 1.5px solid #BAE6FD;
+    border-radius: 12px;
+    color: #0369A1;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 10px 0px;
+}
+QPushButton#btn_quick_1:hover, QPushButton#btn_quick_2:hover,
+QPushButton#btn_quick_3:hover, QPushButton#btn_quick_4:hover {
+    border-color: #38BDF8; background-color: #E8F6FD;
+}
+QPushButton#btn_quick_1:checked, QPushButton#btn_quick_2:checked,
+QPushButton#btn_quick_3:checked, QPushButton#btn_quick_4:checked {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+        stop:0 #0284C7, stop:1 #38BDF8);
+    color: #FFFFFF;
+    border: none;
+}
+
+/* ── Dropdown phương thức thanh toán ── */
+QComboBox#cbo_payment_method {
+    background-color: #F0F9FF;
+    border: 1.5px solid #BAE6FD;
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-size: 14px;
+    color: #0C4A6E;
+}
+QComboBox#cbo_payment_method:hover { border-color: #38BDF8; }
+QComboBox#cbo_payment_method::drop-down { border: none; width: 28px; }
+QComboBox#cbo_payment_method QAbstractItemView {
+    background-color: #FFFFFF;
+    border: 1px solid #BAE6FD;
+    border-radius: 8px;
+    selection-background-color: #BAE6FD;
+    color: #0C4A6E;
+    padding: 4px;
+}
+
+/* ── Nút xác nhận nạp tiền (gradient, giống btn_login) ── */
+QPushButton#btn_confirm_topup {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+        stop:0 #0284C7, stop:0.5 #0EA5E9, stop:1 #38BDF8);
+    color: #FFFFFF;
+    border: none;
+    border-radius: 14px;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 14px 0px;
+    border-top: 1px solid rgba(255,255,255,0.2);
+}
+QPushButton#btn_confirm_topup:hover {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+        stop:0 #0369A1, stop:0.5 #0284C7, stop:1 #0EA5E9);
+}
+QPushButton#btn_confirm_topup:pressed {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+        stop:0 #075985, stop:1 #0284C7);
+}
+QPushButton#btn_confirm_topup:disabled {
+    background: #BAE6FD;
+    color: rgba(255,255,255,0.6);
+}
+
+QLabel#lbl_note {
+    color: #64748B;
+    font-size: 11px;
+}
+   </string>
+  </property>
+
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="root_layout">
+    <property name="spacing"><number>0</number></property>
+    <property name="leftMargin"><number>28</number></property>
+    <property name="topMargin"><number>24</number></property>
+    <property name="rightMargin"><number>28</number></property>
+    <property name="bottomMargin"><number>28</number></property>
+
+    <!-- ── HEADER: nút quay lại + tiêu đề ── -->
+    <item>
+     <layout class="QHBoxLayout" name="header_row">
+      <item>
+       <widget class="QPushButton" name="btn_back">
+        <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
+        <property name="text"><string>←  Quay lại</string></property>
+        <property name="flat"><bool>true</bool></property>
+       </widget>
+      </item>
+      <item><spacer><property name="orientation"><enum>Qt::Horizontal</enum></property><property name="sizeHint" stdset="0"><size><width>20</width><height>20</height></size></property></spacer></item>
+      <item>
+       <widget class="QLabel" name="lbl_header_title">
+        <property name="text"><string>Nạp tiền vào ví</string></property>
+       </widget>
+      </item>
+      <item><spacer><property name="orientation"><enum>Qt::Horizontal</enum></property><property name="sizeHint" stdset="0"><size><width>20</width><height>20</height></size></property></spacer></item>
+     </layout>
+    </item>
+
+    <item><spacer><property name="orientation"><enum>Qt::Vertical</enum></property><property name="sizeType"><enum>QSizePolicy::Fixed</enum></property><property name="sizeHint" stdset="0"><size><width>0</width><height>18</height></size></property></spacer></item>
+
+    <!-- ── CARD SỐ DƯ HIỆN TẠI ── -->
+    <item>
+     <widget class="QFrame" name="balance_card">
+      <property name="frameShape"><enum>QFrame::NoFrame</enum></property>
+      <layout class="QVBoxLayout" name="balance_layout">
+       <property name="leftMargin"><number>22</number></property>
+       <property name="topMargin"><number>18</number></property>
+       <property name="rightMargin"><number>22</number></property>
+       <property name="bottomMargin"><number>20</number></property>
+       <item>
+        <widget class="QLabel" name="lbl_balance_caption">
+         <property name="text"><string>💳  SỐ DƯ HIỆN TẠI</string></property>
+        </widget>
+       </item>
+       <item><spacer><property name="orientation"><enum>Qt::Vertical</enum></property><property name="sizeType"><enum>QSizePolicy::Fixed</enum></property><property name="sizeHint" stdset="0"><size><width>0</width><height>6</height></size></property></spacer></item>
+       <item>
+        <widget class="QLabel" name="lbl_balance_value">
+         <!-- SỬA: giá trị này được set động trong _EX.py từ WALLET.balance -->
+         <property name="text"><string>500,000 VNĐ</string></property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+
+    <item><spacer><property name="orientation"><enum>Qt::Vertical</enum></property><property name="sizeType"><enum>QSizePolicy::Fixed</enum></property><property name="sizeHint" stdset="0"><size><width>0</width><height>18</height></size></property></spacer></item>
+
+    <!-- ── CARD FORM NẠP TIỀN ── -->
+    <item>
+     <widget class="QFrame" name="form_card">
+      <property name="frameShape"><enum>QFrame::NoFrame</enum></property>
+      <layout class="QVBoxLayout" name="form_layout">
+       <property name="spacing"><number>0</number></property>
+       <property name="leftMargin"><number>26</number></property>
+       <property name="topMargin"><number>24</number></property>
+       <property name="rightMargin"><number>26</number></property>
+       <property name="bottomMargin"><number>24</number></property>
+
+       <!-- Số tiền nạp -->
+       <item>
+        <widget class="QLabel" name="lbl_field_amount">
+         <property name="text"><string>SỐ TIỀN NẠP (VNĐ)</string></property>
+        </widget>
+       </item>
+       <item><spacer><property name="orientation"><enum>Qt::Vertical</enum></property><property name="sizeType"><enum>QSizePolicy::Fixed</enum></property><property name="sizeHint" stdset="0"><size><width>0</width><height>7</height></size></property></spacer></item>
+       <item>
+        <widget class="QLineEdit" name="inp_amount">
+         <property name="placeholderText"><string>Nhập số tiền muốn nạp...</string></property>
+         <property name="clearButtonEnabled"><bool>true</bool></property>
+        </widget>
+       </item>
+
+       <item><spacer><property name="orientation"><enum>Qt::Vertical</enum></property><property name="sizeType"><enum>QSizePolicy::Fixed</enum></property><property name="sizeHint" stdset="0"><size><width>0</width><height>18</height></size></property></spacer></item>
+
+       <!-- Chọn nhanh -->
+       <item>
+        <widget class="QLabel" name="lbl_field_quick">
+         <property name="text"><string>CHỌN NHANH</string></property>
+        </widget>
+       </item>
+       <item><spacer><property name="orientation"><enum>Qt::Vertical</enum></property><property name="sizeType"><enum>QSizePolicy::Fixed</enum></property><property name="sizeHint" stdset="0"><size><width>0</width><height>7</height></size></property></spacer></item>
+       <item>
+        <layout class="QHBoxLayout" name="quick_row">
+         <property name="spacing"><number>8</number></property>
+         <item>
+          <widget class="QPushButton" name="btn_quick_1">
+           <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
+           <property name="text"><string>50,000</string></property>
+           <property name="checkable"><bool>true</bool></property>
+           <property name="autoExclusive"><bool>true</bool></property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btn_quick_2">
+           <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
+           <property name="text"><string>100,000</string></property>
+           <property name="checkable"><bool>true</bool></property>
+           <property name="autoExclusive"><bool>true</bool></property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btn_quick_3">
+           <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
+           <property name="text"><string>200,000</string></property>
+           <property name="checkable"><bool>true</bool></property>
+           <property name="autoExclusive"><bool>true</bool></property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btn_quick_4">
+           <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
+           <property name="text"><string>500,000</string></property>
+           <property name="checkable"><bool>true</bool></property>
+           <property name="autoExclusive"><bool>true</bool></property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+
+       <item><spacer><property name="orientation"><enum>Qt::Vertical</enum></property><property name="sizeType"><enum>QSizePolicy::Fixed</enum></property><property name="sizeHint" stdset="0"><size><width>0</width><height>18</height></size></property></spacer></item>
+
+       <!-- Phương thức thanh toán: dropdown thật, lấy từ PAYMENT_METHOD -->
+       <item>
+        <widget class="QLabel" name="lbl_field_method">
+         <property name="text"><string>PHƯƠNG THỨC THANH TOÁN</string></property>
+        </widget>
+       </item>
+       <item><spacer><property name="orientation"><enum>Qt::Vertical</enum></property><property name="sizeType"><enum>QSizePolicy::Fixed</enum></property><property name="sizeHint" stdset="0"><size><width>0</width><height>7</height></size></property></spacer></item>
+       <item>
+        <widget class="QComboBox" name="cbo_payment_method">
+         <!-- SỬA: nạp danh sách item từ bảng PAYMENT_METHOD trong _EX.py, không hardcode -->
+         <item><property name="text"><string>Tiền mặt</string></property></item>
+         <item><property name="text"><string>Thẻ tín dụng</string></property></item>
+         <item><property name="text"><string>MoMo</string></property></item>
+         <item><property name="text"><string>VNPay</string></property></item>
+        </widget>
+       </item>
+
+       <item><spacer><property name="orientation"><enum>Qt::Vertical</enum></property><property name="sizeType"><enum>QSizePolicy::Fixed</enum></property><property name="sizeHint" stdset="0"><size><width>0</width><height>24</height></size></property></spacer></item>
+
+       <!-- Nút xác nhận -->
+       <item>
+        <widget class="QPushButton" name="btn_confirm_topup">
+         <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
+         <property name="text"><string>Xác nhận nạp tiền  ↗</string></property>
+         <property name="default"><bool>true</bool></property>
+        </widget>
+       </item>
+
+       <item><spacer><property name="orientation"><enum>Qt::Vertical</enum></property><property name="sizeType"><enum>QSizePolicy::Fixed</enum></property><property name="sizeHint" stdset="0"><size><width>0</width><height>10</height></size></property></spacer></item>
+
+       <item>
+        <widget class="QLabel" name="lbl_note">
+         <property name="text"><string>* Giao dịch sẽ được ghi vào lịch sử nạp tiền và cộng vào ví ngay lập tức.</string></property>
+         <property name="alignment"><set>Qt::AlignCenter</set></property>
+         <property name="wordWrap"><bool>true</bool></property>
+        </widget>
+       </item>
+
+      </layout>
+     </widget>
+    </item>
+
+    <item><spacer><property name="orientation"><enum>Qt::Vertical</enum></property><property name="sizeHint" stdset="0"><size><width>20</width><height>30</height></size></property></spacer></item>
+
+   </layout>
+  </widget>
+ </widget>
+
+ <tabstops>
+  <tabstop>inp_amount</tabstop>
+  <tabstop>btn_quick_1</tabstop>
+  <tabstop>btn_quick_2</tabstop>
+  <tabstop>btn_quick_3</tabstop>
+  <tabstop>btn_quick_4</tabstop>
+  <tabstop>cbo_payment_method</tabstop>
+  <tabstop>btn_confirm_topup</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>

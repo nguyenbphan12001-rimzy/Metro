@@ -1,0 +1,520 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>RefundWindow</class>
+ <widget class="QMainWindow" name="RefundWindow">
+  <property name="geometry">
+   <rect><x>0</x><y>0</y><width>460</width><height>750</height></rect>
+  </property>
+  <property name="minimumSize">
+   <size><width>420</width><height>680</height></size>
+  </property>
+  <property name="windowTitle">
+   <string>Metro Ticket System – Hoàn vé</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">
+/* ── Nền tổng: đồng bộ với NapTien / Dashboard ── */
+QWidget#centralwidget {
+    background: qlineargradient(x1:0, y1:0, x2:0.3, y2:1,
+        stop:0 #0D1F3C,
+        stop:0.4 #0A3060,
+        stop:0.7 #0D4080,
+        stop:1   #1A5FA8);
+}
+
+/* ── Header ── */
+QPushButton#btn_back {
+    background: rgba(255,255,255,0.10);
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 10px;
+    color: #E0F2FE;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 6px 14px;
+}
+QPushButton#btn_back:hover { background: rgba(255,255,255,0.18); }
+
+QLabel#lbl_header_title {
+    color: #FFFFFF;
+    font-size: 17px;
+    font-weight: 700;
+}
+
+/* ── Card số dư (đồng bộ dashboard) ── */
+QFrame#balance_card {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+        stop:0 #0EA5E9, stop:0.5 #0284C7, stop:1 #075985);
+    border-radius: 20px;
+    border-top: 1px solid rgba(255,255,255,0.25);
+}
+QLabel#lbl_balance_caption {
+    color: rgba(255,255,255,0.85);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+QLabel#lbl_balance_value {
+    color: #FFFFFF;
+    font-size: 30px;
+    font-weight: 800;
+}
+
+/* ── Card trắng chứa nội dung ── */
+QFrame#refund_card {
+    background-color: rgba(255, 255, 255, 0.97);
+    border-radius: 22px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* ── Label nhãn field ── */
+QLabel#lbl_field_ticket,
+QLabel#lbl_field_info {
+    color: #0369A1;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+}
+
+/* ── Ô nhập mã vé ── */
+QLineEdit#inp_ticket_code {
+    background-color: #F0F9FF;
+    border: 1.5px solid #BAE6FD;
+    border-radius: 12px;
+    padding: 12px 14px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #0C4A6E;
+    selection-background-color: #29B6F6;
+}
+QLineEdit#inp_ticket_code:hover { border-color: #38BDF8; background-color: #E8F6FD; }
+QLineEdit#inp_ticket_code:focus { border-color: #0284C7; background-color: #FFFFFF; }
+
+/* ── Nút tra cứu ── */
+QPushButton#btn_lookup {
+    background: rgba(14,165,233,0.12);
+    border: 1.5px solid #BAE6FD;
+    border-radius: 12px;
+    color: #0284C7;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 12px 0px;
+}
+QPushButton#btn_lookup:hover {
+    background: rgba(14,165,233,0.22);
+    border-color: #0EA5E9;
+}
+
+/* ── Card thông tin vé (hiện ra sau khi tra cứu) ── */
+QFrame#ticket_info_card {
+    background-color: #F0F9FF;
+    border: 1.5px solid #BAE6FD;
+    border-radius: 14px;
+}
+QLabel#lbl_ticket_route {
+    color: #0C4A6E;
+    font-size: 14px;
+    font-weight: 700;
+}
+QLabel#lbl_ticket_type {
+    color: #0284C7;
+    font-size: 12px;
+    font-weight: 600;
+}
+QLabel#lbl_ticket_date {
+    color: #64748B;
+    font-size: 11px;
+}
+QLabel#lbl_ticket_price_caption {
+    color: #64748B;
+    font-size: 11px;
+}
+QLabel#lbl_ticket_price_value {
+    color: #0EA5E9;
+    font-size: 20px;
+    font-weight: 800;
+}
+
+/* ── Badge trạng thái vé ── */
+QLabel#badge_status {
+    background-color: #DCFCE7;
+    color: #166534;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+}
+
+/* ── Divider ── */
+QFrame#divider {
+    color: #E0F2FE;
+}
+
+/* ── Số tiền hoàn (hiển thị nổi bật) ── */
+QFrame#refund_amount_row {
+    background-color: #FFF7ED;
+    border: 1.5px solid #FED7AA;
+    border-radius: 12px;
+}
+QLabel#lbl_refund_caption {
+    color: #9A3412;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+}
+QLabel#lbl_refund_amount {
+    color: #EA580C;
+    font-size: 22px;
+    font-weight: 800;
+}
+QLabel#lbl_refund_note {
+    color: #C2410C;
+    font-size: 11px;
+}
+
+/* ── Nút xác nhận hoàn vé ── */
+QPushButton#btn_confirm_refund {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+        stop:0 #0284C7, stop:0.5 #0EA5E9, stop:1 #38BDF8);
+    color: #FFFFFF;
+    border: none;
+    border-radius: 14px;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 14px 0px;
+    border-top: 1px solid rgba(255,255,255,0.2);
+}
+QPushButton#btn_confirm_refund:hover {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+        stop:0 #0369A1, stop:0.5 #0284C7, stop:1 #0EA5E9);
+}
+QPushButton#btn_confirm_refund:pressed {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+        stop:0 #075985, stop:1 #0284C7);
+}
+QPushButton#btn_confirm_refund:disabled {
+    background: #BAE6FD;
+    color: rgba(255,255,255,0.6);
+}
+
+QLabel#lbl_bottom_note {
+    color: rgba(255,255,255,0.55);
+    font-size: 11px;
+}
+   </string>
+  </property>
+
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="root_layout">
+    <property name="spacing"><number>0</number></property>
+    <property name="leftMargin"><number>28</number></property>
+    <property name="topMargin"><number>24</number></property>
+    <property name="rightMargin"><number>28</number></property>
+    <property name="bottomMargin"><number>28</number></property>
+
+    <!-- ── HEADER ── -->
+    <item>
+     <layout class="QHBoxLayout" name="header_row">
+      <property name="spacing"><number>0</number></property>
+      <item>
+       <widget class="QPushButton" name="btn_back">
+        <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
+        <property name="text"><string>←  Quay lại</string></property>
+        <property name="flat"><bool>true</bool></property>
+       </widget>
+      </item>
+      <item>
+       <spacer>
+        <property name="orientation"><enum>Qt::Horizontal</enum></property>
+        <property name="sizeHint" stdset="0"><size><width>20</width><height>20</height></size></property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QLabel" name="lbl_header_title">
+        <property name="text"><string>↩  Hoàn vé</string></property>
+        <property name="alignment"><set>Qt::AlignCenter</set></property>
+       </widget>
+      </item>
+      <item>
+       <spacer>
+        <property name="orientation"><enum>Qt::Horizontal</enum></property>
+        <property name="sizeHint" stdset="0"><size><width>20</width><height>20</height></size></property>
+       </spacer>
+      </item>
+     </layout>
+    </item>
+
+    <item>
+     <spacer>
+      <property name="orientation"><enum>Qt::Vertical</enum></property>
+      <property name="sizeType"><enum>QSizePolicy::Fixed</enum></property>
+      <property name="sizeHint" stdset="0"><size><width>0</width><height>18</height></size></property>
+     </spacer>
+    </item>
+
+    <!-- ── CARD SỐ DƯ ── -->
+    <item>
+     <widget class="QFrame" name="balance_card">
+      <property name="minimumSize"><size><width>0</width><height>88</height></size></property>
+      <property name="maximumSize"><size><width>16777215</width><height>88</height></size></property>
+      <property name="frameShape"><enum>QFrame::NoFrame</enum></property>
+      <layout class="QVBoxLayout" name="balance_card_layout">
+       <property name="leftMargin"><number>20</number></property>
+       <property name="topMargin"><number>14</number></property>
+       <property name="rightMargin"><number>20</number></property>
+       <property name="bottomMargin"><number>14</number></property>
+       <property name="spacing"><number>4</number></property>
+       <item>
+        <widget class="QLabel" name="lbl_balance_caption">
+         <property name="text"><string>SỐ DƯ VÍ ĐIỆN TỬ</string></property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="lbl_balance_value">
+         <property name="text"><string>500,000 VNĐ</string></property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+
+    <item>
+     <spacer>
+      <property name="orientation"><enum>Qt::Vertical</enum></property>
+      <property name="sizeType"><enum>QSizePolicy::Fixed</enum></property>
+      <property name="sizeHint" stdset="0"><size><width>0</width><height>16</height></size></property>
+     </spacer>
+    </item>
+
+    <!-- ── CARD CHÍNH ── -->
+    <item>
+     <widget class="QFrame" name="refund_card">
+      <property name="frameShape"><enum>QFrame::NoFrame</enum></property>
+      <layout class="QVBoxLayout" name="refund_card_layout">
+       <property name="leftMargin"><number>22</number></property>
+       <property name="topMargin"><number>22</number></property>
+       <property name="rightMargin"><number>22</number></property>
+       <property name="bottomMargin"><number>22</number></property>
+       <property name="spacing"><number>14</number></property>
+
+       <!-- Label field nhập mã vé -->
+       <item>
+        <widget class="QLabel" name="lbl_field_ticket">
+         <property name="text"><string>MÃ VÉ CẦN HOÀN</string></property>
+        </widget>
+       </item>
+
+       <!-- Row nhập mã + nút tra cứu -->
+       <item>
+        <layout class="QHBoxLayout" name="lookup_row">
+         <property name="spacing"><number>10</number></property>
+         <item>
+          <widget class="QLineEdit" name="inp_ticket_code">
+           <property name="placeholderText"><string>Nhập mã QR hoặc ticket ID...</string></property>
+           <property name="minimumHeight"><number>46</number></property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btn_lookup">
+           <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
+           <property name="text"><string>Tra cứu</string></property>
+           <property name="minimumSize"><size><width>88</width><height>46</height></size></property>
+           <property name="maximumSize"><size><width>88</width><height>46</height></size></property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+
+       <!-- Divider -->
+       <item>
+        <widget class="QFrame" name="divider">
+         <property name="frameShape"><enum>QFrame::HLine</enum></property>
+         <property name="frameShadow"><enum>QFrame::Sunken</enum></property>
+        </widget>
+       </item>
+
+       <!-- Label thông tin vé -->
+       <item>
+        <widget class="QLabel" name="lbl_field_info">
+         <property name="text"><string>THÔNG TIN VÉ</string></property>
+        </widget>
+       </item>
+
+       <!-- Card thông tin vé (ẩn mặc định, hiện sau khi tra cứu) -->
+       <item>
+        <widget class="QFrame" name="ticket_info_card">
+         <property name="frameShape"><enum>QFrame::NoFrame</enum></property>
+         <property name="visible"><bool>false</bool></property>
+         <layout class="QVBoxLayout" name="ticket_info_layout">
+          <property name="leftMargin"><number>16</number></property>
+          <property name="topMargin"><number>14</number></property>
+          <property name="rightMargin"><number>16</number></property>
+          <property name="bottomMargin"><number>14</number></property>
+          <property name="spacing"><number>10</number></property>
+
+          <!-- Row: icon + tuyến + badge trạng thái -->
+          <item>
+           <layout class="QHBoxLayout" name="ticket_top_row">
+            <property name="spacing"><number>8</number></property>
+            <item>
+             <widget class="QLabel" name="lbl_ticket_icon">
+              <property name="text"><string>🎫</string></property>
+              <property name="styleSheet"><string>font-size: 22px;</string></property>
+             </widget>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="ticket_title_col">
+              <property name="spacing"><number>2</number></property>
+              <item>
+               <widget class="QLabel" name="lbl_ticket_route">
+                <property name="text"><string>Bến Thành → Suối Tiên</string></property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="lbl_ticket_type">
+                <property name="text"><string>Vé lượt</string></property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <spacer>
+              <property name="orientation"><enum>Qt::Horizontal</enum></property>
+              <property name="sizeHint" stdset="0"><size><width>20</width><height>20</height></size></property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QLabel" name="badge_status">
+              <property name="text"><string>CHƯA DÙNG</string></property>
+              <property name="alignment"><set>Qt::AlignCenter</set></property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+
+          <!-- Ngày mua -->
+          <item>
+           <widget class="QLabel" name="lbl_ticket_date">
+            <property name="text"><string>Ngày mua: 01/06/2026 06:10</string></property>
+           </widget>
+          </item>
+
+          <!-- Row giá vé -->
+          <item>
+           <layout class="QHBoxLayout" name="price_row">
+            <item>
+             <widget class="QLabel" name="lbl_ticket_price_caption">
+              <property name="text"><string>Giá vé đã thanh toán</string></property>
+             </widget>
+            </item>
+            <item>
+             <spacer>
+              <property name="orientation"><enum>Qt::Horizontal</enum></property>
+              <property name="sizeHint" stdset="0"><size><width>20</width><height>20</height></size></property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QLabel" name="lbl_ticket_price_value">
+              <property name="text"><string>39.000 VNĐ</string></property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+
+         </layout>
+        </widget>
+       </item>
+
+       <!-- Placeholder khi chưa tra cứu -->
+       <item>
+        <widget class="QLabel" name="lbl_empty_state">
+         <property name="text"><string>🔍  Nhập mã vé và bấm "Tra cứu" để xem thông tin</string></property>
+         <property name="alignment"><set>Qt::AlignCenter</set></property>
+         <property name="wordWrap"><bool>true</bool></property>
+         <property name="styleSheet"><string>color: #94A3B8; font-size: 12px; padding: 12px 0px;</string></property>
+        </widget>
+       </item>
+
+       <!-- Row số tiền hoàn (ẩn mặc định) -->
+       <item>
+        <widget class="QFrame" name="refund_amount_row">
+         <property name="frameShape"><enum>QFrame::NoFrame</enum></property>
+         <property name="visible"><bool>false</bool></property>
+         <layout class="QHBoxLayout" name="refund_amount_layout">
+          <property name="leftMargin"><number>16</number></property>
+          <property name="topMargin"><number>12</number></property>
+          <property name="rightMargin"><number>16</number></property>
+          <property name="bottomMargin"><number>12</number></property>
+          <property name="spacing"><number>8</number></property>
+          <item>
+           <layout class="QVBoxLayout" name="refund_text_col">
+            <property name="spacing"><number>2</number></property>
+            <item>
+             <widget class="QLabel" name="lbl_refund_caption">
+              <property name="text"><string>SỐ TIỀN ĐƯỢC HOÀN</string></property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="lbl_refund_note">
+              <property name="text"><string>Hoàn 100% vì vé chưa sử dụng</string></property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <spacer>
+            <property name="orientation"><enum>Qt::Horizontal</enum></property>
+            <property name="sizeHint" stdset="0"><size><width>20</width><height>20</height></size></property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QLabel" name="lbl_refund_amount">
+            <property name="text"><string>39.000 VNĐ</string></property>
+            <property name="alignment"><set>Qt::AlignRight|Qt::AlignVCenter</set></property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+
+      </layout>
+     </widget>
+    </item>
+
+    <item>
+     <spacer>
+      <property name="orientation"><enum>Qt::Vertical</enum></property>
+      <property name="sizeHint" stdset="0"><size><width>20</width><height>20</height></size></property>
+     </spacer>
+    </item>
+
+    <!-- ── NÚT XÁC NHẬN HOÀN VÉ ── -->
+    <item>
+     <widget class="QPushButton" name="btn_confirm_refund">
+      <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
+      <property name="text"><string>↩  Xác nhận hoàn vé</string></property>
+      <property name="minimumSize"><size><width>0</width><height>52</height></size></property>
+      <property name="enabled"><bool>false</bool></property>
+     </widget>
+    </item>
+
+    <item>
+     <spacer>
+      <property name="orientation"><enum>Qt::Vertical</enum></property>
+      <property name="sizeType"><enum>QSizePolicy::Fixed</enum></property>
+      <property name="sizeHint" stdset="0"><size><width>0</width><height>8</height></size></property>
+     </spacer>
+    </item>
+
+    <!-- Ghi chú dưới cùng -->
+    <item>
+     <widget class="QLabel" name="lbl_bottom_note">
+      <property name="text"><string>⚠  Chỉ hoàn được vé có trạng thái CHƯA DÙNG (UNUSED)</string></property>
+      <property name="alignment"><set>Qt::AlignCenter</set></property>
+      <property name="wordWrap"><bool>true</bool></property>
+     </widget>
+    </item>
+
+   </layout>
+  </widget>
+ </widget>
+</ui>

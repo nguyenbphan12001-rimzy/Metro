@@ -21,3 +21,16 @@ def login(user_name, password):
         }
     else:
         return None
+
+def get_user_info(user_id):
+    """SỬA: Lấy thông tin user (tên, sđt) theo user_id để hiển thị lên dashboard"""
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute(
+        "SELECT user_name, phone FROM [USER] WHERE user_id = ?",
+        (user_id,)
+    )
+    row = cursor.fetchone()
+    if row:
+        return {"user_name": row[0], "phone": row[1]}
+    return None

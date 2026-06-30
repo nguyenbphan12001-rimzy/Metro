@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>436</width>
-    <height>851</height>
+    <height>853</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -111,719 +111,686 @@
     QPushButton#btnPay:hover {
         background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #38BDF8, stop:1 #0284C7);
     }
+
+    /* Nút Back (góc trái, cùng hàng với tiêu đề trang) */
+    QPushButton#btnBack {
+        background-color: transparent;
+        border: none;
+        color: #0284C7;
+        font-size: 20px;
+        font-weight: bold;
+        border-radius: 8px;
+    }
+    QPushButton#btnBack:hover {
+        background-color: #E0F2FE;
+    }
+    QPushButton#btnBack:pressed {
+        background-color: #BAE6FD;
+    }
+
+    /* Tiêu đề trang đặt vé, đặt cùng hàng với nút Back */
+    QLabel#lblPageTitle {
+        color: #0C4A6E;
+        font-size: 16px;
+        font-weight: bold;
+    }
    </string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>436</width>
-     <height>851</height>
-    </rect>
-   </property>
    <layout class="QVBoxLayout" name="mainLayout">
-   <property name="spacing">
-    <number>12</number>
-   </property>
-   <property name="leftMargin">
-    <number>14</number>
-   </property>
-   <property name="topMargin">
-    <number>16</number>
-   </property>
-   <property name="rightMargin">
-    <number>14</number>
-   </property>
-   <property name="bottomMargin">
-    <number>24</number>
-   </property>
-   <item>
-    <widget class="QFrame" name="cardJourney">
-     <property name="frameShape">
-      <enum>QFrame::NoFrame</enum>
-     </property>
-     <layout class="QVBoxLayout" name="journeyLayout">
-      <property name="spacing">
-       <number>10</number>
-      </property>
-      <property name="leftMargin">
-       <number>16</number>
-      </property>
-      <property name="topMargin">
-       <number>16</number>
-      </property>
-      <property name="rightMargin">
-       <number>16</number>
-      </property>
-      <property name="bottomMargin">
-       <number>16</number>
-      </property>
-      <item>
-       <layout class="QHBoxLayout" name="stepperLayout">
-        <property name="spacing">
-         <number>4</number>
-        </property>
-        <item>
-         <widget class="QLabel" name="step1Num">
-          <property name="minimumSize">
-           <size>
-            <width>28</width>
-            <height>28</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>28</width>
-            <height>28</height>
-           </size>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">background:#0EA5E9; color:#fff; border-radius:14px; font-weight:bold; font-size:13px;</string>
-          </property>
-          <property name="text">
-           <string>1</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="step1Label">
-          <property name="styleSheet">
-           <string notr="true">color:#0369A1; font-weight:600; font-size:12px;</string>
-          </property>
-          <property name="text">
-           <string>Chọn tuyến</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="Line" name="line1">
-          <property name="styleSheet">
-           <string notr="true">color: #BAE6FD;</string>
-          </property>
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="step2Num">
-          <property name="minimumSize">
-           <size>
-            <width>28</width>
-            <height>28</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>28</width>
-            <height>28</height>
-           </size>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">background:#fff; border:1.5px solid #BAE6FD; color:#7DD3FC; border-radius:14px; font-size:13px;</string>
-          </property>
-          <property name="text">
-           <string>2</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="step2Label">
-          <property name="styleSheet">
-           <string notr="true">color:#7DD3FC; font-size:12px;</string>
-          </property>
-          <property name="text">
-           <string>Chọn vé</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="Line" name="line2">
-          <property name="styleSheet">
-           <string notr="true">color: #BAE6FD;</string>
-          </property>
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="step3Num">
-          <property name="minimumSize">
-           <size>
-            <width>28</width>
-            <height>28</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>28</width>
-            <height>28</height>
-           </size>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">background:#fff; border:1.5px solid #BAE6FD; color:#7DD3FC; border-radius:14px; font-size:13px;</string>
-          </property>
-          <property name="text">
-           <string>3</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="label">
-          <property name="styleSheet">
-           <string notr="true">color:#7DD3FC; font-size:12px;</string>
-          </property>
-          <property name="text">
-           <string>Thanh Toán</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <widget class="QLabel" name="lblJourneyTitle">
-        <property name="text">
-         <string>📍 Thông tin hành trình</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="lblLine">
-        <property name="text">
-         <string>Chọn tuyến</string>
-        </property>
-        <property name="class" stdset="0">
-         <string>form-label</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QComboBox" name="comboLine">
-        <item>
-         <property name="text">
-          <string>Tuyến 1: Bến Thành – Suối Tiên</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Tuyến 2: Bến Thành – Tham Lương</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Tuyến 3: Bến Thành – Tân Kiên</string>
-         </property>
-        </item>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="lblFrom">
-        <property name="text">
-         <string>Ga đi</string>
-        </property>
-        <property name="class" stdset="0">
-         <string>form-label</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QComboBox" name="comboFrom">
-        <item>
-         <property name="text">
-          <string>Bến Thành</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Nhà hát Thành phố</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Ba Son</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Văn Thánh</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Tân Cảng</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Thảo Điền</string>
-         </property>
-        </item>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="lblTo">
-        <property name="text">
-         <string>Ga đến</string>
-        </property>
-        <property name="class" stdset="0">
-         <string>form-label</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QComboBox" name="comboTo">
-        <item>
-         <property name="text">
-          <string>Văn Thánh</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Bến Thành</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Nhà hát Thành phố</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Ba Son</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Tân Cảng</string>
-         </property>
-        </item>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="lblTicketType">
-        <property name="text">
-         <string>Loại vé</string>
-        </property>
-        <property name="class" stdset="0">
-         <string>form-label</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <layout class="QGridLayout" name="gridTickets">
-        <property name="spacing">
-         <number>8</number>
-        </property>
-        <item row="0" column="0">
-         <widget class="QFrame" name="frameTicket1">
-          <property name="class" stdset="0">
-           <string>ticket-card</string>
-          </property>
-          <layout class="QVBoxLayout">
-           <item>
-            <widget class="QLabel" name="t1_a">
-             <property name="styleSheet">
-              <string>color:#0369A1;font-weight:600;font-size:12px;</string>
-             </property>
-             <property name="text">
-              <string>Vé lượt</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="t1_b">
-             <property name="styleSheet">
-              <string>color:#0369A1;font-weight:bold;font-size:15px;</string>
-             </property>
-             <property name="text">
-              <string>12.000 VNĐ</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="t1_c">
-             <property name="styleSheet">
-              <string>color:#0284C7;font-size:11px;</string>
-             </property>
-             <property name="text">
-              <string>1 chuyến đi</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QFrame" name="frameTicket2">
-          <property name="class" stdset="0">
-           <string>ticket-card</string>
-          </property>
-          <layout class="QVBoxLayout">
-           <item>
-            <widget class="QLabel" name="t2_a">
-             <property name="styleSheet">
-              <string>color:#0284C7;font-weight:600;font-size:12px;</string>
-             </property>
-             <property name="text">
-              <string>Vé khứ hồi</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="t2_b">
-             <property name="styleSheet">
-              <string>color:#0C4A6E;font-weight:bold;font-size:15px;</string>
-             </property>
-             <property name="text">
-              <string>22.000 VNĐ</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="t2_c">
-             <property name="styleSheet">
-              <string>color:#38BDF8;font-size:11px;</string>
-             </property>
-             <property name="text">
-              <string>Đi &amp; về</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QFrame" name="frameTicket3">
-          <property name="class" stdset="0">
-           <string>ticket-card</string>
-          </property>
-          <layout class="QVBoxLayout">
-           <item>
-            <widget class="QLabel" name="t3_a">
-             <property name="styleSheet">
-              <string>color:#0284C7;font-weight:600;font-size:12px;</string>
-             </property>
-             <property name="text">
-              <string>Vé ngày</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="t3_b">
-             <property name="styleSheet">
-              <string>color:#0C4A6E;font-weight:bold;font-size:15px;</string>
-             </property>
-             <property name="text">
-              <string>40.000 VNĐ</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="t3_c">
-             <property name="styleSheet">
-              <string>color:#38BDF8;font-size:11px;</string>
-             </property>
-             <property name="text">
-              <string>Không giới hạn</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QFrame" name="frameTicket4">
-          <property name="class" stdset="0">
-           <string>ticket-card</string>
-          </property>
-          <layout class="QVBoxLayout">
-           <item>
-            <widget class="QLabel" name="t4_a">
-             <property name="styleSheet">
-              <string>color:#0284C7;font-weight:600;font-size:12px;</string>
-             </property>
-             <property name="text">
-              <string>Vé tháng</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="t4_b">
-             <property name="styleSheet">
-              <string>color:#0C4A6E;font-weight:bold;font-size:15px;</string>
-             </property>
-             <property name="text">
-              <string>300.000 VNĐ</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="t4_c">
-             <property name="styleSheet">
-              <string>color:#38BDF8;font-size:11px;</string>
-             </property>
-             <property name="text">
-              <string>30 ngày</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="qtyLayout">
-        <item>
-         <widget class="QLabel" name="lblQty">
-          <property name="styleSheet">
-           <string>color:#0369A1; font-weight:600; font-size:13px;</string>
-          </property>
-          <property name="text">
-           <string>Số lượng</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="spacerQty">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>0</width>
-            <height>0</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QPushButton" name="btnMinus">
-          <property name="text">
-           <string>−</string>
-          </property>
-          <property name="class" stdset="0">
-           <string>qty-btn</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="qtyDisplay">
-          <property name="styleSheet">
-           <string>font-size:14px; font-weight:bold; color:#0C4A6E; min-width:16px;</string>
-          </property>
-          <property name="text">
-           <string>1</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="btnPlus">
-          <property name="text">
-           <string>+</string>
-          </property>
-          <property name="class" stdset="0">
-           <string>qty-btn</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
-    <widget class="QFrame" name="cardSummary">
-     <layout class="QVBoxLayout" name="summaryLayout">
+    <property name="spacing">
+     <number>12</number>
+    </property>
+    <property name="leftMargin">
+     <number>14</number>
+    </property>
+    <property name="topMargin">
+     <number>16</number>
+    </property>
+    <property name="rightMargin">
+     <number>14</number>
+    </property>
+    <property name="bottomMargin">
+     <number>24</number>
+    </property>
+    <item>
+     <layout class="QHBoxLayout" name="headerLayout">
       <property name="spacing">
        <number>8</number>
       </property>
       <item>
-       <layout class="QHBoxLayout" name="rowSumType">
-        <item>
-         <widget class="QLabel" name="s1">
-          <property name="styleSheet">
-           <string>color:#38BDF8; font-size:13px;</string>
-          </property>
-          <property name="text">
-           <string>Loại vé</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="sp1">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>0</width>
-            <height>0</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QLabel" name="sumType">
-          <property name="styleSheet">
-           <string>color:#0369A1; font-weight:500; font-size:13px;</string>
-          </property>
-          <property name="text">
-           <string>Vé lượt</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="rowSumQty">
-        <item>
-         <widget class="QLabel" name="s2">
-          <property name="styleSheet">
-           <string>color:#38BDF8; font-size:13px;</string>
-          </property>
-          <property name="text">
-           <string>Số lượng</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="sp2">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>0</width>
-            <height>0</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QLabel" name="sumQty">
-          <property name="styleSheet">
-           <string>color:#0369A1; font-weight:500; font-size:13px;</string>
-          </property>
-          <property name="text">
-           <string>1 vé</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <widget class="Line" name="lineDivider">
-        <property name="styleSheet">
-         <string>color: #E0F2FE;</string>
+       <widget class="QPushButton" name="btnBack">
+        <property name="minimumSize">
+         <size>
+          <width>32</width>
+          <height>32</height>
+         </size>
         </property>
+        <property name="maximumSize">
+         <size>
+          <width>32</width>
+          <height>32</height>
+         </size>
+        </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="text">
+         <string>←</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="lblPageTitle">
+        <property name="text">
+         <string>🎫 Đặt vé Metro</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="spHeader">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
-       </widget>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="rowTotal">
-        <item>
-         <widget class="QLabel" name="s3">
-          <property name="styleSheet">
-           <string>color:#0C4A6E; font-weight:600; font-size:13.5px;</string>
-          </property>
-          <property name="text">
-           <string>Tổng cộng</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="sp3">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>0</width>
-            <height>0</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QLabel" name="sumTotal">
-          <property name="styleSheet">
-           <string>color:#0369A1; font-weight:800; font-size:22px;</string>
-          </property>
-          <property name="text">
-           <string>12.000 VNĐ</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
+       </spacer>
       </item>
      </layout>
-    </widget>
-   </item>
-   <item>
-    <widget class="QFrame" name="balanceBox">
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>38</height>
-      </size>
-     </property>
-     <layout class="QHBoxLayout" name="balanceLayout">
-      <property name="leftMargin">
-       <number>12</number>
+    </item>
+    <item>
+     <widget class="QFrame" name="cardJourney">
+      <property name="frameShape">
+       <enum>QFrame::NoFrame</enum>
       </property>
-      <property name="topMargin">
-       <number>6</number>
+      <layout class="QVBoxLayout" name="journeyLayout">
+       <property name="spacing">
+        <number>10</number>
+       </property>
+       <property name="leftMargin">
+        <number>16</number>
+       </property>
+       <property name="topMargin">
+        <number>16</number>
+       </property>
+       <property name="rightMargin">
+        <number>16</number>
+       </property>
+       <property name="bottomMargin">
+        <number>16</number>
+       </property>
+       <item>
+        <layout class="QHBoxLayout" name="stepperLayout">
+         <property name="spacing">
+          <number>4</number>
+         </property>
+         <item>
+          <widget class="QLabel" name="step1Num">
+           <property name="minimumSize">
+            <size>
+             <width>28</width>
+             <height>28</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>28</width>
+             <height>28</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background:#0EA5E9; color:#fff; border-radius:14px; font-weight:bold; font-size:13px;</string>
+           </property>
+           <property name="text">
+            <string>1</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="step1Label">
+           <property name="styleSheet">
+            <string notr="true">color:#0369A1; font-weight:600; font-size:12px;</string>
+           </property>
+           <property name="text">
+            <string>Chọn tuyến</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="Line" name="line1">
+           <property name="styleSheet">
+            <string notr="true">color: #BAE6FD;</string>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="step2Num">
+           <property name="minimumSize">
+            <size>
+             <width>28</width>
+             <height>28</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>28</width>
+             <height>28</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background:#fff; border:1.5px solid #BAE6FD; color:#7DD3FC; border-radius:14px; font-size:13px;</string>
+           </property>
+           <property name="text">
+            <string>2</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="step2Label">
+           <property name="styleSheet">
+            <string notr="true">color:#7DD3FC; font-size:12px;</string>
+           </property>
+           <property name="text">
+            <string>Chọn vé</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="Line" name="line2">
+           <property name="styleSheet">
+            <string notr="true">color: #BAE6FD;</string>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="step3Num">
+           <property name="minimumSize">
+            <size>
+             <width>28</width>
+             <height>28</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>28</width>
+             <height>28</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background:#fff; border:1.5px solid #BAE6FD; color:#7DD3FC; border-radius:14px; font-size:13px;</string>
+           </property>
+           <property name="text">
+            <string>3</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label">
+           <property name="styleSheet">
+            <string notr="true">color:#7DD3FC; font-size:12px;</string>
+           </property>
+           <property name="text">
+            <string>Thanh Toán</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QLabel" name="lblJourneyTitle">
+         <property name="text">
+          <string>📍 Thông tin hành trình</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="lblLine">
+         <property name="text">
+          <string>Chọn tuyến</string>
+         </property>
+         <property name="class" stdset="0">
+          <string>form-label</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="comboLine">
+         <item>
+          <property name="text">
+           <string>Tuyến 1: Bến Thành – Suối Tiên</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Tuyến 2: Bến Thành – Tham Lương</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Tuyến 3: Bến Thành – Tân Kiên</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="lblFrom">
+         <property name="text">
+          <string>Ga đi</string>
+         </property>
+         <property name="class" stdset="0">
+          <string>form-label</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="comboFrom">
+         <item>
+          <property name="text">
+           <string>Bến Thành</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Nhà hát Thành phố</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Ba Son</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Văn Thánh</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Tân Cảng</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Thảo Điền</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="lblTo">
+         <property name="text">
+          <string>Ga đến</string>
+         </property>
+         <property name="class" stdset="0">
+          <string>form-label</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="comboTo">
+         <item>
+          <property name="text">
+           <string>Văn Thánh</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Bến Thành</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Nhà hát Thành phố</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Ba Son</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Tân Cảng</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="lblTicketType">
+         <property name="text">
+          <string>Loại vé</string>
+         </property>
+         <property name="class" stdset="0">
+          <string>form-label</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QGridLayout" name="gridTickets">
+         <property name="spacing">
+          <number>8</number>
+         </property>
+         <item row="0" column="0">
+          <widget class="QFrame" name="frameTicket1">
+           <property name="class" stdset="0">
+            <string>ticket-card</string>
+           </property>
+           <layout class="QVBoxLayout">
+            <item>
+             <widget class="QLabel" name="t1_a">
+              <property name="styleSheet">
+               <string>color:#0369A1;font-weight:600;font-size:12px;</string>
+              </property>
+              <property name="text">
+               <string>Vé lượt</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="t1_b">
+              <property name="styleSheet">
+               <string>color:#0369A1;font-weight:bold;font-size:15px;</string>
+              </property>
+              <property name="text">
+               <string>12.000 VNĐ</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="t1_c">
+              <property name="styleSheet">
+               <string>color:#0284C7;font-size:11px;</string>
+              </property>
+              <property name="text">
+               <string>1 chuyến đi</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QFrame" name="frameTicket2">
+           <property name="class" stdset="0">
+            <string>ticket-card</string>
+           </property>
+           <layout class="QVBoxLayout">
+            <item>
+             <widget class="QLabel" name="t2_a">
+              <property name="styleSheet">
+               <string>color:#0284C7;font-weight:600;font-size:12px;</string>
+              </property>
+              <property name="text">
+               <string>Vé ngày</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="t2_b">
+              <property name="styleSheet">
+               <string>color:#0C4A6E;font-weight:bold;font-size:15px;</string>
+              </property>
+              <property name="text">
+               <string>40.000 VNĐ</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="t2_c">
+              <property name="styleSheet">
+               <string>color:#38BDF8;font-size:11px;</string>
+              </property>
+              <property name="text">
+               <string>Đi &amp; về</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QFrame" name="frameTicket3">
+           <property name="class" stdset="0">
+            <string>ticket-card</string>
+           </property>
+           <layout class="QVBoxLayout">
+            <item>
+             <widget class="QLabel" name="t3_a">
+              <property name="styleSheet">
+               <string>color:#0284C7;font-weight:600;font-size:12px;</string>
+              </property>
+              <property name="text">
+               <string>Vé 1 tháng</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="t3_b">
+              <property name="styleSheet">
+               <string>color:#0C4A6E;font-weight:bold;font-size:15px;</string>
+              </property>
+              <property name="text">
+               <string>300.000 VNĐ</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="t3_c">
+              <property name="styleSheet">
+               <string>color:#38BDF8;font-size:11px;</string>
+              </property>
+              <property name="text">
+               <string>Không giới hạn</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QFrame" name="frameTicket4">
+           <property name="class" stdset="0">
+            <string>ticket-card</string>
+           </property>
+           <layout class="QVBoxLayout">
+            <item>
+             <widget class="QLabel" name="t4_a">
+              <property name="styleSheet">
+               <string>color:#0284C7;font-weight:600;font-size:12px;</string>
+              </property>
+              <property name="text">
+               <string>Vé 3 tháng</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="t4_b">
+              <property name="styleSheet">
+               <string>color:#0C4A6E;font-weight:bold;font-size:15px;</string>
+              </property>
+              <property name="text">
+               <string>700.000 VNĐ</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="t4_c">
+              <property name="styleSheet">
+               <string>color:#38BDF8;font-size:11px;</string>
+              </property>
+              <property name="text">
+               <string>30 ngày</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QFrame" name="cardSummary">
+      <layout class="QVBoxLayout" name="summaryLayout">
+       <property name="spacing">
+        <number>8</number>
+       </property>
+       <item>
+        <layout class="QHBoxLayout" name="rowSumType">
+         <item>
+          <widget class="QLabel" name="s1">
+           <property name="styleSheet">
+            <string>color:#38BDF8; font-size:13px;</string>
+           </property>
+           <property name="text">
+            <string>Loại vé</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="sp1">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>0</width>
+             <height>0</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QLabel" name="sumType">
+           <property name="styleSheet">
+            <string>color:#0369A1; font-weight:500; font-size:13px;</string>
+           </property>
+           <property name="text">
+            <string>Vé lượt</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="Line" name="lineDivider">
+         <property name="styleSheet">
+          <string>color: #E0F2FE;</string>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="rowTotal">
+         <item>
+          <widget class="QLabel" name="s3">
+           <property name="styleSheet">
+            <string>color:#0C4A6E; font-weight:600; font-size:13.5px;</string>
+           </property>
+           <property name="text">
+            <string>Số tiền</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="sp3">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>0</width>
+             <height>0</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QLabel" name="sumTotal">
+           <property name="styleSheet">
+            <string>color:#0369A1; font-weight:800; font-size:22px;</string>
+           </property>
+           <property name="text">
+            <string>12.000 VNĐ</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QFrame" name="balanceBox">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>38</height>
+       </size>
       </property>
-      <property name="rightMargin">
-       <number>12</number>
+      <layout class="QHBoxLayout" name="balanceLayout">
+       <property name="leftMargin">
+        <number>12</number>
+       </property>
+       <property name="topMargin">
+        <number>6</number>
+       </property>
+       <property name="rightMargin">
+        <number>12</number>
+       </property>
+       <property name="bottomMargin">
+        <number>6</number>
+       </property>
+       <item>
+        <widget class="QLabel" name="lblBalance">
+         <property name="styleSheet">
+          <string>color:#0284C7; font-size:12.5px; font-weight:500;</string>
+         </property>
+         <property name="text">
+          <string>💳  Số dư: 500.000 VNĐ</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="btnPay">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>46</height>
+       </size>
       </property>
-      <property name="bottomMargin">
-       <number>6</number>
+      <property name="text">
+       <string>Xác nhận thanh toán ↗</string>
       </property>
-      <item>
-       <widget class="QLabel" name="lblBalance">
-        <property name="styleSheet">
-         <string>color:#0284C7; font-size:12.5px; font-weight:500;</string>
-        </property>
-        <property name="text">
-         <string>💳  Số dư: 500.000 VNĐ</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
-    <widget class="QPushButton" name="btnPay">
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>46</height>
-      </size>
-     </property>
-     <property name="text">
-      <string>Xác nhận thanh toán ↗</string>
-     </property>
-    </widget>
-   </item>
-  </layout>
+     </widget>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources/>

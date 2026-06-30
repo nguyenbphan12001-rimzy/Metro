@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>RegisterWindow</class>
+ <widget class="QMainWindow" name="RegisterWindow">
+  <property name="geometry">
+   <rect><x>0</x><y>0</y><width>460</width><height>760</height></rect>
+  </property>
+  <property name="minimumSize">
+   <size><width>420</width><height>680</height></size>
+  </property>
+  <property name="windowTitle">
+   <string>Metro Ticket System - Đăng ký</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">
+/* ── Nền tổng: gradient xanh đậm theo chiều dọc, đồng bộ màn đăng nhập ── */
+QWidget#centralwidget {
+    background: qlineargradient(x1:0, y1:0, x2:0.3, y2:1,
+        stop:0 #0D1F3C,
+        stop:0.4 #0A3060,
+        stop:0.7 #0D4080,
+        stop:1   #1A5FA8);
+}
+
+/* ── Card đăng ký nổi lên ── */
+QFrame#central_panel {
+    background-color: rgba(255, 255, 255, 0.97);
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* ── Logo: khung ngoài tạo hiệu ứng 3D ── */
+QFrame#logo_outer {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+        stop:0 #1E90FF, stop:0.5 #0060D0, stop:1 #003A8C);
+    border-radius: 22px;
+    border-top: 2px solid rgba(255,255,255,0.28);
+    border-left: 1px solid rgba(255,255,255,0.12);
+    border-right: 1px solid rgba(0,0,0,0.25);
+    border-bottom: 2px solid rgba(0,0,0,0.35);
+}
+QFrame#logo_inner {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+        stop:0 #2AA0FF, stop:1 #0070E0);
+    border-radius: 14px;
+    border-top: 1px solid rgba(255,255,255,0.2);
+    border-bottom: 1px solid rgba(0,0,0,0.3);
+}
+QLabel#lbl_logo_icon {
+    color: #E0F2FE;
+    font-size: 26px;
+    background: transparent;
+    border: none;
+}
+
+/* ── Tiêu đề ── */
+QLabel#lbl_logo {
+    color: #0A3D62;
+    font-size: 21px;
+    font-weight: 700;
+    background: transparent;
+}
+QLabel#lbl_subtitle {
+    color: rgba(148, 213, 252, 0.85);
+    font-size: 12px;
+    background: transparent;
+}
+
+/* ── Label field ── */
+QLabel#lbl_username_tag,
+QLabel#lbl_password_tag,
+QLabel#lbl_phone_tag,
+QLabel#lbl_dob_tag {
+    color: #0369A1;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    background: transparent;
+}
+
+/* ── Input fields ── */
+QLineEdit#txt_username,
+QLineEdit#txt_password,
+QLineEdit#txt_phone,
+QDateEdit#DoB {
+    background-color: #F0F9FF;
+    border: 1.5px solid #BAE6FD;
+    border-radius: 12px;
+    padding: 11px 14px;
+    font-size: 14px;
+    color: #0C4A6E;
+    selection-background-color: #29B6F6;
+}
+QLineEdit#txt_username:hover,
+QLineEdit#txt_password:hover,
+QLineEdit#txt_phone:hover,
+QDateEdit#DoB:hover {
+    border-color: #38BDF8;
+    background-color: #E8F6FD;
+}
+QLineEdit#txt_username:focus,
+QLineEdit#txt_password:focus,
+QLineEdit#txt_phone:focus,
+QDateEdit#DoB:focus {
+    border-color: #0284C7;
+    background-color: #FFFFFF;
+}
+QDateEdit#DoB::drop-down {
+    border: none;
+    width: 24px;
+}
+
+/* ── Nút đăng ký gradient 3D ── */
+QPushButton#btn_dangky {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+        stop:0 #0284C7, stop:0.5 #0EA5E9, stop:1 #38BDF8);
+    color: #FFFFFF;
+    border: none;
+    border-radius: 14px;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 14px 0px;
+    border-top: 1px solid rgba(255,255,255,0.2);
+}
+QPushButton#btn_dangky:hover {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+        stop:0 #0369A1, stop:0.5 #0284C7, stop:1 #0EA5E9);
+}
+QPushButton#btn_dangky:pressed {
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+        stop:0 #075985, stop:1 #0284C7);
+    border-top: 1px solid rgba(0,0,0,0.15);
+}
+QPushButton#btn_dangky:disabled {
+    background: #BAE6FD;
+    color: rgba(255,255,255,0.6);
+}
+
+/* ── Link buttons ── */
+QPushButton#btn_back_login {
+    background: transparent;
+    border: none;
+    color: #0284C7;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: underline;
+    padding: 0px;
+}
+QPushButton#btn_back_login:hover { color: #075985; }
+
+QLabel#lbl_hint { color: #64748B; font-size: 13px; background: transparent; }
+   </string>
+  </property>
+
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="root_layout">
+    <property name="spacing"><number>0</number></property>
+    <property name="leftMargin"><number>32</number></property>
+    <property name="topMargin"><number>32</number></property>
+    <property name="rightMargin"><number>32</number></property>
+    <property name="bottomMargin"><number>28</number></property>
+
+    <item><spacer><property name="orientation"><enum>Qt::Vertical</enum></property><property name="sizeHint" stdset="0"><size><width>20</width><height>10</height></size></property></spacer></item>
+
+    <!-- ── CARD ── -->
+    <item>
+     <widget class="QFrame" name="central_panel">
+      <property name="frameShape"><enum>QFrame::NoFrame</enum></property>
+      <layout class="QVBoxLayout" name="panel_layout">
+       <property name="spacing"><number>0</number></property>
+       <property name="leftMargin"><number>28</number></property>
+       <property name="topMargin"><number>26</number></property>
+       <property name="rightMargin"><number>28</number></property>
+       <property name="bottomMargin"><number>24</number></property>
+
+       <!-- ── LOGO 3D ── -->
+       <item>
+        <layout class="QHBoxLayout" name="logo_row">
+         <item><spacer><property name="orientation"><enum>Qt::Horizontal</enum></property><property name="sizeHint" stdset="0"><size><width>40</width><height>20</height></size></property></spacer></item>
+         <item>
+          <widget class="QFrame" name="logo_outer">
+           <property name="minimumSize"><size><width>76</width><height>76</height></size></property>
+           <property name="maximumSize"><size><width>76</width><height>76</height></size></property>
+           <property name="frameShape"><enum>QFrame::NoFrame</enum></property>
+           <layout class="QVBoxLayout" name="logo_outer_layout">
+            <property name="leftMargin"><number>9</number></property>
+            <property name="topMargin"><number>9</number></property>
+            <property name="rightMargin"><number>9</number></property>
+            <property name="bottomMargin"><number>9</number></property>
+            <item>
+             <widget class="QFrame" name="logo_inner">
+              <property name="frameShape"><enum>QFrame::NoFrame</enum></property>
+              <layout class="QVBoxLayout" name="logo_inner_layout">
+               <property name="leftMargin"><number>0</number></property>
+               <property name="topMargin"><number>0</number></property>
+               <property name="rightMargin"><number>0</number></property>
+               <property name="bottomMargin"><number>0</number></property>
+               <item>
+                <widget class="QLabel" name="lbl_logo_icon">
+                 <property name="text"><string>🚇</string></property>
+                 <property name="alignment"><set>Qt::AlignCenter</set></property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item><spacer><property name="orientation"><enum>Qt::Horizontal</enum></property><property name="sizeHint" stdset="0"><size><width>40</width><height>20</height></size></property></spacer></item>
+        </layout>
+       </item>
+
+       <item><spacer><property name="orientation"><enum>Qt::Vertical</enum></property><property name="sizeType"><enum>QSizePolicy::Fixed</enum></property><property name="sizeHint" stdset="0"><size><width>0</width><height>14</height></size></property></spacer></item>
+
+       <item>
+        <widget class="QLabel" name="lbl_logo">
+         <property name="text"><string>Metro Ticket System</string></property>
+         <property name="alignment"><set>Qt::AlignCenter</set></property>
+        </widget>
+       </item>
+       <item><spacer><property name="orientation"><enum>Qt::Vertical</enum></property><property name="sizeType"><enum>QSizePolicy::Fixed</enum></property><property name="sizeHint" stdset="0"><size><width>0</width><height>5</height></size></property></spacer></item>
+       <item>
+        <widget class="QLabel" name="lbl_subtitle">
+         <property name="text"><string>Tạo tài khoản mới cho khách hàng</string></property>
+         <property name="alignment"><set>Qt::AlignCenter</set></property>
+        </widget>
+       </item>
+
+       <item><spacer><property name="orientation"><enum>Qt::Vertical</enum></property><property name="sizeType"><enum>QSizePolicy::Fixed</enum></property><property name="sizeHint" stdset="0"><size><width>0</width><height>22</height></size></property></spacer></item>
+
+       <!-- Username -->
+       <item>
+        <widget class="QLabel" name="lbl_username_tag">
+         <property name="text"><string>USERNAME</string></property>
+        </widget>
+       </item>
+       <item><spacer><property name="orientation"><enum>Qt::Vertical</enum></property><property name="sizeType"><enum>QSizePolicy::Fixed</enum></property><property name="sizeHint" stdset="0"><size><width>0</width><height>7</height></size></property></spacer></item>
+       <item>
+        <widget class="QLineEdit" name="txt_username">
+         <property name="placeholderText"><string>Nhập tên đăng nhập...</string></property>
+         <property name="clearButtonEnabled"><bool>true</bool></property>
+        </widget>
+       </item>
+
+       <item><spacer><property name="orientation"><enum>Qt::Vertical</enum></property><property name="sizeType"><enum>QSizePolicy::Fixed</enum></property><property name="sizeHint" stdset="0"><size><width>0</width><height>16</height></size></property></spacer></item>
+
+       <!-- Password -->
+       <item>
+        <widget class="QLabel" name="lbl_password_tag">
+         <property name="text"><string>PASSWORD</string></property>
+        </widget>
+       </item>
+       <item><spacer><property name="orientation"><enum>Qt::Vertical</enum></property><property name="sizeType"><enum>QSizePolicy::Fixed</enum></property><property name="sizeHint" stdset="0"><size><width>0</width><height>7</height></size></property></spacer></item>
+       <item>
+        <widget class="QLineEdit" name="txt_password">
+         <property name="echoMode"><enum>QLineEdit::Password</enum></property>
+         <property name="placeholderText"><string>Nhập mật khẩu an toàn...</string></property>
+        </widget>
+       </item>
+
+       <item><spacer><property name="orientation"><enum>Qt::Vertical</enum></property><property name="sizeType"><enum>QSizePolicy::Fixed</enum></property><property name="sizeHint" stdset="0"><size><width>0</width><height>16</height></size></property></spacer></item>
+
+       <!-- Phone -->
+       <item>
+        <widget class="QLabel" name="lbl_phone_tag">
+         <property name="text"><string>PHONE</string></property>
+        </widget>
+       </item>
+       <item><spacer><property name="orientation"><enum>Qt::Vertical</enum></property><property name="sizeType"><enum>QSizePolicy::Fixed</enum></property><property name="sizeHint" stdset="0"><size><width>0</width><height>7</height></size></property></spacer></item>
+       <item>
+        <widget class="QLineEdit" name="txt_phone">
+         <property name="placeholderText"><string>Nhập số điện thoại (ví dụ: 090...)</string></property>
+        </widget>
+       </item>
+
+       <item><spacer><property name="orientation"><enum>Qt::Vertical</enum></property><property name="sizeType"><enum>QSizePolicy::Fixed</enum></property><property name="sizeHint" stdset="0"><size><width>0</width><height>16</height></size></property></spacer></item>
+
+       <!-- DoB -->
+       <item>
+        <widget class="QLabel" name="lbl_dob_tag">
+         <property name="text"><string>DATE OF BIRTH</string></property>
+        </widget>
+       </item>
+       <item><spacer><property name="orientation"><enum>Qt::Vertical</enum></property><property name="sizeType"><enum>QSizePolicy::Fixed</enum></property><property name="sizeHint" stdset="0"><size><width>0</width><height>7</height></size></property></spacer></item>
+       <item>
+        <widget class="QDateEdit" name="DoB">
+         <property name="calendarPopup"><bool>true</bool></property>
+        </widget>
+       </item>
+
+       <item><spacer><property name="orientation"><enum>Qt::Vertical</enum></property><property name="sizeType"><enum>QSizePolicy::Fixed</enum></property><property name="sizeHint" stdset="0"><size><width>0</width><height>24</height></size></property></spacer></item>
+
+       <!-- Submit -->
+       <item>
+        <widget class="QPushButton" name="btn_dangky">
+         <property name="minimumSize"><size><width>0</width><height>50</height></size></property>
+         <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
+         <property name="text"><string>Đăng ký tài khoản  ↗</string></property>
+         <property name="default"><bool>true</bool></property>
+        </widget>
+       </item>
+
+       <!-- giữ lại widget cũ để không vỡ code đã nối, ẩn khỏi giao diện -->
+       <item>
+        <widget class="QPushButton" name="btn_register">
+         <property name="visible"><bool>false</bool></property>
+         <property name="maximumSize"><size><width>0</width><height>0</height></size></property>
+         <property name="text"><string>Đăng ký tài khoản ↗</string></property>
+        </widget>
+       </item>
+
+       <item><spacer><property name="orientation"><enum>Qt::Vertical</enum></property><property name="sizeType"><enum>QSizePolicy::Fixed</enum></property><property name="sizeHint" stdset="0"><size><width>0</width><height>18</height></size></property></spacer></item>
+
+       <!-- Back to login row -->
+       <item>
+        <layout class="QHBoxLayout" name="footer_layout">
+         <item><spacer><property name="orientation"><enum>Qt::Horizontal</enum></property><property name="sizeHint" stdset="0"><size><width>40</width><height>20</height></size></property></spacer></item>
+         <item><widget class="QLabel" name="lbl_hint"><property name="text"><string>Đã có tài khoản?</string></property></widget></item>
+         <item><spacer><property name="orientation"><enum>Qt::Horizontal</enum></property><property name="sizeType"><enum>QSizePolicy::Fixed</enum></property><property name="sizeHint" stdset="0"><size><width>4</width><height>0</height></size></property></spacer></item>
+         <item>
+          <widget class="QPushButton" name="btn_back_login">
+           <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
+           <property name="text"><string>Đăng nhập ngay</string></property>
+           <property name="flat"><bool>true</bool></property>
+          </widget>
+         </item>
+         <item><spacer><property name="orientation"><enum>Qt::Horizontal</enum></property><property name="sizeHint" stdset="0"><size><width>40</width><height>20</height></size></property></spacer></item>
+        </layout>
+       </item>
+
+      </layout>
+     </widget>
+    </item>
+
+    <item><spacer><property name="orientation"><enum>Qt::Vertical</enum></property><property name="sizeHint" stdset="0"><size><width>20</width><height>20</height></size></property></spacer></item>
+
+   </layout>
+  </widget>
+ </widget>
+
+ <tabstops>
+  <tabstop>txt_username</tabstop>
+  <tabstop>txt_password</tabstop>
+  <tabstop>txt_phone</tabstop>
+  <tabstop>DoB</tabstop>
+  <tabstop>btn_dangky</tabstop>
+  <tabstop>btn_back_login</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>

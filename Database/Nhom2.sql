@@ -11,7 +11,7 @@ INSERT INTO ROUTESTATION (route_station_id, route_id, station_id, position) VALU
 (20, 102, 19, 6), (21, 102, 20, 7), (22, 102, 21, 8), (23, 102, 22, 9), (24, 102, 23, 10),
 (25, 102, 24, 11), (26, 102, 25, 12);
 
-INSERT INTO TRAIN (train_id, route_id, departure_time, arrival_time, capacity) VALUES
+INSERT INTO TRAIN (train_id, route_id, ival_departure_time, arrtime, capacity) VALUES
 (1, 101, '05:00', '06:00', 300), (2, 101, '05:30', '06:30', 300),
 (3, 101, '06:00', '07:00', 300), (4, 101, '06:30', '07:30', 300),
 (5, 101, '07:00', '08:00', 300), (6, 102, '05:00', '06:10', 300),

@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'D:\Nam1\KTLT\K25411_KTLT\UI_KhachHang\Thanhtoan.ui'
+# Form implementation generated from reading ui file 'Thanhtoan.ui'
 #
 # Created by: PyQt6 UI code generator 6.10.0
 #
@@ -12,7 +12,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_MetroBookingForm(object):
     def setupUi(self, MetroBookingForm):
         MetroBookingForm.setObjectName("MetroBookingForm")
-        MetroBookingForm.resize(436, 851)
+        MetroBookingForm.resize(436, 853)
         MetroBookingForm.setStyleSheet("\n"
 "    /* Định hình giao diện tổng thể theo thiết kế Sky Blue */\n"
 "    QWidget#centralwidget {\n"
@@ -110,14 +110,51 @@ class Ui_MetroBookingForm(object):
 "    QPushButton#btnPay:hover {\n"
 "        background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #38BDF8, stop:1 #0284C7);\n"
 "    }\n"
+"\n"
+"    /* Nút Back (góc trái, cùng hàng với tiêu đề trang) */\n"
+"    QPushButton#btnBack {\n"
+"        background-color: transparent;\n"
+"        border: none;\n"
+"        color: #0284C7;\n"
+"        font-size: 20px;\n"
+"        font-weight: bold;\n"
+"        border-radius: 8px;\n"
+"    }\n"
+"    QPushButton#btnBack:hover {\n"
+"        background-color: #E0F2FE;\n"
+"    }\n"
+"    QPushButton#btnBack:pressed {\n"
+"        background-color: #BAE6FD;\n"
+"    }\n"
+"\n"
+"    /* Tiêu đề trang đặt vé, đặt cùng hàng với nút Back */\n"
+"    QLabel#lblPageTitle {\n"
+"        color: #0C4A6E;\n"
+"        font-size: 16px;\n"
+"        font-weight: bold;\n"
+"    }\n"
 "   ")
         self.centralwidget = QtWidgets.QWidget(parent=MetroBookingForm)
-        self.centralwidget.setGeometry(QtCore.QRect(0, 0, 436, 851))
         self.centralwidget.setObjectName("centralwidget")
         self.mainLayout = QtWidgets.QVBoxLayout(self.centralwidget)
         self.mainLayout.setContentsMargins(14, 16, 14, 24)
         self.mainLayout.setSpacing(12)
         self.mainLayout.setObjectName("mainLayout")
+        self.headerLayout = QtWidgets.QHBoxLayout()
+        self.headerLayout.setSpacing(8)
+        self.headerLayout.setObjectName("headerLayout")
+        self.btnBack = QtWidgets.QPushButton(parent=self.centralwidget)
+        self.btnBack.setMinimumSize(QtCore.QSize(32, 32))
+        self.btnBack.setMaximumSize(QtCore.QSize(32, 32))
+        self.btnBack.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.btnBack.setObjectName("btnBack")
+        self.headerLayout.addWidget(self.btnBack)
+        self.lblPageTitle = QtWidgets.QLabel(parent=self.centralwidget)
+        self.lblPageTitle.setObjectName("lblPageTitle")
+        self.headerLayout.addWidget(self.lblPageTitle)
+        spacerItem = QtWidgets.QSpacerItem(0, 0, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.headerLayout.addItem(spacerItem)
+        self.mainLayout.addLayout(self.headerLayout)
         self.cardJourney = QtWidgets.QFrame(parent=self.centralwidget)
         self.cardJourney.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
         self.cardJourney.setObjectName("cardJourney")
@@ -272,24 +309,6 @@ class Ui_MetroBookingForm(object):
         self.vboxlayout3.addWidget(self.t4_c)
         self.gridTickets.addWidget(self.frameTicket4, 1, 1, 1, 1)
         self.journeyLayout.addLayout(self.gridTickets)
-        self.qtyLayout = QtWidgets.QHBoxLayout()
-        self.qtyLayout.setObjectName("qtyLayout")
-        self.lblQty = QtWidgets.QLabel(parent=self.cardJourney)
-        self.lblQty.setObjectName("lblQty")
-        self.qtyLayout.addWidget(self.lblQty)
-        spacerItem = QtWidgets.QSpacerItem(0, 0, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
-        self.qtyLayout.addItem(spacerItem)
-        self.btnMinus = QtWidgets.QPushButton(parent=self.cardJourney)
-        self.btnMinus.setObjectName("btnMinus")
-        self.qtyLayout.addWidget(self.btnMinus)
-        self.qtyDisplay = QtWidgets.QLabel(parent=self.cardJourney)
-        self.qtyDisplay.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        self.qtyDisplay.setObjectName("qtyDisplay")
-        self.qtyLayout.addWidget(self.qtyDisplay)
-        self.btnPlus = QtWidgets.QPushButton(parent=self.cardJourney)
-        self.btnPlus.setObjectName("btnPlus")
-        self.qtyLayout.addWidget(self.btnPlus)
-        self.journeyLayout.addLayout(self.qtyLayout)
         self.mainLayout.addWidget(self.cardJourney)
         self.cardSummary = QtWidgets.QFrame(parent=self.centralwidget)
         self.cardSummary.setObjectName("cardSummary")
@@ -307,17 +326,6 @@ class Ui_MetroBookingForm(object):
         self.sumType.setObjectName("sumType")
         self.rowSumType.addWidget(self.sumType)
         self.summaryLayout.addLayout(self.rowSumType)
-        self.rowSumQty = QtWidgets.QHBoxLayout()
-        self.rowSumQty.setObjectName("rowSumQty")
-        self.s2 = QtWidgets.QLabel(parent=self.cardSummary)
-        self.s2.setObjectName("s2")
-        self.rowSumQty.addWidget(self.s2)
-        spacerItem2 = QtWidgets.QSpacerItem(0, 0, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
-        self.rowSumQty.addItem(spacerItem2)
-        self.sumQty = QtWidgets.QLabel(parent=self.cardSummary)
-        self.sumQty.setObjectName("sumQty")
-        self.rowSumQty.addWidget(self.sumQty)
-        self.summaryLayout.addLayout(self.rowSumQty)
         self.lineDivider = QtWidgets.QFrame(parent=self.cardSummary)
         self.lineDivider.setFrameShape(QtWidgets.QFrame.Shape.HLine)
         self.lineDivider.setFrameShadow(QtWidgets.QFrame.Shadow.Sunken)
@@ -328,8 +336,8 @@ class Ui_MetroBookingForm(object):
         self.s3 = QtWidgets.QLabel(parent=self.cardSummary)
         self.s3.setObjectName("s3")
         self.rowTotal.addWidget(self.s3)
-        spacerItem3 = QtWidgets.QSpacerItem(0, 0, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
-        self.rowTotal.addItem(spacerItem3)
+        spacerItem2 = QtWidgets.QSpacerItem(0, 0, QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Minimum)
+        self.rowTotal.addItem(spacerItem2)
         self.sumTotal = QtWidgets.QLabel(parent=self.cardSummary)
         self.sumTotal.setObjectName("sumTotal")
         self.rowTotal.addWidget(self.sumTotal)
@@ -357,6 +365,8 @@ class Ui_MetroBookingForm(object):
     def retranslateUi(self, MetroBookingForm):
         _translate = QtCore.QCoreApplication.translate
         MetroBookingForm.setWindowTitle(_translate("MetroBookingForm", "Đặt Vé Metro"))
+        self.btnBack.setText(_translate("MetroBookingForm", "←"))
+        self.lblPageTitle.setText(_translate("MetroBookingForm", "🎫 Đặt vé Metro"))
         self.step1Num.setText(_translate("MetroBookingForm", "1"))
         self.step1Label.setText(_translate("MetroBookingForm", "Chọn tuyến"))
         self.step2Num.setText(_translate("MetroBookingForm", "2"))
@@ -395,44 +405,32 @@ class Ui_MetroBookingForm(object):
         self.t1_c.setText(_translate("MetroBookingForm", "1 chuyến đi"))
         self.frameTicket2.setProperty("class", _translate("MetroBookingForm", "ticket-card"))
         self.t2_a.setStyleSheet(_translate("MetroBookingForm", "color:#0284C7;font-weight:600;font-size:12px;"))
-        self.t2_a.setText(_translate("MetroBookingForm", "Vé khứ hồi"))
+        self.t2_a.setText(_translate("MetroBookingForm", "Vé ngày"))
         self.t2_b.setStyleSheet(_translate("MetroBookingForm", "color:#0C4A6E;font-weight:bold;font-size:15px;"))
-        self.t2_b.setText(_translate("MetroBookingForm", "22.000 VNĐ"))
+        self.t2_b.setText(_translate("MetroBookingForm", "40.000 VNĐ"))
         self.t2_c.setStyleSheet(_translate("MetroBookingForm", "color:#38BDF8;font-size:11px;"))
         self.t2_c.setText(_translate("MetroBookingForm", "Đi & về"))
         self.frameTicket3.setProperty("class", _translate("MetroBookingForm", "ticket-card"))
         self.t3_a.setStyleSheet(_translate("MetroBookingForm", "color:#0284C7;font-weight:600;font-size:12px;"))
-        self.t3_a.setText(_translate("MetroBookingForm", "Vé ngày"))
+        self.t3_a.setText(_translate("MetroBookingForm", "Vé 1 tháng"))
         self.t3_b.setStyleSheet(_translate("MetroBookingForm", "color:#0C4A6E;font-weight:bold;font-size:15px;"))
-        self.t3_b.setText(_translate("MetroBookingForm", "40.000 VNĐ"))
+        self.t3_b.setText(_translate("MetroBookingForm", "300.000 VNĐ"))
         self.t3_c.setStyleSheet(_translate("MetroBookingForm", "color:#38BDF8;font-size:11px;"))
         self.t3_c.setText(_translate("MetroBookingForm", "Không giới hạn"))
         self.frameTicket4.setProperty("class", _translate("MetroBookingForm", "ticket-card"))
         self.t4_a.setStyleSheet(_translate("MetroBookingForm", "color:#0284C7;font-weight:600;font-size:12px;"))
-        self.t4_a.setText(_translate("MetroBookingForm", "Vé tháng"))
+        self.t4_a.setText(_translate("MetroBookingForm", "Vé 3 tháng"))
         self.t4_b.setStyleSheet(_translate("MetroBookingForm", "color:#0C4A6E;font-weight:bold;font-size:15px;"))
-        self.t4_b.setText(_translate("MetroBookingForm", "300.000 VNĐ"))
+        self.t4_b.setText(_translate("MetroBookingForm", "700.000 VNĐ"))
         self.t4_c.setStyleSheet(_translate("MetroBookingForm", "color:#38BDF8;font-size:11px;"))
         self.t4_c.setText(_translate("MetroBookingForm", "30 ngày"))
-        self.lblQty.setStyleSheet(_translate("MetroBookingForm", "color:#0369A1; font-weight:600; font-size:13px;"))
-        self.lblQty.setText(_translate("MetroBookingForm", "Số lượng"))
-        self.btnMinus.setText(_translate("MetroBookingForm", "−"))
-        self.btnMinus.setProperty("class", _translate("MetroBookingForm", "qty-btn"))
-        self.qtyDisplay.setStyleSheet(_translate("MetroBookingForm", "font-size:14px; font-weight:bold; color:#0C4A6E; min-width:16px;"))
-        self.qtyDisplay.setText(_translate("MetroBookingForm", "1"))
-        self.btnPlus.setText(_translate("MetroBookingForm", "+"))
-        self.btnPlus.setProperty("class", _translate("MetroBookingForm", "qty-btn"))
         self.s1.setStyleSheet(_translate("MetroBookingForm", "color:#38BDF8; font-size:13px;"))
         self.s1.setText(_translate("MetroBookingForm", "Loại vé"))
         self.sumType.setStyleSheet(_translate("MetroBookingForm", "color:#0369A1; font-weight:500; font-size:13px;"))
         self.sumType.setText(_translate("MetroBookingForm", "Vé lượt"))
-        self.s2.setStyleSheet(_translate("MetroBookingForm", "color:#38BDF8; font-size:13px;"))
-        self.s2.setText(_translate("MetroBookingForm", "Số lượng"))
-        self.sumQty.setStyleSheet(_translate("MetroBookingForm", "color:#0369A1; font-weight:500; font-size:13px;"))
-        self.sumQty.setText(_translate("MetroBookingForm", "1 vé"))
         self.lineDivider.setStyleSheet(_translate("MetroBookingForm", "color: #E0F2FE;"))
         self.s3.setStyleSheet(_translate("MetroBookingForm", "color:#0C4A6E; font-weight:600; font-size:13.5px;"))
-        self.s3.setText(_translate("MetroBookingForm", "Tổng cộng"))
+        self.s3.setText(_translate("MetroBookingForm", "Số tiền"))
         self.sumTotal.setStyleSheet(_translate("MetroBookingForm", "color:#0369A1; font-weight:800; font-size:22px;"))
         self.sumTotal.setText(_translate("MetroBookingForm", "12.000 VNĐ"))
         self.lblBalance.setStyleSheet(_translate("MetroBookingForm", "color:#0284C7; font-size:12.5px; font-weight:500;"))
