@@ -18,11 +18,25 @@ class KhachHang_Ver2_EX(Ui_DashboardWindow_Ver2):
         self._parent_window = parent_window
 
         self.load_wallet_info()
+        self._install_refresh_on_show()  # SỬA: tự refresh số dư mỗi khi quay lại dashboard
         self.card_buy.mousePressEvent = lambda event: self.open_buy_ticket()
         self.card_myticket.mousePressEvent = lambda event: self.open_my_tickets()
         self.btn_topup.clicked.connect(self._safe(self.open_topup))
-        self.btn_refund.clicked.connect(self._safe(self.open_refund))  # SỬA: thêm nút hoàn vé
+
         self.btn_logout.clicked.connect(self._safe(self.open_logout))
+
+    # SỬA: dashboard chỉ hide()/show() lại chứ không tạo mới mỗi lần quay về
+    # (từ mua vé, vé của tôi, hoàn vé, nạp tiền...) nên lbl_balance bị đứng giá trị
+    # cũ dù DB đã cập nhật ngay qua trigger. Hook showEvent để mỗi lần cửa sổ
+    # này HIỆN LẠI là tự load_wallet_info() mới nhất từ DB.
+    def _install_refresh_on_show(self):
+        original_show_event = self.MainWindow.showEvent
+
+        def show_event(event):
+            original_show_event(event)
+            self._safe(self.load_wallet_info)()
+
+        self.MainWindow.showEvent = show_event
 
 
 
@@ -164,31 +178,7 @@ class KhachHang_Ver2_EX(Ui_DashboardWindow_Ver2):
             print("[LỖI open_topup]:", e)
             traceback.print_exc()
 
-    def open_refund(self):
-        from UI.Customer.Hoanve_EX import Hoanve_EX
-        from PyQt6.QtWidgets import QMainWindow
 
-        try:
-            screen = self.MainWindow.screen().availableGeometry()
-            self.refund_window = QMainWindow()
-            ui = Hoanve_EX()
-            ui.setupUi(self.refund_window, conn=self.conn, user_id=self.user_id, parent_window=self.MainWindow)
-
-            w, h = 460, min(750, screen.height() - 40)
-            self.refund_window.resize(w, h)
-            self.refund_window.move(
-                screen.x() + (screen.width() - w) // 2,
-                screen.y() + (screen.height() - h) // 2
-            )
-
-            # Lưu reference để Hoanve có thể refresh dashboard khi back về
-            self.MainWindow.dashboard_gui = self  # ← thêm dòng này
-
-            self.show_with_animation(self.refund_window)
-            self.MainWindow.hide()
-        except Exception as e:
-            print("[LỖI open_refund]:", e)
-            traceback.print_exc()
 
     def _safe(self, fn):
         def wrapper():

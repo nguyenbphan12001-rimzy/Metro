@@ -11,6 +11,7 @@ from PyQt6.QtWidgets import (
     QFrame, QGraphicsDropShadowEffect, QMessageBox, QApplication
 )
 from UI.Customer.StyledDialogs import StatusDialog
+from App.DB_Connection import get_connection  # SỬA: cần để xử lý nghiệp vụ hoàn vé
 
 try:
     import qrcode
@@ -215,12 +216,166 @@ class EmailInputDialog(QDialog):
 # thành công" bên Thanhtoan_EX — dialog này theme xanh dương, không có icon ✓
 # màu xanh lá để tránh nhầm lẫn là vừa thanh toán xong).
 # ══════════════════════════════════════════════════════════════════════════════
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# ConfirmRefundDialog — SỬA: dialog xác nhận hoàn vé (2 nút Hủy / Xác nhận),
+# dùng pattern animation giống EmailInputDialog, theme cam (cảnh báo nhẹ).
+# ══════════════════════════════════════════════════════════════════════════════
+class ConfirmRefundDialog(QDialog):
+    def __init__(self, parent, amount_text):
+        super().__init__(parent)
+        self._closing = False
+        self._already_animated_in = False
+        self.confirmed = False
+
+        self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.Dialog)
+        self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
+        self.setFixedWidth(320)
+
+        outer = QVBoxLayout(self)
+        outer.setContentsMargins(20, 20, 20, 20)
+
+        card = QFrame()
+        card.setStyleSheet("QFrame { background-color: #FFFFFF; border-radius: 18px; }")
+        shadow = QGraphicsDropShadowEffect()
+        shadow.setBlurRadius(28)
+        shadow.setOffset(0, 6)
+        shadow.setColor(QColor(13, 31, 60, 90))
+        card.setGraphicsEffect(shadow)
+        outer.addWidget(card)
+
+        layout = QVBoxLayout(card)
+        layout.setContentsMargins(24, 22, 24, 22)
+        layout.setSpacing(0)
+
+        icon_wrap = QLabel("↩")
+        icon_wrap.setFixedSize(48, 48)
+        icon_wrap.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        icon_wrap.setStyleSheet("""
+            background-color: #FFEDD5; color: #EA580C;
+            border-radius: 24px; font-size: 20px; font-weight: 800;
+        """)
+        icon_row = QHBoxLayout()
+        icon_row.addStretch()
+        icon_row.addWidget(icon_wrap)
+        icon_row.addStretch()
+        layout.addLayout(icon_row)
+
+        lbl_title = QLabel("Xác nhận hoàn vé?")
+        lbl_title.setStyleSheet("color:#0C4A6E; font-size:16px; font-weight:800; margin-top:14px;")
+        lbl_title.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        layout.addWidget(lbl_title)
+
+        lbl_sub = QLabel(f"Vé sẽ bị hủy và {amount_text} sẽ được hoàn lại vào ví của bạn.")
+        lbl_sub.setWordWrap(True)
+        lbl_sub.setStyleSheet("color:#94A3B8; font-size:12px; margin-top:6px;")
+        lbl_sub.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        layout.addWidget(lbl_sub)
+
+        btn_row = QHBoxLayout()
+        btn_row.setContentsMargins(0, 18, 0, 0)
+        btn_row.setSpacing(10)
+
+        self.btnCancel = QPushButton("Để sau")
+        self.btnCancel.setCursor(Qt.CursorShape.PointingHandCursor)
+        self.btnCancel.setFixedHeight(42)
+        self.btnCancel.setStyleSheet("""
+            QPushButton {
+                background-color: #F1F5F9; color: #64748B;
+                border-radius: 10px; font-size: 13px; font-weight: 700;
+            }
+            QPushButton:hover { background-color: #E2E8F0; }
+        """)
+        self.btnCancel.clicked.connect(self._animate_close)
+        btn_row.addWidget(self.btnCancel)
+
+        self.btnConfirm = QPushButton("Hoàn vé")
+        self.btnConfirm.setCursor(Qt.CursorShape.PointingHandCursor)
+        self.btnConfirm.setFixedHeight(42)
+        self.btnConfirm.setStyleSheet("""
+            QPushButton {
+                background-color: #EA580C; color: white;
+                border-radius: 10px; font-size: 13px; font-weight: 700;
+            }
+            QPushButton:hover { background-color: #C2410C; }
+        """)
+        self.btnConfirm.clicked.connect(self._on_confirm)
+        btn_row.addWidget(self.btnConfirm)
+
+        layout.addLayout(btn_row)
+
+    def _on_confirm(self):
+        self.confirmed = True
+        self._animate_close()
+
+    def showEvent(self, event):
+        super().showEvent(event)
+        if self._already_animated_in:
+            return
+        self._already_animated_in = True
+
+        final_rect = self.geometry()
+        cx, cy = final_rect.center().x(), final_rect.center().y()
+        shrink_w, shrink_h = int(final_rect.width() * 0.9), int(final_rect.height() * 0.9)
+        start_rect = QRect(cx - shrink_w // 2, cy - shrink_h // 2, shrink_w, shrink_h)
+
+        self.setWindowOpacity(0.0)
+        self.setGeometry(start_rect)
+
+        self._anim_in_geo = QPropertyAnimation(self, b"geometry")
+        self._anim_in_geo.setDuration(240)
+        self._anim_in_geo.setStartValue(start_rect)
+        self._anim_in_geo.setEndValue(final_rect)
+        self._anim_in_geo.setEasingCurve(QEasingCurve.Type.OutBack)
+
+        self._anim_in_opacity = QPropertyAnimation(self, b"windowOpacity")
+        self._anim_in_opacity.setDuration(180)
+        self._anim_in_opacity.setStartValue(0.0)
+        self._anim_in_opacity.setEndValue(1.0)
+        self._anim_in_opacity.setEasingCurve(QEasingCurve.Type.OutCubic)
+
+        self._anim_in_group = QParallelAnimationGroup()
+        self._anim_in_group.addAnimation(self._anim_in_geo)
+        self._anim_in_group.addAnimation(self._anim_in_opacity)
+        self._anim_in_group.start()
+
+    def _animate_close(self):
+        if self._closing:
+            return
+        self._closing = True
+
+        current_rect = self.geometry()
+        cx, cy = current_rect.center().x(), current_rect.center().y()
+        shrink_w, shrink_h = int(current_rect.width() * 0.9), int(current_rect.height() * 0.9)
+        end_rect = QRect(cx - shrink_w // 2, cy - shrink_h // 2, shrink_w, shrink_h)
+
+        self._anim_out_geo = QPropertyAnimation(self, b"geometry")
+        self._anim_out_geo.setDuration(160)
+        self._anim_out_geo.setStartValue(current_rect)
+        self._anim_out_geo.setEndValue(end_rect)
+        self._anim_out_geo.setEasingCurve(QEasingCurve.Type.InCubic)
+
+        self._anim_out_opacity = QPropertyAnimation(self, b"windowOpacity")
+        self._anim_out_opacity.setDuration(160)
+        self._anim_out_opacity.setStartValue(1.0)
+        self._anim_out_opacity.setEndValue(0.0)
+        self._anim_out_opacity.setEasingCurve(QEasingCurve.Type.InCubic)
+
+        self._anim_out_group = QParallelAnimationGroup()
+        self._anim_out_group.addAnimation(self._anim_out_geo)
+        self._anim_out_group.addAnimation(self._anim_out_opacity)
+        self._anim_out_group.finished.connect(self.accept)
+        self._anim_out_group.start()
+
+
 class TicketQRDialog(QDialog):
-    def __init__(self, parent, ticket: dict):
+    def __init__(self, parent, ticket: dict, on_refunded=None):
         super().__init__(parent)
         self.ticket = ticket
         self._qr_temp_path = None
         self._closing = False  # SỬA: cờ tránh bấm Đóng nhiều lần khi đang animate
+        self.on_refunded = on_refunded  # SỬA: callback để VeCuaToi_EX refresh lại list sau khi hoàn vé thành công
 
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.Dialog)
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
@@ -264,6 +419,26 @@ class TicketQRDialog(QDialog):
             border-top-right-radius: 20px;
         """)
         header_layout = QVBoxLayout(header)
+
+        # SỬA: hàng trên cùng chứa nút X để đóng dialog mà không cần hoàn vé
+        top_row = QHBoxLayout()
+        top_row.setContentsMargins(0, 0, 0, 0)
+        top_row.addStretch()
+        self.btnCloseX = QPushButton("✕")
+        self.btnCloseX.setFixedSize(28, 28)
+        self.btnCloseX.setCursor(Qt.CursorShape.PointingHandCursor)
+        self.btnCloseX.setStyleSheet("""
+            QPushButton {
+                color: #FFFFFF; font-size: 13px; font-weight: 800;
+                background-color: rgba(255,255,255,0.18); border-radius: 14px;
+                border: none;
+            }
+            QPushButton:hover { background-color: rgba(255,255,255,0.32); }
+        """)
+        self.btnCloseX.clicked.connect(self._animate_close)
+        top_row.addWidget(self.btnCloseX)
+        header_layout.addLayout(top_row)
+
         lbl_icon = QLabel("🎫")
         lbl_icon.setStyleSheet("font-size: 30px; background: transparent;")
         lbl_icon.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -344,17 +519,33 @@ class TicketQRDialog(QDialog):
         self.btnEmail.clicked.connect(self.on_send_gmail)
         btn_row.addWidget(self.btnEmail)
 
-        self.btnClose = QPushButton("Đóng")
+        self.btnClose = QPushButton()
         self.btnClose.setCursor(Qt.CursorShape.PointingHandCursor)
         self.btnClose.setFixedHeight(42)
-        self.btnClose.setStyleSheet("""
-            QPushButton {
-                background-color: #0284C7; color: white;
-                border-radius: 10px; font-size: 13px; font-weight: 700;
-            }
-            QPushButton:hover { background-color: #0369A1; }
-        """)
-        self.btnClose.clicked.connect(self._animate_close)
+
+        # SỬA: chỉ cho hoàn vé khi vé còn hiệu lực (UNUSED). Vé đã quét (USED)
+        # hoặc đã hết hạn (EXPIRED) thì nút chỉ còn tác dụng đóng dialog.
+        status = (self.ticket.get("status") or "").upper()
+        if status == "UNUSED":
+            self.btnClose.setText("↩  Hoàn vé")
+            self.btnClose.setStyleSheet("""
+                QPushButton {
+                    background-color: #FFEDD5; color: #C2410C;
+                    border-radius: 10px; font-size: 13px; font-weight: 700;
+                }
+                QPushButton:hover { background-color: #FED7AA; }
+            """)
+            self.btnClose.clicked.connect(self.handle_refund)
+        else:
+            self.btnClose.setText("Đóng")
+            self.btnClose.setStyleSheet("""
+                QPushButton {
+                    background-color: #0284C7; color: white;
+                    border-radius: 10px; font-size: 13px; font-weight: 700;
+                }
+                QPushButton:hover { background-color: #0369A1; }
+            """)
+            self.btnClose.clicked.connect(self._animate_close)
         btn_row.addWidget(self.btnClose)
 
         layout.addLayout(btn_row)
@@ -434,6 +625,82 @@ class TicketQRDialog(QDialog):
         self._anim_out_group.addAnimation(self._anim_out_opacity)
         self._anim_out_group.finished.connect(self.accept)  # SỬA: animate xong mới thật sự đóng dialog
         self._anim_out_group.start()
+    # ── Hoàn vé — SỬA: nghiệp vụ mới thay cho nút Đóng khi vé còn UNUSED ────
+    def handle_refund(self):
+        price = self.ticket.get("price", 0)
+        price_text = f"{price:,.0f} VNĐ".replace(",", ".")
+
+        confirm_dlg = ConfirmRefundDialog(self, price_text)
+        confirm_dlg.exec()
+        if not confirm_dlg.confirmed:
+            return
+
+        ticket_id = self.ticket.get("ticket_id")
+        conn = None
+        try:
+            conn = get_connection()
+            cursor = conn.cursor()
+
+            # SỬA: lock + re-check trạng thái mới nhất ngay trước khi hoàn,
+            # tránh trường hợp vé vừa bị quét (USED) trong lúc dialog đang mở
+            cursor.execute("SELECT status, user_id, price FROM TICKET WHERE ticket_id = ?", (ticket_id,))
+            row = cursor.fetchone()
+            if not row or row[0] != "UNUSED":
+                conn.close()
+                self._show_status("error", "Không thể hoàn vé", "Vé đã được sử dụng hoặc không còn tồn tại.")
+                return
+
+            _, user_id, real_price = row
+
+            cursor.execute("SELECT wallet_id FROM WALLET WHERE user_id = ?", (user_id,))
+            wallet_row = cursor.fetchone()
+            if not wallet_row:
+                conn.close()
+                self._show_status("error", "Không thể hoàn vé", "Không tìm thấy ví điện tử của khách hàng.")
+                return
+            wallet_id = wallet_row[0]
+
+            # PK thủ công (không có IDENTITY) — theo đúng pattern toàn dự án
+            cursor.execute("SELECT ISNULL(MAX(refund_id), 0) + 1 FROM REFUNDS")
+            next_refund_id = cursor.fetchone()[0]
+
+            cursor.execute(
+                "INSERT INTO REFUNDS (refund_id, ticket_id, wallet_id, amount) VALUES (?, ?, ?, ?)",
+                (next_refund_id, ticket_id, wallet_id, real_price)
+            )
+            # SỬA: KHÔNG tự UPDATE WALLET.balance ở đây — để trigger trg_after_refund
+            # (AFTER INSERT trên REFUNDS) tự cộng tiền lại vào ví, đúng pattern của dự án.
+            # Lưu ý: nếu DB hiện tại chưa có trigger này thì cần tạo thêm, xem ghi chú bên dưới.
+
+            # SỬA: schema TICKET.status hiện chỉ CHECK IN ('UNUSED','USED','EXPIRED'),
+            # chưa có 'CANCELLED' nên tạm dùng 'EXPIRED' để đánh dấu vé không còn dùng được.
+            # Nếu muốn phân biệt rõ "hết hạn tự nhiên" và "bị hủy hoàn tiền", nên ALTER
+            # CHECK constraint để thêm 'CANCELLED' rồi đổi dòng dưới thành 'CANCELLED'.
+            cursor.execute("UPDATE TICKET SET status = 'EXPIRED' WHERE ticket_id = ?", (ticket_id,))
+
+            conn.commit()
+            conn.close()
+
+            self.ticket["status"] = "EXPIRED"
+
+            if callable(self.on_refunded):
+                self.on_refunded(ticket_id)
+
+            self._show_status("success", "Hoàn vé thành công!", f"Đã hoàn {price_text} vào ví của bạn.")
+            self._animate_close()
+
+        except Exception as e:
+            if conn:
+                try:
+                    conn.close()
+                except Exception:
+                    pass
+            self._show_status("error", "Lỗi hoàn vé", f"Không thể xử lý hoàn vé:\n{str(e)}")
+
+    def _show_status(self, kind, title, message):
+        dlg = StatusDialog(self, title=title, message=message, kind=kind, ok_text="Đã hiểu")
+        dlg.exec()
+
     def _generate_qr(self):
         if not QR_AVAILABLE:
             self.qrLabel.setText("⚠ Cần cài:\npip install qrcode[pil]")

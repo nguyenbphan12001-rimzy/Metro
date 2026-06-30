@@ -402,8 +402,6 @@ QScrollBar::sub-line:vertical {
         <property name="bottomMargin">
          <number>28</number>
         </property>
-
-        <!-- WALLET CARD -->
         <item>
          <widget class="QFrame" name="wallet_card">
           <property name="frameShape">
@@ -470,28 +468,13 @@ QScrollBar::sub-line:vertical {
                </property>
               </widget>
              </item>
-             <item>
-              <widget class="QPushButton" name="btn_refund">
-               <property name="cursor">
-                <cursorShape>PointingHandCursor</cursorShape>
-               </property>
-               <property name="text">
-                <string>↩  Hoàn vé  ↗</string>
-               </property>
-              </widget>
-             </item>
             </layout>
            </item>
           </layout>
          </widget>
         </item>
-
-        <!-- SECTION LABEL -->
         <item>
          <widget class="QLabel" name="lbl_section_menu">
-          <property name="text">
-           <string>Dịch vụ</string>
-          </property>
           <property name="styleSheet">
            <string notr="true">
             color: #5B9EB8;
@@ -500,17 +483,16 @@ QScrollBar::sub-line:vertical {
             letter-spacing: 1.2px;
            </string>
           </property>
+          <property name="text">
+           <string>Dịch vụ</string>
+          </property>
          </widget>
         </item>
-
-        <!-- MENU GRID -->
         <item>
          <layout class="QHBoxLayout" name="menu_grid">
           <property name="spacing">
            <number>14</number>
           </property>
-
-          <!-- CARD MUA VÉ -->
           <item>
            <widget class="QFrame" name="card_buy">
             <property name="cursor">
@@ -590,8 +572,6 @@ QScrollBar::sub-line:vertical {
             </layout>
            </widget>
           </item>
-
-          <!-- CARD VÉ CỦA TÔI -->
           <item>
            <widget class="QFrame" name="card_myticket">
             <property name="cursor">
@@ -677,11 +657,8 @@ QScrollBar::sub-line:vertical {
             </layout>
            </widget>
           </item>
-
          </layout>
         </item>
-
-        <!-- TIP BANNER -->
         <item>
          <widget class="QFrame" name="tip_banner">
           <property name="frameShape">
@@ -740,8 +717,6 @@ QScrollBar::sub-line:vertical {
           </layout>
          </widget>
         </item>
-
-        <!-- SPACER -->
         <item>
          <spacer>
           <property name="orientation">
@@ -755,7 +730,6 @@ QScrollBar::sub-line:vertical {
           </property>
          </spacer>
         </item>
-
        </layout>
       </widget>
      </widget>

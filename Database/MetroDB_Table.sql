@@ -206,6 +206,28 @@ BEGIN
     ) agg ON w.wallet_id = agg.wallet_id;
 END;
 GO
+
+-- SỬA: thêm trigger còn thiếu — REFUNDS trước đây không có trigger nào cộng
+-- tiền lại vào ví, nên TicketQRDialog.handle_refund() insert REFUNDS xong mà
+-- balance không nhúc nhích. Giữ đúng pattern "Python không tự UPDATE balance".
+CREATE TRIGGER trg_after_refund
+ON REFUNDS
+AFTER INSERT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    UPDATE w
+    SET w.balance = w.balance + agg.total_amount,
+        w.last_updated = CURRENT_TIMESTAMP
+    FROM WALLET w
+    JOIN (
+        SELECT wallet_id, SUM(amount) AS total_amount
+        FROM inserted
+        GROUP BY wallet_id
+    ) agg ON w.wallet_id = agg.wallet_id;
+END;
+GO
+
 -- ====================================================================
 -- CHỈ MỤC (INDEX) TỐI ƯU TỐC ĐỘ TRUY VẤN
 -- ====================================================================
