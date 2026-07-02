@@ -74,10 +74,12 @@ CREATE TABLE TRAIN (
     FOREIGN KEY (route_id) REFERENCES ROUTE(route_id)
 );
 
+-- SỬA: balance mặc định đổi về 0 (đúng nghiệp vụ: ví được cấp ngay khi
+-- tạo tài khoản với số dư = 0, khách phải tự nạp tiền vào mới mua vé được)
 CREATE TABLE WALLET (
     wallet_id    INT PRIMARY KEY,
     user_id      INT UNIQUE,
-    balance      DECIMAL(15,2) DEFAULT 500000.00 CHECK (balance >= 0),
+    balance      DECIMAL(15,2) DEFAULT 0.00 CHECK (balance >= 0),
     last_updated DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES [USER](user_id) -- Gọi đến [USER]
 );
@@ -98,23 +100,38 @@ CREATE TABLE PRICE_TABLE (
 -- NHÓM 3: CÁC BẢNG LIÊN QUAN ĐẾN VÉ
 -- ====================================================================
 
+-- SỬA:
+--  1) status: thêm CANCELLED (vé bị hủy/hoàn tiền) để phân biệt với EXPIRED
+--     (vé hết hạn tự nhiên) — tránh 1 vé đã hoàn tiền còn bị hiểu nhầm là
+--     "hết hạn", đồng thời trigger quét QR sẽ dựa vào CANCELLED để chặn
+--     khách quét vé đã hoàn.
+--  2) train_id: cho phép NULL. Vé lượt (type_id = 1) mới bắt buộc gắn với
+--     1 chuyến tàu cụ thể; vé ngày/vé tháng (type_id 2,3,4) là vé "mở",
+--     khách được đi nhiều chuyến/nhiều tàu trong thời hạn hiệu lực nên
+--     không hợp lý khi khóa cứng vào 1 train_id (thực tế trước đây là bug).
+--     CHK_Ticket_TrainByType ép đúng quy tắc này ở tầng CSDL.
 CREATE TABLE TICKET (
     ticket_id       INT PRIMARY KEY,
     user_id         INT,
-    train_id        INT,
+    train_id        INT NULL,
     type_id         INT,
     from_station_id INT NULL,
     to_station_id   INT NULL,
     price           DECIMAL(10,2) NOT NULL CHECK (price >= 0),
     qr_code         VARCHAR(100) NOT NULL UNIQUE,
-    status          VARCHAR(50) DEFAULT 'UNUSED' CHECK (status IN ('UNUSED', 'USED', 'EXPIRED')),
+    status          VARCHAR(50) DEFAULT 'UNUSED' CHECK (status IN ('UNUSED', 'USED', 'EXPIRED', 'CANCELLED')),
     issued_at       DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id)         REFERENCES [USER](user_id), -- Gọi đến [USER]
     FOREIGN KEY (train_id)        REFERENCES TRAIN(train_id),
     FOREIGN KEY (type_id)         REFERENCES TICKET_TYPE(type_id),
     FOREIGN KEY (from_station_id) REFERENCES STATION(station_id),
     FOREIGN KEY (to_station_id)   REFERENCES STATION(station_id),
-    CONSTRAINT CHK_Tickets_DistinctStations CHECK (from_station_id IS NULL OR to_station_id IS NULL OR from_station_id <> to_station_id)
+    CONSTRAINT CHK_Tickets_DistinctStations CHECK (from_station_id IS NULL OR to_station_id IS NULL OR from_station_id <> to_station_id),
+    -- SỬA: type_id = 1 là 'Vé lượt' (cố định theo dữ liệu TICKET_TYPE ở Nhom1.sql)
+    CONSTRAINT CHK_Ticket_TrainByType CHECK (
+        (type_id = 1 AND train_id IS NOT NULL) OR
+        (type_id <> 1 AND train_id IS NULL)
+    )
 );
 CREATE TABLE DEPOSIT_HISTORY (
     deposit_id INT PRIMARY KEY,
@@ -132,12 +149,14 @@ CREATE TABLE DEPOSIT_HISTORY (
 -- NHÓM 4: CÁC BẢNG NGHIỆP VỤ
 -- ====================================================================
 
+-- SỬA: thêm UNIQUE trên ticket_id — đối soát tài chính 1:1, 1 vé chỉ được
+-- sinh đúng 1 hóa đơn giao dịch mua vé.
 -- Giữ nguyên TRANSACTION dạng số ít bằng cách bọc dấu [ ]
 CREATE TABLE [TRANSACTION] (
     transaction_id INT PRIMARY KEY,
     user_id        INT,
     wallet_id      INT,
-    ticket_id      INT,
+    ticket_id      INT UNIQUE,
     amount         DECIMAL(15,2) NOT NULL CHECK (amount > 0),
     created_at     DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id)   REFERENCES [USER](user_id), -- Gọi đến [USER]
@@ -155,9 +174,11 @@ CREATE TABLE SCANNING_HISTORY (
     FOREIGN KEY (station_id) REFERENCES STATION(station_id)
 );
 
+-- SỬA: thêm UNIQUE trên ticket_id — 1 vé chỉ được hoàn tiền tối đa 1 lần,
+-- chặn tình huống hoàn trùng nhiều lần trên cùng 1 vé.
 CREATE TABLE REFUNDS (
     refund_id  INT PRIMARY KEY,
-    ticket_id  INT,
+    ticket_id  INT UNIQUE,
     wallet_id  INT,
     amount     DECIMAL(15,2) NOT NULL CHECK (amount > 0),
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -207,15 +228,18 @@ BEGIN
 END;
 GO
 
--- SỬA: thêm trigger còn thiếu — REFUNDS trước đây không có trigger nào cộng
--- tiền lại vào ví, nên TicketQRDialog.handle_refund() insert REFUNDS xong mà
--- balance không nhúc nhích. Giữ đúng pattern "Python không tự UPDATE balance".
+-- SỬA: trigger REFUNDS giờ làm 2 việc trong 1 lần INSERT:
+--   1) Cộng tiền hoàn lại vào ví (giữ nguyên như bản trước)
+--   2) Tự động chuyển TICKET.status -> 'CANCELLED', tránh việc Python phải
+--      tự set status (dễ quên / dễ set sai) và tránh khách vẫn mở QR của vé
+--      đã hoàn để quét cổng.
 CREATE TRIGGER trg_after_refund
 ON REFUNDS
 AFTER INSERT
 AS
 BEGIN
     SET NOCOUNT ON;
+
     UPDATE w
     SET w.balance = w.balance + agg.total_amount,
         w.last_updated = CURRENT_TIMESTAMP
@@ -225,8 +249,42 @@ BEGIN
         FROM inserted
         GROUP BY wallet_id
     ) agg ON w.wallet_id = agg.wallet_id;
+
+    UPDATE t
+    SET t.status = 'CANCELLED'
+    FROM TICKET t
+    JOIN inserted i ON t.ticket_id = i.ticket_id;
 END;
 GO
+
+-- SỬA: trigger mới — sau khi quét cổng (SCAN IN), tự động chuyển vé lượt
+-- sang 'USED'. Chỉ áp dụng cho type_id = 1 (Vé lượt) vì vé ngày/vé tháng
+-- cần được quét nhiều lần trong thời hạn hiệu lực nên không được đổi
+-- trạng thái ngay sau lượt quét đầu tiên. Chỉ đổi khi vé đang ở UNUSED để
+-- không ghi đè lên vé đã CANCELLED/EXPIRED.
+CREATE TRIGGER trg_after_scan_in
+ON SCANNING_HISTORY
+AFTER INSERT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    UPDATE t
+    SET t.status = 'USED'
+    FROM TICKET t
+    JOIN inserted i ON t.ticket_id = i.ticket_id
+    WHERE i.scan_type = 'IN'
+      AND t.type_id = 1
+      AND t.status = 'UNUSED';
+END;
+GO
+
+-- Lưu ý (chưa xử lý bằng trigger — nhóm quyết định để ở tầng QUERY):
+-- Vé ngày/vé tháng (type_id 2,3,4) khi hết hạn (issued_at + validity_days
+-- từ TICKET_TYPE < ngày hiện tại) không có trigger tự chuyển EXPIRED, vì
+-- SQL Server trigger chỉ chạy khi có thao tác INSERT/UPDATE/DELETE, không
+-- tự chạy theo thời gian. Việc này nên xử lý bằng 1 SELECT/UPDATE query
+-- (hoặc SQL Agent Job định kỳ) — sẽ đưa vào bộ 30 query của đồ án.
 
 -- ====================================================================
 -- CHỈ MỤC (INDEX) TỐI ƯU TỐC ĐỘ TRUY VẤN
@@ -238,4 +296,5 @@ CREATE NONCLUSTERED INDEX IX_Scanning_TicketTime ON SCANNING_HISTORY(ticket_id, 
 CREATE NONCLUSTERED INDEX IX_Transactions_UserTime ON [TRANSACTION](user_id, created_at); -- Đưa về bảng số ít có ngoặc vuông
 CREATE NONCLUSTERED INDEX IX_PriceTable_Stations ON PRICE_TABLE(from_station_id, to_station_id);
 CREATE NONCLUSTERED INDEX IX_Deposit_WalletTime ON DEPOSIT_HISTORY(wallet_id, created_at);
+CREATE NONCLUSTERED INDEX IX_Train_RouteDeparture ON TRAIN(route_id, departure_time); -- SỬA: phục vụ query đề xuất chuyến gần giờ hiện tại nhất
 GO
