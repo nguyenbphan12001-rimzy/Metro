@@ -336,6 +336,52 @@ class ThanhToan_EX(Ui_MetroBookingForm):
             num_widget.style().unpolish(num_widget)
             num_widget.style().polish(num_widget)
 
+    def get_next_available_train(self, route_id, reference_datetime=None):
+        """
+        Chọn chuyến tàu gần nhất còn chỗ trống cho vé lượt.
+        - reference_datetime: cho phép truyền giờ giả lập để TEST (không có thì lấy giờ thật).
+        - Chỉ đếm số vé lượt (type_id=1) đã phát hành TRONG NGÀY cho từng train_id,
+          vì capacity là sức chứa của MỘT chuyến chạy trong MỘT ngày, không phải tổng all-time.
+        Trả về: (train_id, departure_time_str, reason)
+            reason = None nếu tìm được chuyến, hoặc "no_more_trains_today" / "all_full"
+        """
+        if reference_datetime is None:
+            reference_datetime = datetime.now()
+
+        ref_time = reference_datetime.time()
+        ref_date = reference_datetime.date()
+
+        cursor = self.conn.cursor()
+        cursor.execute("""
+            SELECT train_id, departure_time, capacity
+            FROM TRAIN
+            WHERE route_id = ? AND departure_time >= ?
+            ORDER BY departure_time ASC
+        """, route_id, ref_time)
+        candidates = cursor.fetchall()
+
+        # SỬA: phân biệt rõ 2 nguyên nhân để debug dễ hơn
+        if not candidates:
+            # Đã qua giờ chạy của TẤT CẢ chuyến trong ngày (VD: sau 22:00)
+            return None, None, "no_more_trains_today"
+
+        for train_id, departure_time, capacity in candidates:
+            cursor.execute("""
+                SELECT COUNT(*) FROM TICKET
+                WHERE train_id = ?
+                  AND type_id = 1
+                  AND status IN ('UNUSED', 'USED')
+                  AND CAST(issued_at AS DATE) = ?
+            """, train_id, ref_date)
+            sold_count = cursor.fetchone()[0]
+
+            if sold_count < capacity:
+                dep_str = departure_time.strftime("%H:%M") if hasattr(departure_time, "strftime") else str(departure_time)
+                return train_id, dep_str, None
+
+        # Có chuyến trong khung giờ còn lại, nhưng chuyến nào cũng đã đầy 300/300
+        return None, None, "all_full"
+
     def update_summary(self):
         cursor = self.conn.cursor()
         cursor.execute(
@@ -469,12 +515,34 @@ class ThanhToan_EX(Ui_MetroBookingForm):
         now = datetime.now()
         qr_code = f"QR_{ticket_id}_{int(now.timestamp())}"
 
+        # SỬA: chỉ vé lượt (type_id=1) mới cần gắn chuyến tàu cụ thể.
+        # Vé ngày/tháng dùng được nhiều chuyến trong ngày/tháng nên không gắn train_id.
+        train_id = None
+        departure_str = None
+        if info["type_id"] == 1:
+            route_id = self.comboLine.currentData()
+            train_id, departure_str, reason = self.get_next_available_train(route_id, reference_datetime=now)
+
+            if train_id is None:
+                if reason == "no_more_trains_today":
+                    title = "Đã hết giờ chạy trong ngày"
+                    message = ("Chuyến cuối cùng trong ngày hôm nay đã khởi hành. "
+                               "Vui lòng quay lại vào ngày mai (chuyến sớm nhất 05:00).")
+                else:  # all_full
+                    title = "Hết chỗ trong ngày"
+                    message = ("Tất cả các chuyến còn lại trong hôm nay đã đầy chỗ (300/300). "
+                               "Vui lòng quay lại vào ngày mai.")
+
+                dlg = StatusDialog(self._window, title, message, kind="warning")
+                dlg.exec()
+                return
+
         try:
             cursor.execute("""
                 INSERT INTO TICKET (ticket_id, user_id, train_id, type_id,
                     from_station_id, to_station_id, price, qr_code, status, issued_at)
-                VALUES (?, ?, NULL, ?, ?, ?, ?, ?, 'UNUSED', ?)
-            """, ticket_id, self.user_id, info["type_id"], info["from_id"], info["to_id"], price, qr_code, now)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'UNUSED', ?)
+            """, ticket_id, self.user_id, train_id, info["type_id"], info["from_id"], info["to_id"], price, qr_code, now)
 
             cursor.execute("""
                 INSERT INTO [TRANSACTION] (transaction_id, user_id, wallet_id, ticket_id, amount, created_at)
@@ -489,12 +557,18 @@ class ThanhToan_EX(Ui_MetroBookingForm):
             new_balance = cursor.fetchone()[0]
             self.lblBalance.setText(f"💳  Số dư: {new_balance:,.0f} VNĐ".replace(",", "."))
 
+            # SỬA: gắn giờ chuyến tàu vào detail_text khi là vé lượt, để khách biết
+            # mình được xếp vào chuyến nào ngay trên dialog thành công.
+            display_detail = info["detail_text"]
+            if info["type_id"] == 1 and departure_str:
+                display_detail = f"{display_detail} · Tàu {departure_str}"
+
             # SỬA: thay QMessageBox.information bằng TicketSuccessDialog có QR thật
             dlg = TicketSuccessDialog(
                 self._window,
                 qr_code,
                 info["type_name"],
-                info["detail_text"],
+                display_detail,
                 info["amount_text"],
             )
             dlg.exec()
