@@ -131,7 +131,7 @@
     /* Tiêu đề trang đặt vé, đặt cùng hàng với nút Back */
     QLabel#lblPageTitle {
         color: #0C4A6E;
-        font-size: 16px;
+        font-size: 13px;
         font-weight: bold;
     }
    </string>
@@ -139,19 +139,19 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="mainLayout">
     <property name="spacing">
-     <number>12</number>
+     <number>8</number>
     </property>
     <property name="leftMargin">
      <number>14</number>
     </property>
     <property name="topMargin">
-     <number>16</number>
+     <number>8</number>
     </property>
     <property name="rightMargin">
      <number>14</number>
     </property>
     <property name="bottomMargin">
-     <number>24</number>
+     <number>14</number>
     </property>
     <item>
      <layout class="QHBoxLayout" name="headerLayout">
@@ -162,14 +162,14 @@
        <widget class="QPushButton" name="btnBack">
         <property name="minimumSize">
          <size>
-          <width>32</width>
-          <height>32</height>
+          <width>26</width>
+          <height>26</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>32</width>
-          <height>32</height>
+          <width>26</width>
+          <height>26</height>
          </size>
         </property>
         <property name="cursor">

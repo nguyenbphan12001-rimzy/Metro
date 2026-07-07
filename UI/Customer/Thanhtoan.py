@@ -130,22 +130,22 @@ class Ui_MetroBookingForm(object):
 "    /* Tiêu đề trang đặt vé, đặt cùng hàng với nút Back */\n"
 "    QLabel#lblPageTitle {\n"
 "        color: #0C4A6E;\n"
-"        font-size: 16px;\n"
+"        font-size: 13px;\n"
 "        font-weight: bold;\n"
 "    }\n"
 "   ")
         self.centralwidget = QtWidgets.QWidget(parent=MetroBookingForm)
         self.centralwidget.setObjectName("centralwidget")
         self.mainLayout = QtWidgets.QVBoxLayout(self.centralwidget)
-        self.mainLayout.setContentsMargins(14, 16, 14, 24)
-        self.mainLayout.setSpacing(12)
+        self.mainLayout.setContentsMargins(14, 8, 14, 14)
+        self.mainLayout.setSpacing(8)
         self.mainLayout.setObjectName("mainLayout")
         self.headerLayout = QtWidgets.QHBoxLayout()
         self.headerLayout.setSpacing(8)
         self.headerLayout.setObjectName("headerLayout")
         self.btnBack = QtWidgets.QPushButton(parent=self.centralwidget)
-        self.btnBack.setMinimumSize(QtCore.QSize(32, 32))
-        self.btnBack.setMaximumSize(QtCore.QSize(32, 32))
+        self.btnBack.setMinimumSize(QtCore.QSize(26, 26))
+        self.btnBack.setMaximumSize(QtCore.QSize(26, 26))
         self.btnBack.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
         self.btnBack.setObjectName("btnBack")
         self.headerLayout.addWidget(self.btnBack)

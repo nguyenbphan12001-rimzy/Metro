@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, date
 
 from PyQt6.QtGui import QStandardItemModel, QStandardItem, QColor
 from PyQt6.QtCore import Qt, QPropertyAnimation, QEasingCurve, QPoint, QTimer
@@ -136,6 +136,15 @@ class ConfirmPaymentDialog(QDialog):
 class ThanhToan_EX(Ui_MetroBookingForm):
     def setupUi(self, MetroBookingForm, conn=None, user_id=None, parent_window=None):
         super().setupUi(MetroBookingForm)
+        from PyQt6.QtWidgets import QScrollArea
+        old_central = MetroBookingForm.centralWidget()
+        scroll = QScrollArea()
+        scroll.setWidgetResizable(True)
+        scroll.setFrameShape(QScrollArea.Shape.NoFrame)
+        scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        scroll.setWidget(old_central)
+        MetroBookingForm.setCentralWidget(scroll)
+
         self.conn = conn
         self.user_id = user_id
         self._window = MetroBookingForm
@@ -382,6 +391,29 @@ class ThanhToan_EX(Ui_MetroBookingForm):
         # Có chuyến trong khung giờ còn lại, nhưng chuyến nào cũng đã đầy 300/300
         return None, None, "all_full"
 
+    # SỬA: tính tuổi user từ DoB, dùng để xác định diện miễn phí (dưới 6 tuổi hoặc từ 60 tuổi trở lên)
+    def get_user_age(self):
+        cursor = self.conn.cursor()
+        cursor.execute("SELECT DoB FROM [USER] WHERE user_id = ?", self.user_id)
+        row = cursor.fetchone()
+        if not row or not row[0]:
+            return None
+        dob = row[0]
+        if isinstance(dob, str):
+            dob = datetime.strptime(dob, "%Y-%m-%d").date()
+        elif isinstance(dob, datetime):
+            dob = dob.date()
+        today = date.today()
+        age = today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
+        return age
+
+    # SỬA: True nếu user thuộc diện miễn phí vé (trẻ em <6 tuổi hoặc người cao tuổi >=60)
+    def is_free_ticket(self):
+        age = self.get_user_age()
+        if age is None:
+            return False
+        return age < 6 or age >= 60
+
     def update_summary(self):
         cursor = self.conn.cursor()
         cursor.execute(
@@ -414,8 +446,14 @@ class ThanhToan_EX(Ui_MetroBookingForm):
         self.t1_b.setText(f"{luot_price:,.0f} VNĐ".replace(",", "."))
 
         price = luot_price if self.selected_type_id == 1 else fixed_price
-        self.sumType.setText(type_name)
-        self.sumTotal.setText(f"{price:,.0f} VNĐ".replace(",", "."))
+
+        # SỬA: nếu thuộc diện miễn phí (dưới 6 hoặc từ 60 tuổi) -> hiển thị "Miễn phí" thay vì giá thật
+        if self.is_free_ticket():
+            self.sumType.setText(f"{type_name} (Miễn phí)")
+            self.sumTotal.setText("0 VNĐ")
+        else:
+            self.sumType.setText(type_name)
+            self.sumTotal.setText(f"{price:,.0f} VNĐ".replace(",", "."))
 
     def on_pay_clicked(self):
         self.update_stepper_ui(active_step=3)  # thêm dòng này lên đầu
@@ -444,17 +482,22 @@ class ThanhToan_EX(Ui_MetroBookingForm):
             price = fixed_price
             from_id, to_id = None, None  # vé ngày/tháng không gắn ga
 
+        # SỬA: nếu thuộc diện miễn phí -> ép giá về 0 trước khi hiển thị dialog xác nhận
+        is_free = self.is_free_ticket()
+        if is_free:
+            price = 0
+
         cursor.execute("SELECT balance FROM WALLET WHERE user_id = ?", self.user_id)
         balance = cursor.fetchone()[0]
         balance_text = f"{balance:,.0f} VNĐ".replace(",", ".")
-        amount_text = f"{price:,.0f} VNĐ".replace(",", ".")
+        amount_text = "0 VNĐ (Miễn phí)" if is_free else f"{price:,.0f} VNĐ".replace(",", ".")
 
         detail_text = ""
         if self.selected_type_id == 1:
             detail_text = f"{self.comboFrom.currentText()} → {self.comboTo.currentText()}"
 
         # Lưu lại để dùng khi user bấm "Xác nhận" trong dialog
-        # SỬA: lưu thêm type_name, amount_text, detail_text để dùng cho TicketSuccessDialog sau này
+        # SỬA: lưu thêm type_name, amount_text, detail_text, is_free để process_payment biết cách xử lý
         self._pending_payment = {
             "type_id": self.selected_type_id,
             "type_name": type_name,
@@ -463,6 +506,7 @@ class ThanhToan_EX(Ui_MetroBookingForm):
             "to_id": to_id,
             "amount_text": amount_text,
             "detail_text": detail_text,
+            "is_free": is_free,
         }
 
         dialog = ConfirmPaymentDialog(self._window, type_name, detail_text, amount_text, balance_text)
@@ -480,9 +524,10 @@ class ThanhToan_EX(Ui_MetroBookingForm):
     def process_payment(self):
         info = self._pending_payment
         price = info["price"]
+        is_free = info.get("is_free", False)
 
-        if price <= 0:
-            # SỬA: thay QMessageBox.warning bằng StatusDialog kiểu "error"
+        # SỬA: chỉ báo lỗi giá khi KHÔNG phải vé miễn phí (vé miễn phí thì price=0 là hợp lệ)
+        if price <= 0 and not is_free:
             dlg = StatusDialog(
                 self._window,
                 "Lỗi giá vé",
@@ -496,8 +541,8 @@ class ThanhToan_EX(Ui_MetroBookingForm):
         cursor.execute("SELECT wallet_id, balance FROM WALLET WHERE user_id = ?", self.user_id)
         wallet_id, balance = cursor.fetchone()
 
-        if balance < price:
-            # SỬA: thay QMessageBox.warning bằng StatusDialog kiểu "warning"
+        # SỬA: chỉ check đủ tiền khi không phải vé miễn phí
+        if not is_free and balance < price:
             dlg = StatusDialog(
                 self._window,
                 "Không đủ tiền",
@@ -509,8 +554,6 @@ class ThanhToan_EX(Ui_MetroBookingForm):
 
         cursor.execute("SELECT ISNULL(MAX(ticket_id), 0) FROM TICKET")
         ticket_id = cursor.fetchone()[0] + 1
-        cursor.execute("SELECT ISNULL(MAX(transaction_id), 0) FROM [TRANSACTION]")
-        transaction_id = cursor.fetchone()[0] + 1
 
         now = datetime.now()
         qr_code = f"QR_{ticket_id}_{int(now.timestamp())}"
@@ -544,11 +587,16 @@ class ThanhToan_EX(Ui_MetroBookingForm):
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'UNUSED', ?)
             """, ticket_id, self.user_id, train_id, info["type_id"], info["from_id"], info["to_id"], price, qr_code, now)
 
-            cursor.execute("""
-                INSERT INTO [TRANSACTION] (transaction_id, user_id, wallet_id, ticket_id, amount, created_at)
-                VALUES (?, ?, ?, ?, ?, ?)
-            """, transaction_id, self.user_id, wallet_id, ticket_id, price, now)
-            # trigger trg_after_transaction sẽ tự trừ balance trong WALLET
+            # SỬA: chỉ insert TRANSACTION khi KHÔNG miễn phí — vì bảng [TRANSACTION]
+            # có CHECK (amount > 0), insert amount=0 sẽ bị SQL Server từ chối ngay
+            if not is_free:
+                cursor.execute("SELECT ISNULL(MAX(transaction_id), 0) FROM [TRANSACTION]")
+                transaction_id = cursor.fetchone()[0] + 1
+                cursor.execute("""
+                    INSERT INTO [TRANSACTION] (transaction_id, user_id, wallet_id, ticket_id, amount, created_at)
+                    VALUES (?, ?, ?, ?, ?, ?)
+                """, transaction_id, self.user_id, wallet_id, ticket_id, price, now)
+                # trigger trg_after_transaction sẽ tự trừ balance trong WALLET
 
             self.conn.commit()
 
@@ -557,19 +605,15 @@ class ThanhToan_EX(Ui_MetroBookingForm):
             new_balance = cursor.fetchone()[0]
             self.lblBalance.setText(f"💳  Số dư: {new_balance:,.0f} VNĐ".replace(",", "."))
 
-            # SỬA: gắn giờ chuyến tàu vào detail_text khi là vé lượt, để khách biết
-            # mình được xếp vào chuyến nào ngay trên dialog thành công.
-            display_detail = info["detail_text"]
-            if info["type_id"] == 1 and departure_str:
-                display_detail = f"{display_detail} · Tàu {departure_str}"
-
-            # SỬA: thay QMessageBox.information bằng TicketSuccessDialog có QR thật
+            # SỬA: giờ chuyến tàu truyền riêng qua train_time, không nhét chung
+            # vào detail_text nữa -> dialog sẽ hiện thành dòng "Chuyến tàu" tách biệt
             dlg = TicketSuccessDialog(
                 self._window,
                 qr_code,
                 info["type_name"],
-                display_detail,
+                info["detail_text"],
                 info["amount_text"],
+                train_time=departure_str if info["type_id"] == 1 else None,
             )
             dlg.exec()
 

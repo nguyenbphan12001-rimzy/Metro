@@ -73,8 +73,6 @@ class KhachHang_Ver2_EX(Ui_DashboardWindow_Ver2):
         self._anim_group.addAnimation(self._anim_opacity)
         self._anim_group.start()
 
-
-
     def open_buy_ticket(self):
         from UI.Customer.Thanhtoan_EX import ThanhToan_EX
         from PyQt6.QtWidgets import QMainWindow
@@ -85,11 +83,13 @@ class KhachHang_Ver2_EX(Ui_DashboardWindow_Ver2):
             ui = ThanhToan_EX()
             ui.setupUi(self.buy_window, conn=self.conn, user_id=self.user_id, parent_window=self.MainWindow)
 
-            w, h = 436, min(853, screen.height() - 40)
+            w = 436
+            h = min(853, screen.height() - 20)  # SỬA: chừa 20px lề trên/dưới thay vì trừ nhiều
+
             self.buy_window.resize(w, h)
             self.buy_window.move(
                 screen.x() + (screen.width() - w) // 2,
-                screen.y() + (screen.height() - h) // 2
+                screen.y() + 10  # SỬA: dán sát mép trên màn hình thay vì canh giữa theo chiều dọc
             )
 
             self.show_with_animation(self.buy_window)

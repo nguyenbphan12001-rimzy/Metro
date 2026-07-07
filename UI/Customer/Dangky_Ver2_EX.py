@@ -126,6 +126,13 @@ class Dangky_Ver2_EX(Ui_RegisterWindow_Ver2):
                 conn.close()
                 return
 
+            # SỬA: check trùng số điện thoại — mỗi số điện thoại chỉ được đăng ký 1 tài khoản
+            cursor.execute("SELECT user_id FROM [USER] WHERE phone = ?", (phone,))
+            if cursor.fetchone() is not None:
+                self._show_error(f"Số điện thoại '{phone}' đã được sử dụng để đăng ký tài khoản khác!")  # SỬA
+                conn.close()
+                return
+
             cursor.execute("SELECT MAX(user_id) FROM [USER]")
             max_id = cursor.fetchone()[0]
             next_id = (max_id + 1) if max_id is not None else 1
@@ -189,4 +196,3 @@ class Dangky_Ver2_EX(Ui_RegisterWindow_Ver2):
             import traceback
             traceback.print_exc()
             self._show_error(f"Không thể quay lại màn đăng nhập:\n{str(e)}")  # SỬA
-

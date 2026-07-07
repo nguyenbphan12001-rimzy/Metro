@@ -240,6 +240,29 @@ class VeCuaToi_EX(Ui_VeCoiToiWindow):
     # ── Load dữ liệu từ DB ──────────────────────────────────────────────────
     def load_tickets(self):
         cursor = self.conn.cursor()
+
+        # SỬA: tự động chuyển vé UNUSED đã quá hạn sang EXPIRED trước khi load danh sách.
+        # Gồm 2 trường hợp:
+        #   1. Vé ngày/tháng (validity_days có giá trị): hết hạn khi issued_at + validity_days < NOW()
+        #   2. Vé lượt (type_id = 1, validity_days = NULL): chỉ có giá trị trong đúng NGÀY mua,
+        #      nếu chưa dùng mà đã sang ngày khác thì hết hạn luôn (so sánh theo CAST ... AS DATE
+        #      để không dính giờ phút, chỉ so ngày với ngày).
+        cursor.execute("""
+            UPDATE TICKET
+            SET status = 'EXPIRED'
+            FROM TICKET t
+            JOIN TICKET_TYPE tt ON t.type_id = tt.type_id
+            WHERE t.user_id = ?
+              AND t.status = 'UNUSED'
+              AND (
+                    (tt.validity_days IS NOT NULL
+                        AND DATEADD(DAY, tt.validity_days, t.issued_at) < GETDATE())
+                 OR (tt.validity_days IS NULL
+                        AND CAST(t.issued_at AS DATE) < CAST(GETDATE() AS DATE))
+                  )
+        """, self.user_id)
+        self.conn.commit()
+
         cursor.execute("""
             SELECT t.ticket_id, t.qr_code, t.status, t.price, t.issued_at,
                    tt.type_name,

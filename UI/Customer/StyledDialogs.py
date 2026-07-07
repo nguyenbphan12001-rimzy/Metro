@@ -200,7 +200,8 @@ class StatusDialog(QDialog, _AnimatedDialogMixin):
 # Thay cho QMessageBox.information(... "Mua vé thành công" ...)
 # ============================================================
 class TicketSuccessDialog(QDialog, _AnimatedDialogMixin):
-    def __init__(self, parent, qr_text, type_name, detail_text, amount_text):
+    def __init__(self, parent, qr_text, type_name, detail_text, amount_text, train_time=None):
+        # SỬA: thêm train_time riêng, không nhét chung vào detail_text nữa
         super().__init__(parent)
         self.setWindowFlags(Qt.WindowType.FramelessWindowHint | Qt.WindowType.Dialog)
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
@@ -306,6 +307,8 @@ class TicketSuccessDialog(QDialog, _AnimatedDialogMixin):
         info_layout.addLayout(self._make_row("Loại vé", type_name))
         if detail_text:
             info_layout.addLayout(self._make_row("Hành trình", detail_text))
+        if train_time:  # SỬA: dòng riêng cho giờ chuyến tàu, chỉ hiện khi là vé lượt
+            info_layout.addLayout(self._make_row("Chuyến tàu", train_time))
         info_layout.addLayout(self._make_row("Số tiền", amount_text))
         content_layout.addWidget(info_box)
 
@@ -335,14 +338,20 @@ class TicketSuccessDialog(QDialog, _AnimatedDialogMixin):
         return QPixmap.fromImage(qimg)
 
     def _make_row(self, label_text, value_text):
+        """SỬA: bật word wrap + canh phải cho value, tránh bị cắt chữ khi text dài
+        (VD: hành trình vé lượt có thêm giờ chuyến tàu)."""
         row = QHBoxLayout()
         lbl = QLabel(label_text)
         lbl.setStyleSheet("color:#16A34A; font-size:12px;")
+        lbl.setFixedWidth(80)  # SỬA: cố định bề rộng nhãn để value có đủ chỗ còn lại
+
         val = QLabel(value_text)
         val.setStyleSheet("color:#14532D; font-size:12px; font-weight:700;")
+        val.setWordWrap(True)  # SỬA: cho phép xuống dòng thay vì tràn/cắt chữ
+        val.setAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
+
         row.addWidget(lbl)
-        row.addStretch()
-        row.addWidget(val)
+        row.addWidget(val, stretch=1)  # SỬA: value chiếm hết phần còn lại thay vì addStretch()
         return row
 
     def showEvent(self, event):
