@@ -20,13 +20,13 @@ INSERT INTO ROUTE (route_id, route_name) VALUES
 (102, N'Tuyến số 2 (Bến Thành - Tham Lương)');
 
 INSERT INTO PAYMENT_METHOD (method_id, method_name) VALUES
-(1, N'Tiền mặt'), (2, N'Thẻ tín dụng'), (3, N'MoMo'), (4, N'VNPay');
+(1, N'Thẻ ngân hàng'), (2, N'Thẻ tín dụng'), (3, N'MoMo'), (4, N'VNPay');
 
 INSERT INTO TICKET_TYPE (type_id, type_name, price, validity_days) VALUES
 (1, N'Vé lượt',       NULL,      NULL),
 (2, N'Vé ngày',       40000.00,  1),
-(3, N'Vé tháng SV',   100000.00, 30),
-(4, N'Vé tháng PT',   200000.00, 30);
+(3, N'Vé 1 tháng',   100000.00, 30),
+(4, N'Vé 3 tháng',   200000.00, 30);
 
 -- 5 user đầu: người cao tuổi (>=60 tuổi tính theo năm 2026) -> test miễn phí vé
 INSERT INTO [USER] (user_id, user_name, password, role, phone, DoB) VALUES

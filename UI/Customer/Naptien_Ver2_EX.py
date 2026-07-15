@@ -8,7 +8,7 @@ from UI.Customer.ErrorToast import ErrorToast       # SỬA: thay QMessageBox.wa
 # method_id tương ứng theo thứ tự insert trong Nhom1.sql:
 # 1 = Tiền mặt, 2 = Thẻ tín dụng, 3 = MoMo, 4 = VNPay
 PAYMENT_METHOD_MAP = {
-    "Tiền mặt": 1,
+    "Thẻ ngân hàng": 1,
     "Thẻ tín dụng": 2,
     "MoMo": 3,
     "VNPay": 4,

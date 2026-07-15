@@ -312,7 +312,7 @@ class Ui_TopUpWindow(object):
         self.btn_quick_3.setText(_translate("TopUpWindow", "200,000"))
         self.btn_quick_4.setText(_translate("TopUpWindow", "500,000"))
         self.lbl_field_method.setText(_translate("TopUpWindow", "PHƯƠNG THỨC THANH TOÁN"))
-        self.cbo_payment_method.setItemText(0, _translate("TopUpWindow", "Tiền mặt"))
+        self.cbo_payment_method.setItemText(0, _translate("TopUpWindow", "Thẻ ngân hàng"))
         self.cbo_payment_method.setItemText(1, _translate("TopUpWindow", "Thẻ tín dụng"))
         self.cbo_payment_method.setItemText(2, _translate("TopUpWindow", "MoMo"))
         self.cbo_payment_method.setItemText(3, _translate("TopUpWindow", "VNPay"))
