@@ -39,7 +39,7 @@ class Hoanve_EX(Ui_RefundWindow):
         cursor.execute("""
             SELECT t.ticket_id, t.qr_code, t.type_id, t.price, t.status,
                    t.from_station_id, t.to_station_id, t.issued_at,
-                   tt.type_name,
+                   tt.type_name, tt.validity_days,
                    sf.station_name AS from_name,
                    st2.station_name AS to_name
             FROM TICKET t
@@ -58,10 +58,45 @@ class Hoanve_EX(Ui_RefundWindow):
             return
 
         (ticket_id, qr_code, type_id, price, status,
-         from_id, to_id, issued_at, type_name, from_name, to_name) = row
+         from_id, to_id, issued_at, type_name, validity_days, from_name, to_name) = row
+
+        # SỬA DEBUG: in ra ngay để biết chắc type_id/status thật sự đang lấy được là gì
+        print(f"[DEBUG lookup_ticket] ticket_id={ticket_id}, type_id={type_id}, status={status}")
+
+        # SỬA: check hết hạn THEO THỜI GIAN THỰC (giống hệt logic bên Scanning_App.py).
+        # Status trong DB chỉ được cập nhật thành EXPIRED khi có người quét vé đó,
+        # nên nếu vé hết hạn mà chưa ai quét lại thì DB vẫn ghi UNOSED -> phải tự tính lại ở đây,
+        # tránh trường hợp khách hoàn được vé đã hết hạn thực tế.
+        if type_id != 1 and validity_days:
+            cursor.execute("SELECT DATEDIFF(day, ?, GETDATE())", issued_at)
+            days_passed = cursor.fetchone()[0]
+            if days_passed > validity_days and status != 'EXPIRED':
+                cursor.execute("UPDATE TICKET SET status='EXPIRED' WHERE ticket_id=?", ticket_id)
+                self.conn.commit()
+                status = 'EXPIRED'
+
+        # SỬA: vé ngày/tháng (type_id != 1) không đổi status khi scan — status vẫn UNUSED
+        # dù đã quét rồi, nên phải check riêng SCANNING_HISTORY xem đã từng quét chưa.
+        # Đây là ràng buộc chính: chỉ cần quét 1 lần (IN) là vé ngày/1 tháng/3 tháng
+        # không còn được hoàn nữa, dù status vẫn hiển thị UNUSED (khác vé lượt — vé lượt
+        # bị đổi hẳn sang USED ngay khi quét IN).
+        already_scanned = False
+        scan_count = 0
+        if type_id != 1:
+            cursor.execute(
+                "SELECT COUNT(*) FROM SCANNING_HISTORY WHERE ticket_id = ?", ticket_id
+            )
+            scan_count = cursor.fetchone()[0]
+            already_scanned = scan_count > 0
+
+        # SỬA DEBUG: đây là dòng quan trọng nhất để mày xem console —
+        # nếu vừa quét xong ở điện thoại mà scan_count vẫn ra 0 ở đây,
+        # nghĩa là 2 app đang KHÔNG cùng trỏ vào 1 database.
+        print(f"[DEBUG lookup_ticket] type_id={type_id} -> scan_count trong SCANNING_HISTORY = {scan_count}, already_scanned={already_scanned}")
 
         self._current_ticket = {
-            "ticket_id": ticket_id, "price": price, "status": status
+            "ticket_id": ticket_id, "price": price, "status": status,
+            "already_scanned": already_scanned  # SỬA
         }
 
         # Hiển thị thông tin vé
@@ -91,16 +126,26 @@ class Hoanve_EX(Ui_RefundWindow):
         )
 
         # Hiện/ẩn các card
+        # SỬA: vé chỉ hoàn được khi vừa UNUSED vừa chưa từng bị quét qua cổng
+        can_refund = (status == "UNUSED") and not already_scanned
+
+        # SỬA DEBUG: in luôn giá trị can_refund cuối cùng, để biết chắc UI có đang
+        # enable nút Xác nhận đúng theo logic hay không
+        print(f"[DEBUG lookup_ticket] can_refund={can_refund} (status=='UNUSED' -> {status == 'UNUSED'}, not already_scanned -> {not already_scanned})")
+
         self.ticket_info_card.setVisible(True)
-        self.refund_amount_row.setVisible(status == "UNUSED")
+        self.refund_amount_row.setVisible(can_refund)
         self.lbl_empty_state.setVisible(False)
 
-        # Chỉ enable nút nếu vé UNUSED
-        self.btn_confirm_refund.setEnabled(status == "UNUSED")
+        # Chỉ enable nút nếu vé chưa dùng VÀ chưa từng bị quét
+        self.btn_confirm_refund.setEnabled(can_refund)
 
         if status != "UNUSED":
             QMessageBox.information(self._window, "Không thể hoàn",
                                     f"Vé này có trạng thái '{label}', không thể hoàn.")
+        elif already_scanned:  # SỬA: case mới — status vẫn UNUSED nhưng đã bị quét rồi
+            QMessageBox.information(self._window, "Không thể hoàn",
+                                    "Vé này đã được sử dụng (đã quét qua cổng soát vé), không thể hoàn tiền.")
 
     def confirm_refund(self):
         if not self._current_ticket:
@@ -110,6 +155,62 @@ class Hoanve_EX(Ui_RefundWindow):
         price     = self._current_ticket["price"]
 
         cursor = self.conn.cursor()
+
+        # SỬA: check lại lần nữa ngay trước khi hoàn, phòng vé bị quét/hết hạn ở khoảng
+        # thời gian giữa lúc lookup_ticket() và lúc user bấm xác nhận (race condition)
+        cursor.execute("""
+            SELECT t.type_id, t.status, t.issued_at, tt.validity_days
+            FROM TICKET t JOIN TICKET_TYPE tt ON t.type_id = tt.type_id
+            WHERE t.ticket_id = ?
+        """, ticket_id)
+        type_id, cur_status, issued_at, validity_days = cursor.fetchone()
+
+        # SỬA DEBUG: in ra ngay đầu confirm_refund, đây là bằng chứng quan trọng nhất —
+        # nếu type_id ở đây không phải 2/3/4 như mày nghĩ, hoặc cur_status không phải UNUSED,
+        # thì phải xem lại vé mày đang test thực ra là vé gì.
+        print(f"[DEBUG confirm_refund] ticket_id={ticket_id}, type_id={type_id}, cur_status={cur_status}")
+
+        # Check hết hạn real-time lần nữa
+        if type_id != 1 and validity_days:
+            cursor.execute("SELECT DATEDIFF(day, ?, GETDATE())", issued_at)
+            days_passed = cursor.fetchone()[0]
+            if days_passed > validity_days:
+                if cur_status != 'EXPIRED':
+                    cursor.execute("UPDATE TICKET SET status='EXPIRED' WHERE ticket_id=?", ticket_id)
+                    self.conn.commit()
+                QMessageBox.warning(self._window, "Không thể hoàn",
+                                    "Vé này đã hết hạn sử dụng, không thể hoàn tiền.")
+                self._reset_ui()
+                return
+
+        # SỬA: chặn hoàn nếu vé không còn ở trạng thái UNUSED (vé lượt đã USED,
+        # hoặc vé bất kỳ đã CANCELLED/EXPIRED) — trước đây thiếu bước check này ở
+        # confirm_refund, chỉ có ở lookup_ticket() nên có khe hở nếu code gọi thẳng
+        # confirm_refund() mà bỏ qua lookup.
+        if cur_status != 'UNUSED':
+            print(f"[DEBUG confirm_refund] BỊ CHẶN vì cur_status='{cur_status}' khác 'UNUSED'")
+            QMessageBox.warning(self._window, "Không thể hoàn",
+                                f"Vé này hiện có trạng thái '{cur_status}', không thể hoàn tiền.")
+            self._reset_ui()
+            return
+
+        # Check đã từng bị quét chưa (vé ngày/tháng chỉ cần quét IN 1 lần là khóa hoàn vé)
+        cursor.execute("SELECT COUNT(*) FROM SCANNING_HISTORY WHERE ticket_id = ?", ticket_id)
+        scan_count = cursor.fetchone()[0]
+
+        # SỬA DEBUG: đây là dòng mấu chốt để xác định vụ vé ngày/tháng vẫn hoàn được
+        # -> nếu quét xong bên điện thoại rồi mà scan_count vẫn ra 0 ở đây,
+        # nghĩa là app desktop và Scanning_App.py KHÔNG cùng connect vào 1 database
+        # (khác connection string/server/database name trong App/DB_Connection.py)
+        print(f"[DEBUG confirm_refund] type_id={type_id} -> scan_count={scan_count}")
+
+        if scan_count > 0 and type_id != 1:
+            print(f"[DEBUG confirm_refund] BỊ CHẶN vì đã có {scan_count} lượt quét cho vé ngày/tháng này")
+            QMessageBox.warning(self._window, "Không thể hoàn",
+                                "Vé này đã được quét sử dụng, không thể hoàn tiền.")
+            self._reset_ui()
+            return
+
         cursor.execute("SELECT wallet_id FROM WALLET WHERE user_id = ?", self.user_id)
         wallet_id = cursor.fetchone()[0]
 
@@ -135,6 +236,7 @@ class Hoanve_EX(Ui_RefundWindow):
             """, ticket_id)
 
             self.conn.commit()
+            print(f"[DEBUG confirm_refund] Hoàn vé THÀNH CÔNG cho ticket_id={ticket_id}, số tiền={price}")
 
             # Cập nhật số dư hiển thị
             self.load_balance()
@@ -143,6 +245,7 @@ class Hoanve_EX(Ui_RefundWindow):
                                     f"Đã hoàn {price:,.0f} VNĐ vào ví của bạn.".replace(",", "."))
         except Exception as e:
             self.conn.rollback()
+            print(f"[DEBUG confirm_refund] LỖI khi hoàn vé: {e}")
             QMessageBox.critical(self._window, "Lỗi", f"Hoàn vé thất bại:\n{e}")
 
     def _reset_ui(self):

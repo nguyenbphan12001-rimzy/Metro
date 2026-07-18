@@ -560,7 +560,7 @@
                <string>color:#38BDF8;font-size:11px;</string>
               </property>
               <property name="text">
-               <string>Đi &amp; về</string>
+               <string>1 ngày</string>
               </property>
              </widget>
             </item>
@@ -599,7 +599,7 @@
                <string>color:#38BDF8;font-size:11px;</string>
               </property>
               <property name="text">
-               <string>Không giới hạn</string>
+               <string>30 ngày</string>
               </property>
              </widget>
             </item>
@@ -638,7 +638,7 @@
                <string>color:#38BDF8;font-size:11px;</string>
               </property>
               <property name="text">
-               <string>30 ngày</string>
+               <string>90 ngày</string>
               </property>
              </widget>
             </item>

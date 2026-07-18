@@ -643,14 +643,31 @@ class TicketQRDialog(QDialog):
 
             # SỬA: lock + re-check trạng thái mới nhất ngay trước khi hoàn,
             # tránh trường hợp vé vừa bị quét (USED) trong lúc dialog đang mở
-            cursor.execute("SELECT status, user_id, price FROM TICKET WHERE ticket_id = ?", (ticket_id,))
+            # SỬA: lấy thêm type_id vì cần biết đây có phải vé lượt hay không
+            cursor.execute("SELECT status, user_id, price, type_id FROM TICKET WHERE ticket_id = ?", (ticket_id,))
             row = cursor.fetchone()
             if not row or row[0] != "UNUSED":
                 conn.close()
                 self._show_status("error", "Không thể hoàn vé", "Vé đã được sử dụng hoặc không còn tồn tại.")
                 return
 
-            _, user_id, real_price = row
+            _, user_id, real_price, type_id = row
+
+            # SỬA: vé ngày/tháng (type_id != 1) không đổi status khi quét qua cổng
+            # (status vẫn UNUSED dù đã scan), nên phải check riêng SCANNING_HISTORY.
+            # Chỉ cần có 1 lượt quét (IN) là khóa hoàn vé, bất kể status vẫn hiện UNUSED.
+            if type_id != 1:
+                cursor.execute(
+                    "SELECT COUNT(*) FROM SCANNING_HISTORY WHERE ticket_id = ?", (ticket_id,)
+                )
+                scan_count = cursor.fetchone()[0]
+                if scan_count > 0:
+                    conn.close()
+                    self._show_status(
+                        "error", "Không thể hoàn vé",
+                        "Vé này đã được sử dụng (đã quét qua cổng soát vé), không thể hoàn tiền."
+                    )
+                    return
 
             cursor.execute("SELECT wallet_id FROM WALLET WHERE user_id = ?", (user_id,))
             wallet_row = cursor.fetchone()
